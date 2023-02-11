@@ -1,0 +1,7 @@
+{
+  "name": "treepadcloud-enterprise-client",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
