@@ -1,9 +1,13 @@
 import React from "react";
+import Trees from "./desktopComponents/Trees/Trees";
 
 
 const DesktopApp = () => (
   <div id="desktopApp">
-    <h1 style={ {textAlign: "center"}}>Hello Desktop</h1>
+    <Trees 
+      treeTitle={"Trees"}
+      sectionState={true}
+    />
   </div>
 );
 

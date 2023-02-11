@@ -1,4 +1,3 @@
-import React, {useState} from "react";
 import DesktopApp from "./DesktopApp";
 import MobileApp from "./MobileApp";
 
