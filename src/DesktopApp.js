@@ -1,12 +1,14 @@
 import React from "react";
 import Controls from "./desktopSections/Controls";
 import Trees from "./desktopSections/Trees";
-
+import Title from "./desktopSections/Title";
 
 const DesktopApp = () => (
   <div id="desktopApp">
      <div className='desktop'>
-            {/* <Title /> */}
+            <Title 
+              treeState={true}
+            />
             <Controls 
               controlsState={true}
               treesState={true}
