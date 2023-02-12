@@ -3,6 +3,7 @@ import Controls from "./desktopSections/Controls";
 import Trees from "./desktopSections/Trees";
 import Title from "./desktopSections/Title";
 import Branches from "./desktopSections/Branches";
+import Leaves from "./desktopSections/Leaves";
 
 const DesktopApp = () => (
   <div id="desktopApp">
@@ -23,8 +24,12 @@ const DesktopApp = () => (
               controlsState={true}
               treeName={"test"}
             />
-            {/* <Leaves />
-            <Modals /> */}
+            <Leaves 
+              controlsState={true}
+              treesState={true}
+              branchesState={true}  
+            />
+            {/* <Modals /> */}
         </div>
   </div>
 );
