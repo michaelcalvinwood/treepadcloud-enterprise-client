@@ -37,6 +37,7 @@ const DesktopApp = () => {
               />
               <Trees 
                 treesState={sections.trees}
+                toggleSection={toggleSection}
               />
               <Branches 
                 branchesState={sections.branches}

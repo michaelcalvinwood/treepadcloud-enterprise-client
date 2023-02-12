@@ -8,13 +8,10 @@ import settingsIcon from '../assets/icons/settings.svg';
 
 import { addOutline } from 'ionicons/icons';
 
-const Trees = ({ treesState }) => {
+const Trees = ({ treesState, toggleSection }) => {
 
     console.log("Trees", treesState);
 
-    const handleTreeClose = () => {
-    }
-    
     const treesClassName = () => {
         if (treesState) return 'trees';
         else return 'trees trees--inactive'
@@ -33,7 +30,7 @@ const Trees = ({ treesState }) => {
                         className='trees__settings' 
                         src={settingsIcon} />
                     <img
-                        onClick={handleTreeClose} 
+                        onClick={() => toggleSection('trees')} 
                         className='trees__close' 
                         src={closeIcon} />
                 </div>

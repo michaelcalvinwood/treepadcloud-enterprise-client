@@ -17,15 +17,11 @@ const Title = ({treesState, controlsState, toggleSection}) => {
         return cname;
     }
 
-    const openSection = (section) => {
-       
-    }
-
     return (
        <div className={titleClassName()}>
             <div className='title__icon-tray'>
-                {/* {!appCtx.desktopSections.trees && <IconTray sectionHandler={openSection} name="trees" icon={treeIcon} />}
-                {!appCtx.desktopSections.branches && <IconTray sectionHandler={openSection} name="branches" icon={branchIcon} />} */}
+                {!treesState && <IconTray sectionHandler={toggleSection} name="trees" icon={treeIcon} />}
+                {/* {!appCtx.desktopSections.branches && <IconTray sectionHandler={openSection} name="branches" icon={branchIcon} />} */}
                 {!controlsState && <IconTray sectionHandler={toggleSection} name="controls" icon={controlsIcon} />}
             </div>
             <div className="title__logo-container">
