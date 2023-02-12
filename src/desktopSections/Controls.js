@@ -19,7 +19,7 @@ import deleteIcon from '../../../assets/icons/delete.svg';
 import settingsIcon from '../../../assets/icons/settings.svg';
 import closeIcon from '../../../assets/icons/close.svg';
 
-const Controls: React.FC = () => {
+const Controls = () => {
     const appCtx = useContext(AppContext);
 
     const controlsClassName = () => {
