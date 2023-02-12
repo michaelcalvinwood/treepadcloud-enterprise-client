@@ -7,7 +7,7 @@ import treeIcon from '../assets/icons/tree.svg';
 import branchIcon from '../assets/icons/branch.svg';
 import controlsIcon from '../assets/icons/controls.svg';
 
-const Title = ({treesState, controlsState, toggleSection}) => {
+const Title = ({treesState, controlsState, branchesState, toggleSection}) => {
   
     const titleClassName = () => {
         let cname = 'title';
@@ -21,7 +21,7 @@ const Title = ({treesState, controlsState, toggleSection}) => {
        <div className={titleClassName()}>
             <div className='title__icon-tray'>
                 {!treesState && <IconTray sectionHandler={toggleSection} name="trees" icon={treeIcon} />}
-                {/* {!appCtx.desktopSections.branches && <IconTray sectionHandler={openSection} name="branches" icon={branchIcon} />} */}
+                {!branchesState && <IconTray sectionHandler={toggleSection} name="branches" icon={branchIcon} />}
                 {!controlsState && <IconTray sectionHandler={toggleSection} name="controls" icon={controlsIcon} />}
             </div>
             <div className="title__logo-container">

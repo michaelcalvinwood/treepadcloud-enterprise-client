@@ -11,7 +11,7 @@ import { IonSearchbar } from '@ionic/react';
 
 let controlToggle = false;
 
-const Branches = ({branchesState, treesState, controlsState, treeName}) => {
+const Branches = ({branchesState, treesState, controlsState, treeName, toggleSection}) => {
 
     
     const branchesClassName = () => {
@@ -22,10 +22,6 @@ const Branches = ({branchesState, treesState, controlsState, treeName}) => {
         if (!controlsState) cname += ' branches--no-controls';
         
         return cname;
-    }
-
-    const handleBranchClose = () => {
-       
     }
 
     const nameHasBeenChecked = (branchId) => {
@@ -50,7 +46,7 @@ const Branches = ({branchesState, treesState, controlsState, treeName}) => {
                     className='trees__settings' 
                     src={settingsIcon} />
                 <img
-                    onClick={handleBranchClose} 
+                    onClick={() => toggleSection('branches')} 
                     className='trees__close' 
                     src={closeIcon} />
             </div>

@@ -28,6 +28,7 @@ const DesktopApp = () => {
               <Title 
                 controlsState={sections.controls}
                 treesState={sections.trees}
+                branchesState={sections.branches}
                 toggleSection={toggleSection}
               />
               <Controls 
@@ -40,10 +41,11 @@ const DesktopApp = () => {
                 toggleSection={toggleSection}
               />
               <Branches 
+                treeName={"test"}
                 branchesState={sections.branches}
                 treesState={sections.trees}
                 controlsState={sections.controls}
-                treeName={"test"}
+                toggleSection={toggleSection}
               />
               <Leaves 
                 controlsState={sections.controls}
