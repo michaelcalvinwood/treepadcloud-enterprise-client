@@ -1,13 +1,18 @@
 import React from "react";
-import Trees from "./desktopComponents/Trees/Trees";
+import Trees from "./desktopSections/Trees";
 
 
 const DesktopApp = () => (
   <div id="desktopApp">
-    <Trees 
-      treeTitle={"Trees"}
-      sectionState={true}
-    />
+     <div className='desktop'>
+            {/* <Title />
+            <Controls /> */}
+            <Trees 
+              treeState={true}/>
+            {/* <Branches />
+            <Leaves />
+            <Modals /> */}
+        </div>
   </div>
 );
 
