@@ -2,10 +2,11 @@ import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, IonTabs, setupIonicReact, IonTabBar, IonIcon, IonLabel, IonTabButton } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './mobilePages/Home';
-import GoodMemories from './mobilePages/GoodMemories';
 import BadMemories from './mobilePages/BadMemories';
 
 import { happy, sad } from 'ionicons/icons';
+import TreeIcon from './assets/icons/tree.svg';
+import Trees from './mobilePages/Trees';
 
 const MobileApp = () => (
   <IonApp>
@@ -15,8 +16,8 @@ const MobileApp = () => (
           {/* One route per tab */}
           
           {/* Route #1 */}
-          <Route path="/good-memories">
-           <GoodMemories />
+          <Route path="/trees">
+           <Trees />
           </Route>
 
           {/* Route #2 */}
@@ -31,9 +32,9 @@ const MobileApp = () => (
           {/* Note: The tab prop in IonTabButton is just an identifier. Choose anything you like. */}
           
           {/* Tab #1*/}
-          <IonTabButton href="/good-memories" tab="good"> 
-            <IonIcon icon={happy} />
-            <IonLabel>Good Memories</IonLabel>
+          <IonTabButton href="/trees" tab="good"> 
+            <IonIcon icon={TreeIcon} />
+            <IonLabel>Trees</IonLabel>
           </IonTabButton>
 
           {/* Tab #2*/}

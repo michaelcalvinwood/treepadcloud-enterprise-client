@@ -4,8 +4,7 @@ import React, { useContext } from "react";
 import { add } from 'ionicons/icons';
 import treePadIcon from '../assets/icons/treepadcloud-icon.svg';
 
-const GoodMemories: React.FC = () => {
-   
+const Trees = () => {
     return (
         <IonPage>
             <IonHeader>
@@ -40,4 +39,4 @@ const GoodMemories: React.FC = () => {
     )
 }
 
-export default GoodMemories;
+export default Trees;
