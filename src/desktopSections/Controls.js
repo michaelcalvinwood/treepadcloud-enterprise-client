@@ -18,7 +18,7 @@ import deleteIcon from '../assets/icons/delete.svg';
 import settingsIcon from '../assets/icons/settings.svg';
 import closeIcon from '../assets/icons/close.svg';
 
-const Controls = ({controlsState, treesState}) => {
+const Controls = ({controlsState, treesState, toggleSection}) => {
 
     const controlsClassName = () => {
         let cname = 'controls';
@@ -27,13 +27,6 @@ const Controls = ({controlsState, treesState}) => {
         if (!controlsState) cname += ' controls--no-controls';
 
         return cname;
-    }
-
-    const handleControlsClose = () => {
-        // appCtx.setDesktopSections(prev => {
-        //     prev.controls = false;
-        //     return ({...prev});
-        // })
     }
 
     return (
@@ -59,7 +52,7 @@ const Controls = ({controlsState, treesState}) => {
                 </div>
             </div>
             <img 
-                onClick={handleControlsClose}
+                onClick={() => toggleSection('controls')}
                 className='controls__close' 
                 src={closeIcon} />
         </div>

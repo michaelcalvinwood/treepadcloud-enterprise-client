@@ -11,8 +11,10 @@ const Trees = () => {
                 <IonToolbar>
                     
                     <IonTitle>
-                        <IonImg src={treePadIcon} style={{height: "1.5rem", display: "inline-block"}} />
-                        <div style={{lineHeight: "1.5rem", marginTop: '-24px', display: "inline-block"}}>TreePad Cloud</div>
+                        <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+                            <IonImg src={treePadIcon} style={{height: "1.5rem", display: "inline-block"}} />
+                            <div style={{display: "inline-block", fontSize: "1.25rem", marginLeft: '.15rem'}}>TreePad Cloud</div>
+                        </div>
 
                         {/* <IonRow className="ion-align-items-center">
                             <IonCol size="6">

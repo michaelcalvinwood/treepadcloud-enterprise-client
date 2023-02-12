@@ -1,18 +1,18 @@
 import './Title.scss';
 import React, { useContext } from "react";
 import treepadIcon from '../assets/icons/treepadcloud-icon.svg';
-//import IconTray from '../../../components/IconTray';
+import IconTray from '../desktopComponents/IconTray';
 
 import treeIcon from '../assets/icons/tree.svg';
 import branchIcon from '../assets/icons/branch.svg';
 import controlsIcon from '../assets/icons/controls.svg';
 
-const Title = ({treeState}) => {
+const Title = ({treesState, controlsState, toggleSection}) => {
   
     const titleClassName = () => {
         let cname = 'title';
-
-        if (!treeState) cname += ' title--no-trees';
+        
+        if (!treesState) cname += ' title--no-trees';
 
         return cname;
     }
@@ -26,7 +26,7 @@ const Title = ({treeState}) => {
             <div className='title__icon-tray'>
                 {/* {!appCtx.desktopSections.trees && <IconTray sectionHandler={openSection} name="trees" icon={treeIcon} />}
                 {!appCtx.desktopSections.branches && <IconTray sectionHandler={openSection} name="branches" icon={branchIcon} />} */}
-                {/* {!appCtx.desktopSections.controls && <IconTray sectionHandler={openSection} name="controls" icon={controlsIcon} />} */}
+                {!controlsState && <IconTray sectionHandler={toggleSection} name="controls" icon={controlsIcon} />}
             </div>
             <div className="title__logo-container">
                 <img className='title__logo-image' src={treepadIcon} />
