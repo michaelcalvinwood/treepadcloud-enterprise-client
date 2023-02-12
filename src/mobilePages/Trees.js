@@ -2,7 +2,7 @@ import { IonButton, IonButtons, IonCard, IonCardHeader, IonCardTitle, IonCol, Io
 import React, { useContext } from "react";
 
 import { add } from 'ionicons/icons';
-import treePadIcon from '../assets/icons/treepadcloud-icon.svg';
+import treePadIcon from '../assets/icons/treepadcloud-icon-white.svg';
 
 const Trees = () => {
     return (
@@ -10,18 +10,18 @@ const Trees = () => {
             <IonHeader>
                 <IonToolbar>
                     
-                    <IonTitle className="ion-text-center" style={{verticalAlign: "middle"}}>
-                        {/* <IonImg src={treePadIcon} style={{height: "1.5rem", display: "inline-block"}} />
-                        <div style={{lineHeight: "1.5rem", verticalAlign: "middle", display: "inline-block"}}>TreePad Cloud</div> */}
+                    <IonTitle>
+                        <IonImg src={treePadIcon} style={{height: "1.5rem", display: "inline-block"}} />
+                        <div style={{lineHeight: "1.5rem", marginTop: '-24px', display: "inline-block"}}>TreePad Cloud</div>
 
-                        <IonRow className="ion-align-items-center">
+                        {/* <IonRow className="ion-align-items-center">
                             <IonCol size="6">
                                 <img src={treePadIcon} style={{height: "1.5rem"}} className="ion-float-right"/>
                             </IonCol>
                             <IonCol className="title-col" size="6" >
                                 <div className="ion-float-left">TreePad Cloud</div>
                             </IonCol>
-                        </IonRow>
+                        </IonRow> */}
                     </IonTitle>
                     {/* {isPlatform('ios') && (
                         <IonButtons slot="end">
