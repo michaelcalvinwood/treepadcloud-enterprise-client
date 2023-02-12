@@ -1,0 +1,49 @@
+@import '../../../styles/partials/variables.scss';
+
+.controls {
+    position: fixed;
+    top: $titleHeight;
+    left: $treeWidth;
+    width: $controlWidth;
+    height: $controlHeight;
+    border-bottom: 1px solid var(--ion-color-primary);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: all $sectionCloseRate;
+
+    overflow: hidden;
+
+    &--no-trees {
+        left: 0;
+        width: 100vw;
+    }
+
+    &--no-controls {
+        height: 0;
+        overflow: hidden;
+        border: none;
+    }
+
+    &__container {
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &__group {
+        display: flex;
+        justify-content: space-between;
+    }
+    &__close {
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        height: .6rem;
+        width: .6rem;
+        cursor: pointer;
+    }
+}

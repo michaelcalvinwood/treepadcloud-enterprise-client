@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { setupIonicReact } from '@ionic/react';
 
-
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -22,7 +21,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 import DesktopApp from "./DesktopApp";
-import MobileApp from "./MobileApp";
+import MobileApp from "./MobileApp_v2";
 
 setupIonicReact();
 
