@@ -5,8 +5,11 @@ import { IonReactRouter } from '@ionic/react-router';
 
 import TreeIcon from './assets/icons/tree.svg';
 import BranchesIcon from './assets/icons/branch.svg';
+import LeafIcon from './assets/icons/leaf.svg';
+
 import Trees from './mobilePages/Trees';
 import Branches from './mobilePages/Branches';
+import Leaves from './mobilePages/Leaves';
 
 const MobileApp = () => (
   <IonApp>
@@ -23,6 +26,11 @@ const MobileApp = () => (
           {/* Route #2 */}
           <Route path="/branches">
             <Branches />
+          </Route>
+
+          {/* Route #3 */}
+          <Route path="/leaves">
+            <Leaves />
           </Route>
 
           {/* Default Route */}
@@ -42,6 +50,12 @@ const MobileApp = () => (
           <IonIcon icon={BranchesIcon} />
           <IonLabel>Branches</IonLabel>
           </IonTabButton>
+
+           {/* Tab #3*/}
+           <IonTabButton href="/leaves" tab="leaves">
+            <IonIcon icon={LeafIcon} />
+            <IonLabel>Leaves</IonLabel>
+           </IonTabButton>
 
         </IonTabBar>
       </IonTabs>
