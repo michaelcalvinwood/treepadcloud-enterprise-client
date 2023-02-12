@@ -8,15 +8,15 @@ import settingsIcon from '../assets/icons/settings.svg';
 
 import { addOutline } from 'ionicons/icons';
 
-const Trees = ({ treeState }) => {
+const Trees = ({ treesState }) => {
 
-    console.log("Trees", treeState);
+    console.log("Trees", treesState);
 
     const handleTreeClose = () => {
     }
     
     const treesClassName = () => {
-        if (treeState) return 'trees';
+        if (treesState) return 'trees';
         else return 'trees trees--inactive'
     }
 
