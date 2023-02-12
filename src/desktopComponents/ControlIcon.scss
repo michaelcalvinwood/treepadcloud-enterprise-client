@@ -1,0 +1,23 @@
+.control-icon {
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--ion-color-primary);
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin: .25rem;
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+
+    &:hover {
+        background-color: var(--ion-color-tertiary);
+    }
+
+    &__image {
+        height: 2rem;
+        width: 2rem;
+        color: var(--ion-color-primary);
+    }
+}

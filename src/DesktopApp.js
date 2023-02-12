@@ -1,4 +1,5 @@
 import React from "react";
+import Controls from "./desktopSections/Controls";
 import Trees from "./desktopSections/Trees";
 
 
@@ -6,9 +7,13 @@ const DesktopApp = () => (
   <div id="desktopApp">
      <div className='desktop'>
             {/* <Title /> */}
-            <Controls />
+            <Controls 
+              controlsState={true}
+              treesState={true}
+            />
             <Trees 
-              treeState={true}/>
+              treeState={true}
+            />
             {/* <Branches />
             <Leaves />
             <Modals /> */}
