@@ -1,0 +1,112 @@
+@import '../styles/partials/variables.scss';
+
+.leaves {
+    position: fixed;
+    top: $titleHeight + $controlHeight;
+    left: $treeWidth + $branchWidth;
+    height: $leaveHeight;
+    width: $leaveWidth;
+
+    transition: all $sectionCloseRate;
+
+   
+
+    &--no-branches {
+        left: $treeWidth;
+        width: calc($leaveWidth + $branchWidth);
+    }
+
+    &--no-branches--no-controls {
+        left: $treeWidth;
+        width: calc($leaveWidth + $branchWidth);
+        height: calc($leaveHeight + $controlHeight);
+        top: $titleHeight;
+    }
+
+    &--no-trees--no-branches {
+        left: 0;
+        width: 100vw;
+    }
+
+    &--no-trees--no-controls {
+        height: calc($leaveHeight + $controlHeight);
+        top: $titleHeight;
+    }
+
+    &--no-trees--no-branches--no-controls {
+        left: 0;
+        width: 100vw;
+        height: calc($leaveHeight + $controlHeight);
+        top: $titleHeight;
+    }
+
+    &--no-controls {
+        height: calc($leaveHeight + $controlHeight);
+        top: $titleHeight;
+    }
+    &--full-screen {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 100vw;
+        background-color: white;
+    }
+
+    &__full-screen, &__normal-screen {      
+        height: .75rem;
+        width: .75rem;
+        cursor: pointer;
+    }
+    &__actions {
+        display: flex;
+        justify-content: space-between;
+        padding: .5rem;
+        box-sizing: border-box;
+    }
+    &__cloud, &__settings {
+        height: .75rem;
+        width: .75rem;
+        cursor: pointer;
+    }
+    &__close {
+        height: .55rem;
+        width: .55rem;
+        cursor: pointer;
+    }
+    &__settings {
+        filter: invert(40%) sepia(51%) saturate(2904%) hue-rotate(206deg) brightness(101%) contrast(101%);
+    }
+    &__active-modules-container {
+        width: 100%;
+        height: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &__active-modules {
+        display: flex;
+        align-items: center;
+    }
+    &__active-module {
+        cursor: pointer;
+        height: 1.75rem;
+        width: 1.75rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid $app-primary-color;
+        border-radius: 4px;
+        margin: 0 .25rem;
+        box-shadow: $box-shadow;
+
+        &--current, &:hover {
+            background-color: $app-tertiary-color;
+        }
+
+    }
+    &__active-module-icon {
+        filter: invert(40%) sepia(51%) saturate(2904%) hue-rotate(206deg) brightness(101%) contrast(101%);
+    }
+   
+}

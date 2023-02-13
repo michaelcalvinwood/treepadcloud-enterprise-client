@@ -7,8 +7,8 @@ import treeIcon from '../assets/icons/tree.svg';
 import branchIcon from '../assets/icons/branch.svg';
 import controlsIcon from '../assets/icons/controls.svg';
 
-const Title = ({sections, toggleSection}) => {
-    const { trees: treesState, controls: controlsState, branches: branchesState } = sections;
+const Title = ({treesState, controlsState, branchesState, toggleSection}) => {
+  
     const titleClassName = () => {
         let cname = 'title';
         

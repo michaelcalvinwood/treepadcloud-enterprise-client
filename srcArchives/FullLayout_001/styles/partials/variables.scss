@@ -1,0 +1,42 @@
+$treeWidth: 15vw;
+
+$titleHeight: 3rem;
+$titleWidth: 85vw;
+
+$controlWidth: 85vw;
+$controlHeight: 6rem;
+
+$branchWidth: 30vw;
+$branchHeight: calc(100vh - ($titleHeight + $controlHeight));
+
+$leaveWidth: 55vw;
+$leaveHeight: calc(100vh - ($titleHeight + $controlHeight));
+
+$sectionCloseRate: .4s;
+
+$app-primary-color: #3880ff;
+$app-secondary-color: #3dc2ff;
+$app-tertiary-color: #d5f3fe;
+
+$primary-color-filter: invert(40%) sepia(51%) saturate(2904%) hue-rotate(206deg) brightness(101%) contrast(101%);
+$box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+
+.modal-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 1rem;
+    border: 1px solid blue;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 4px;
+}

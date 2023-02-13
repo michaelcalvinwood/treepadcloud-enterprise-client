@@ -4,17 +4,26 @@ import React, { useContext } from "react";
 import { add } from 'ionicons/icons';
 import treePadIcon from '../assets/icons/treepadcloud-icon-white.svg';
 
-const Leaves = () => {
+const Trees = () => {
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
                     
-                    <IonTitle className="ion-text-center" style={{verticalAlign: "middle"}}>
-                    <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+                    <IonTitle>
+                        <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <IonImg src={treePadIcon} style={{height: "1.5rem", display: "inline-block"}} />
                             <div style={{display: "inline-block", fontSize: "1.25rem", marginLeft: '.15rem'}}>TreePad Cloud</div>
                         </div>
+
+                        {/* <IonRow className="ion-align-items-center">
+                            <IonCol size="6">
+                                <img src={treePadIcon} style={{height: "1.5rem"}} className="ion-float-right"/>
+                            </IonCol>
+                            <IonCol className="title-col" size="6" >
+                                <div className="ion-float-left">TreePad Cloud</div>
+                            </IonCol>
+                        </IonRow> */}
                     </IonTitle>
                     {/* {isPlatform('ios') && (
                         <IonButtons slot="end">
@@ -26,10 +35,10 @@ const Leaves = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-            <h1 className="ion-text-center">Leaves</h1>
+               Trees
             </IonContent>
         </IonPage>
     )
 }
 
-export default Leaves;
+export default Trees;

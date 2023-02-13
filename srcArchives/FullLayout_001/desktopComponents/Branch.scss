@@ -1,0 +1,51 @@
+@import '../styles/partials/variables.scss';
+
+$indentMargin: .75rem;
+
+.branch {
+    width: 100%;
+
+    &--focused {
+        background-color: $app-tertiary-color;
+    }
+
+    &__input {  
+        width: 100%;
+        margin:none;
+        border:none;
+        padding: .25rem;
+        outline: none;
+        background-color: transparent;
+
+        &--level-1 {
+            margin-left: $indentMargin;
+        }
+        &--level-2 {
+            margin-left: calc($indentMargin * 2);
+        }
+        &--level-3 {
+            margin-left: calc($indentMargin * 3);
+        }
+        &--level-4 {
+            margin-left: calc($indentMargin * 4);
+        }
+        &--level-5 {
+            margin-left: calc($indentMargin * 5);
+        }
+        &--level-6 {
+            margin-left: calc($indentMargin * 6);
+        }
+        &--level-7 {
+            margin-left: calc($indentMargin * 7);
+        }
+        &--level-8 {
+            margin-left: calc($indentMargin * 8);
+        }
+        &--level-9 {
+            margin-left: calc($indentMargin * 9);
+        }
+
+    }
+
+
+}

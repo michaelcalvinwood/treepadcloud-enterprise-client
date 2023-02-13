@@ -26,7 +26,7 @@ const Settings = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-               Settings
+            <h1 className="ion-text-center">Settings</h1>
             </IonContent>
         </IonPage>
     )

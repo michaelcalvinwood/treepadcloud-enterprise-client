@@ -27,7 +27,7 @@ const Branches = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-               Branches
+            <h1 className="ion-text-center">Branches</h1>
             </IonContent>
         </IonPage>
     )

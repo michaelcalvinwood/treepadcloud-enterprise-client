@@ -35,7 +35,7 @@ const Trees = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-               Trees
+               <h1 className="ion-text-center">Trees</h1>
             </IonContent>
         </IonPage>
     )

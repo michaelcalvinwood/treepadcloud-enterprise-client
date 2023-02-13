@@ -18,8 +18,8 @@ import deleteIcon from '../assets/icons/delete.svg';
 import settingsIcon from '../assets/icons/settings.svg';
 import closeIcon from '../assets/icons/close.svg';
 
-const Controls = ({sections, toggleSection}) => {
-    const {trees: treesState, controls: controlsState} = sections
+const Controls = ({controlsState, treesState, toggleSection}) => {
+
     const controlsClassName = () => {
         let cname = 'controls';
 

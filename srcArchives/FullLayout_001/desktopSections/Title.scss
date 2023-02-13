@@ -1,0 +1,45 @@
+@import '../styles/partials/variables.scss';
+
+.title {
+    position: fixed;
+    top: 0;
+    left: $treeWidth;
+    height: $titleHeight;
+    width: $titleWidth;
+    border-bottom: 1px solid var(--ion-color-primary);
+
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: all $sectionCloseRate;
+  
+
+    &--no-trees {
+        left: 0;
+        width: 100vw;
+    }
+
+    &__icon-tray {
+        display: flex;
+        border: 1px solid black;
+    }
+    &__logo-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &__logo-image {
+        height: 2rem;
+    }
+    &__logo-name {
+        padding-bottom: .5rem;
+    }
+
+}
+.title__icon-tray div:not(:first-child) {
+    border-left: 1px solid black;
+}

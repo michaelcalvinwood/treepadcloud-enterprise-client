@@ -8,7 +8,7 @@ import Leaves from "./desktopSections/Leaves";
 const DesktopApp = () => {
 
   const [sections, setSections] = useState({
-    controls: true,
+    controls: false,
     trees: true,
     branches: true,
     leaves: true
@@ -26,11 +26,14 @@ const DesktopApp = () => {
     <div id="desktopApp">
       <div className='desktop'>
               <Title 
-                sections={sections}
+                controlsState={sections.controls}
+                treesState={sections.trees}
+                branchesState={sections.branches}
                 toggleSection={toggleSection}
               />
               <Controls 
-                sections={sections}
+                controlsState={sections.controls}
+                treesState={sections.trees}
                 toggleSection={toggleSection}
               />
               <Trees 
@@ -39,11 +42,15 @@ const DesktopApp = () => {
               />
               <Branches 
                 treeName={"test"}
-                sections={sections}
+                branchesState={sections.branches}
+                treesState={sections.trees}
+                controlsState={sections.controls}
                 toggleSection={toggleSection}
               />
               <Leaves 
-                sections={sections}  
+                controlsState={sections.controls}
+                treesState={sections.trees}
+                branchesState={sections.branches}  
               />
               {/* <Modals /> */}
           </div>

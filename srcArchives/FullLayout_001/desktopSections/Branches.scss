@@ -1,0 +1,66 @@
+@import '../styles/partials/variables.scss';
+
+.branches {
+    position: fixed;
+    top: $titleHeight + $controlHeight;
+    left: $treeWidth;
+    height: $branchHeight;
+    width: $branchWidth;
+
+    // background-color: var(--ion-color-tertiary);
+
+    border-right: 1px solid var(--ion-color-primary);
+
+    transition: all $sectionCloseRate;
+    
+
+    &--no-trees {
+        left: 0;
+        width: calc($branchWidth + $treeWidth);
+    }
+
+    &--no-branches {
+        width: 0;
+        overflow: hidden;
+        border: none;
+    }
+
+    &--no-controls {
+        height: calc($branchHeight + $controlHeight);
+        top: $titleHeight;
+    }
+
+    
+    &__title {
+        margin-bottom: .25rem;
+    }
+    &__title-container {
+        width: 100%;
+        text-align: center;
+        color: var(--ion-color-primary);
+        font-style: italic;
+        font-size: .75rem;        
+    }
+    &__cloud {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        height: .75rem;
+        width: .75rem;
+        cursor: pointer;
+    }
+    &__close {
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        height: .6rem;
+        width: .6rem;
+        cursor: pointer;
+    }
+    &__test-modal-container {
+        @extend .modal-container;
+    }
+    &__test-modal-content {
+        @extend .modal-content;
+    }
+}

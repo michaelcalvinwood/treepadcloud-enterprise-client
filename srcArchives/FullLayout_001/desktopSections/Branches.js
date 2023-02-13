@@ -11,8 +11,8 @@ import { IonSearchbar } from '@ionic/react';
 
 let controlToggle = false;
 
-const Branches = ({sections, treeName, toggleSection}) => {
-    const { branches: branchesState, trees: treesState, controls: controlsState} = sections; 
+const Branches = ({branchesState, treesState, controlsState, treeName, toggleSection}) => {
+
     
     const branchesClassName = () => {
         let cname = 'branches';

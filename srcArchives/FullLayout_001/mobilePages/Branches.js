@@ -4,7 +4,8 @@ import React, { useContext } from "react";
 import { add } from 'ionicons/icons';
 import treePadIcon from '../assets/icons/treepadcloud-icon-white.svg';
 
-const Leaves = () => {
+
+const Branches = () => {
     return (
         <IonPage>
             <IonHeader>
@@ -26,10 +27,10 @@ const Leaves = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-            <h1 className="ion-text-center">Leaves</h1>
+               Branches
             </IonContent>
         </IonPage>
     )
 }
 
-export default Leaves;
+export default Branches;

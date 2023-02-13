@@ -26,7 +26,7 @@ const Leaves = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-            <h1 className="ion-text-center">Leaves</h1>
+               Leaves
             </IonContent>
         </IonPage>
     )
