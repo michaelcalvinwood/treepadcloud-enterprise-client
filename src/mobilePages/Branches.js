@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCard, IonCardHeader, IonCardTitle, IonCol, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonPage, IonRow, IonTitle, IonToolbar, isPlatform } from "@ionic/react";
+import { IonButton, IonButtons, IonCard, IonCardHeader, IonCardTitle, IonCol, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonPage, IonRow, IonSearchbar, IonTitle, IonToolbar, isPlatform } from "@ionic/react";
 import React, { useContext } from "react";
 
 import { add } from 'ionicons/icons';
@@ -17,17 +17,15 @@ const Branches = () => {
                             <div style={{display: "inline-block", fontSize: "1.25rem", marginLeft: '.15rem'}}>TreePad Cloud</div>
                         </div>
                     </IonTitle>
-                    {/* {isPlatform('ios') && (
-                        <IonButtons slot="end">
-                            <IonButton routerLink="/new-memory">
-                                <IonIcon slot="icon-only" icon={add} />
-                            </IonButton>
-                        </IonButtons>
-                    )} */}
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-            <h1 className="ion-text-center">Branches</h1>
+            <IonSearchbar 
+                    // onIonChange={e => setSearch(e.detail.value || '')}
+                    className='trees__search ion-text-left' 
+                    placeholder=''
+                    />
+            <h2 className="ion-text-center">Branches</h2>
             </IonContent>
         </IonPage>
     )
