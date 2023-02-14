@@ -5,7 +5,7 @@ import iconList from '../data/svg-filenames.json';
 import iconSets from '../data/iconSets.json';
 
 const IconPicker = props => {
-    const maxIconsAllowed = 100;
+    const maxIconsAllowed = 1000;
 
     const [iconSet, setIconSet] = useState('regular');
     const [searchValue, setSearchValue] = useState('');
@@ -57,7 +57,11 @@ const IconPicker = props => {
             <div className='icon-picker__list-container'>
                 <div className='icon-picker__icon-list'>
                     {filteredList.length <= maxIconsAllowed && filteredList
-                    .sort((a, b) => {return getIconName(a) - getIconName(b)})
+                    .sort((a, b) => {
+                        if (getIconName(a) > getIconName(b)) return 1;
+                        if (getIconName(a) < getIconName(b)) return -1;
+                        return 0;
+                    })
                     .map(iconName => {
                         return (
                             <p 
