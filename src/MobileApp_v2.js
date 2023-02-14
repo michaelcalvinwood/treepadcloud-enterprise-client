@@ -12,6 +12,7 @@ import Trees from './mobilePages/Trees';
 import Branches from './mobilePages/Branches';
 import Leaves from './mobilePages/Leaves';
 import Settings from './mobilePages/Settings';
+import AddTree from './mobilePages/AddTree';
 
 const MobileApp = () => (
   <IonApp>
@@ -20,24 +21,24 @@ const MobileApp = () => (
         <IonRouterOutlet>
           {/* One route per tab */}
           
-          {/* Route #1 */}
           <Route path="/trees">
            <Trees />
           </Route>
 
-          {/* Route #2 */}
           <Route path="/branches">
             <Branches />
           </Route>
 
-          {/* Route #3 */}
           <Route path="/leaves">
             <Leaves />
           </Route>
 
-          {/* Route #4 */}
           <Route path="/settings">
             <Settings />
+          </Route>
+
+          <Route path="/add-tree">
+              <AddTree />
           </Route>
 
           {/* Default Route */}

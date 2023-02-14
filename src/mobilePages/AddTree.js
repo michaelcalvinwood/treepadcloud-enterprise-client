@@ -3,7 +3,7 @@ import { IonButton, IonButtons,  IonContent, IonFab, IonFabButton, IonHeader, Io
 import { add } from 'ionicons/icons';
 import treePadIcon from '../assets/icons/treepadcloud-icon-white.svg';
 
-const Trees = () => {
+const AddTree = () => {
     return (
         <IonPage>
             <IonHeader>
@@ -14,29 +14,14 @@ const Trees = () => {
                             <div style={{display: "inline-block", fontSize: "1.25rem", marginLeft: '.15rem'}}>TreePad Cloud</div>
                         </div>
                     </IonTitle>
-                    {isPlatform('ios') && (
-                        <IonButtons slot="end">
-                            <IonButton  color="light" routerLink="/add-tree">
-                                <IonIcon slot="icon-only" icon={add} />
-                            </IonButton>
-                        </IonButtons>
-                    )}
-                   
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-               <h1 className="ion-text-center">Trees</h1>
-               {!isPlatform('ios') && (
-                        <IonFab horizontal="end" vertical="bottom" slot="fixed">
-                            <IonFabButton routerLink="/add-tree">
-                                <IonIcon icon={add} />
-                            </IonFabButton>
-                        </IonFab>
-                     )}
+               <h1 className="ion-text-center">Add Tree</h1>
             </IonContent>
         </IonPage>
        
     )
 }
 
-export default Trees;
+export default AddTree;

@@ -6,7 +6,7 @@ import { IonButton, IonInput, IonItem, IonLabel, IonSearchbar, IonTextarea, IonT
 //import { createTree, editTree } from '../utils/api-axios';
 
 const AddTree = ({toggleAddModal}) => {
-    const [icon, setIcon] = useState('/svg/tree.svg');
+    const [icon, setIcon] = useState('svg/tree.svg');
     const [showIconPicker, setShowIconPicker] = useState(false);
     const [treeName, setTreeName] = useState('');
     const [treeDesc, setTreeDesc] = useState('');
@@ -34,7 +34,7 @@ const AddTree = ({toggleAddModal}) => {
                 <img 
                     onClick={() => setShowIconPicker(prev => !prev)}
                     className='add-tree__icon' 
-                    // src={server + icon} 
+                    src={`https://assets.treepadcloud.com/images/${icon}`} 
                 />
                 <p className='add-tree__instructions'>click to change</p>
                 <IonItem className='add-tree__input-tree-name'>
