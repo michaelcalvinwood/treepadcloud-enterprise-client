@@ -13,6 +13,7 @@ import Branches from './mobilePages/Branches';
 import Leaves from './mobilePages/Leaves';
 import Settings from './mobilePages/Settings';
 import AddTree from './mobilePages/AddTree';
+import IconPicker from './mobilePages/IconPicker';
 
 const MobileApp = () => (
   <IonApp>
@@ -39,6 +40,10 @@ const MobileApp = () => (
 
           <Route path="/add-tree">
               <AddTree />
+          </Route>
+
+          <Route path="/icon-picker">
+              <IconPicker />
           </Route>
 
           {/* Default Route */}
