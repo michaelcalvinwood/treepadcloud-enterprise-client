@@ -11,7 +11,11 @@ import AddTree from '../desktopComponents/AddTree';
 
 const Trees = ({ treesState, toggleSection }) => {
     const [showAddModal, setShowAddModal] = useState(false);
-    
+
+    const toggleAddModal = () => {
+        setShowAddModal(!showAddModal);
+    }
+
     console.log("Trees", treesState);
 
     const treesClassName = () => {
@@ -60,14 +64,16 @@ const Trees = ({ treesState, toggleSection }) => {
         
                 <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton onClick={() => {
-                       
+                       toggleAddModal();
                     }}>
                     <IonIcon icon={addOutline} />
                     </IonFabButton>
                 </IonFab>
                 </IonContent>
         </IonPage>
-        <AddTree />
+        { showAddModal && 
+            <AddTree toggleAddModal={toggleAddModal}/> 
+        }
     </>
     )
 }
