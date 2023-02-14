@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 
 import { add } from 'ionicons/icons';
 import treePadIcon from '../assets/icons/treepadcloud-icon-white.svg';
+import AddTree from "../desktopComponents/AddTree";
 
 const Trees = () => {
     return (
@@ -36,6 +37,7 @@ const Trees = () => {
                      )}
             </IonContent>
         </IonPage>
+       
     )
 }
 

@@ -7,9 +7,11 @@ import closeIcon from '../assets/icons/close.svg';
 import settingsIcon from '../assets/icons/settings.svg';
 
 import { addOutline } from 'ionicons/icons';
+import AddTree from '../desktopComponents/AddTree';
 
 const Trees = ({ treesState, toggleSection }) => {
-
+    const [showAddModal, setShowAddModal] = useState(false);
+    
     console.log("Trees", treesState);
 
     const treesClassName = () => {
@@ -58,18 +60,14 @@ const Trees = ({ treesState, toggleSection }) => {
         
                 <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton onClick={() => {
-                        // appCtx.setModals(prev => {
-                        //     console.log('Trees.js setModals prev', prev)
-                        //     prev.addTree.active = true;
-                        //     prev.addTree.type = 'insert';
-                        //     return {...prev}
-                        // });
+                       
                     }}>
                     <IonIcon icon={addOutline} />
                     </IonFabButton>
                 </IonFab>
                 </IonContent>
         </IonPage>
+        <AddTree />
     </>
     )
 }
