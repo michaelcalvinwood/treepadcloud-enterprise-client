@@ -27,7 +27,13 @@ const Trees = () => {
             </IonHeader>
             <IonContent>
                <h1 className="ion-text-center">Trees</h1>
-               
+               {!isPlatform('ios') && (
+                        <IonFab horizontal="end" vertical="bottom" slot="fixed">
+                            <IonFabButton >
+                                <IonIcon icon={add} />
+                            </IonFabButton>
+                        </IonFab>
+                     )}
             </IonContent>
         </IonPage>
     )
