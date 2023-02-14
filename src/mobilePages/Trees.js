@@ -1,4 +1,4 @@
-import { IonButton, IonButtons,  IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonPage, IonTitle, IonToolbar, isPlatform } from "@ionic/react";
+import { IonButton, IonButtons,  IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonPage, IonSearchbar, IonTitle, IonToolbar, isPlatform } from "@ionic/react";
 
 import { add } from 'ionicons/icons';
 import treePadIcon from '../assets/icons/treepadcloud-icon-white.svg';
@@ -25,7 +25,11 @@ const Trees = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-               <h1 className="ion-text-center">Trees</h1>
+            <IonSearchbar 
+                    // onIonChange={e => setSearch(e.detail.value || '')}
+                    className='trees__search ion-text-left' 
+                    placeholder=''
+                    />
                {!isPlatform('ios') && (
                         <IonFab horizontal="end" vertical="bottom" slot="fixed">
                             <IonFabButton routerLink="/add-tree">
