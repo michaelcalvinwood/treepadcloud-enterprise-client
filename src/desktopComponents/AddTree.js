@@ -2,6 +2,7 @@ import './AddTree.scss';
 import React, {useContext, useEffect, useState} from 'react';
 //import AppContext from '../data/AppContext';
 import { IonButton, IonInput, IonItem, IonLabel, IonSearchbar, IonTextarea, IonToast } from '@ionic/react';
+import IconPicker from './IconPicker';
 //import IconPicker from '../components/IconPicker';
 //import { createTree, editTree } from '../utils/api-axios';
 
@@ -34,7 +35,7 @@ const AddTree = ({toggleAddModal}) => {
                 <img 
                     onClick={() => setShowIconPicker(prev => !prev)}
                     className='add-tree__icon' 
-                    src={`https://assets.treepadcloud.com/images/${icon}`} 
+                    src={`https://static.treepadcloud.com/images/${icon}`} 
                 />
                 <p className='add-tree__instructions'>click to change</p>
                 <IonItem className='add-tree__input-tree-name'>
@@ -59,11 +60,11 @@ const AddTree = ({toggleAddModal}) => {
                     } */}
                     Submit
                 </IonButton>
-                {/* {showIconPicker && 
+                {showIconPicker && 
                     <IconPicker 
                         setIconName={setIconName}
                         setShowIconPicker={setShowIconPicker}/>
-                } */}
+                }
                 <IonButton 
                     onClick={toggleAddModal}
                     className='add-tree__button-close'

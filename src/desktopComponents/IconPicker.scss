@@ -1,0 +1,64 @@
+@import '../styles/partials/variables.scss';
+
+.icon-picker {
+    position: relative;
+    top: -15rem;
+    left: -15vw;
+    z-index: 2000;
+    width: 80vw;
+    background-color: white;
+    border: 2px solid $app-primary-color;
+    border-radius: 4px;
+    height: 60vh;
+    padding: .25rem;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    
+    &__choice-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__select {
+        width: 47.5%;
+    }
+    &__search {
+        width: 47.5%;
+    }
+    &__list-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    &__icon-list {
+        margin: .75rem auto;
+        width: 94%;
+        overflow-y: auto;
+        height: 43vh;
+        display: flex;
+        justify-content: space-around;
+        align-content: flex-start;
+        flex-wrap: wrap;
+        border: 2px solid $app-primary-color;
+        border-radius: 4px;
+        padding: .25rem;
+    }  
+    &__icon {
+        width: 15rem;
+        height: 3rem;
+        padding: .25rem;
+        border: 1px solid $app-primary-color;
+        margin: 0 .25rem .5rem .25rem;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        overflow: hidden;
+
+        &:hover {
+            background-color: $app-secondary-color;
+        }
+    }
+}
+

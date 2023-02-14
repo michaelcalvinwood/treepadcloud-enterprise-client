@@ -10,7 +10,6 @@ const Branches = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    
                     <IonTitle className="ion-text-center" style={{verticalAlign: "middle"}}>
                     <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <IonImg src={treePadIcon} style={{height: "1.5rem", display: "inline-block"}} />
