@@ -22,7 +22,7 @@ const AddTree = ({toggleAddModal}) => {
     }
 
     const createTheTree = () => {
-        // if (!treeName) return setMessage('Please enter a tree name');
+        if (!treeName) return setMessage('Please enter a tree name');
 
         // appCtx.modals.addTree.type === 'insert' ?
         //     createTree(server, token, icon, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTrees) :
@@ -58,7 +58,7 @@ const AddTree = ({toggleAddModal}) => {
                         'Create' :
                         'Submit'
                     } */}
-                    Submit
+                    Create
                 </IonButton>
                 {showIconPicker && 
                     <IconPicker 
