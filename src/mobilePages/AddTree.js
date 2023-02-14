@@ -1,6 +1,5 @@
-import { IonButton, IonButtons,  IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonPage, IonTitle, IonToolbar, isPlatform } from "@ionic/react";
+import { IonBackButton, IonButton, IonButtons,  IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonPage, IonTitle, IonToolbar, isPlatform } from "@ionic/react";
 
-import { add } from 'ionicons/icons';
 import treePadIcon from '../assets/icons/treepadcloud-icon-white.svg';
 
 const AddTree = () => {
@@ -8,6 +7,9 @@ const AddTree = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
+                    <IonButtons slot='start'>
+                        <IonBackButton defaultHref="/trees" color="light"/>
+                    </IonButtons>
                     <IonTitle>
                         <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <IonImg src={treePadIcon} style={{height: "1.5rem", display: "inline-block"}} />
