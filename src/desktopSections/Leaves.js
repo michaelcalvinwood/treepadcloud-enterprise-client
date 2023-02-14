@@ -6,8 +6,9 @@ import normalScreenIcon from '../assets/icons/normal-screen.svg';
 import settingsIcon from '../assets/icons/settings.svg';
 import cloudIcon from '../assets/icons/cloud.svg';
 
-const Leaves = (sections) => {
+const Leaves = ({sections}) => {
     const { controls: controlsState, trees: treesState, branches: branchesState } = sections;
+    
     const [isFullScreen, setIsFullScreen] = useState(false);
 
     const setFullScreen = () => setIsFullScreen(true);

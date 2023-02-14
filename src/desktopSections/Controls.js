@@ -20,6 +20,7 @@ import closeIcon from '../assets/icons/close.svg';
 
 const Controls = ({sections, toggleSection}) => {
     const {trees: treesState, controls: controlsState} = sections
+    console.log('Controls', sections);
     const controlsClassName = () => {
         let cname = 'controls';
 

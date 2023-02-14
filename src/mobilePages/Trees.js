@@ -9,33 +9,25 @@ const Trees = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    
                     <IonTitle>
                         <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <IonImg src={treePadIcon} style={{height: "1.5rem", display: "inline-block"}} />
                             <div style={{display: "inline-block", fontSize: "1.25rem", marginLeft: '.15rem'}}>TreePad Cloud</div>
                         </div>
-
-                        {/* <IonRow className="ion-align-items-center">
-                            <IonCol size="6">
-                                <img src={treePadIcon} style={{height: "1.5rem"}} className="ion-float-right"/>
-                            </IonCol>
-                            <IonCol className="title-col" size="6" >
-                                <div className="ion-float-left">TreePad Cloud</div>
-                            </IonCol>
-                        </IonRow> */}
                     </IonTitle>
-                    {/* {isPlatform('ios') && (
+                    {isPlatform('ios') && (
                         <IonButtons slot="end">
-                            <IonButton routerLink="/new-memory">
+                            <IonButton  color="light">
                                 <IonIcon slot="icon-only" icon={add} />
                             </IonButton>
                         </IonButtons>
-                    )} */}
+                    )}
+                   
                 </IonToolbar>
             </IonHeader>
             <IonContent>
                <h1 className="ion-text-center">Trees</h1>
+               
             </IonContent>
         </IonPage>
     )
