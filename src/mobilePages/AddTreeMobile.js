@@ -1,8 +1,9 @@
 import { IonBackButton, IonButton, IonButtons,  IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonTextarea, IonTitle, IonToast, IonToolbar, isPlatform } from "@ionic/react";
 import { useState } from "react";
 import treePadIcon from '../assets/icons/treepadcloud-icon-white.svg';
+import "./AddTreeMobile.scss";
 
-const AddTree = () => {
+const AddTreeMobile = () => {
     const [icon, setIcon] = useState('svg/tree.svg');
     const [showIconPicker, setShowIconPicker] = useState(false);
     const [treeName, setTreeName] = useState('');
@@ -37,22 +38,24 @@ const AddTree = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-            <div className='add-tree'>
-            <div className='add-tree__content'>
-                <img 
-                    // onClick={() => setShowIconPicker(prev => !prev)}
-                    className='add-tree__icon' 
-                    src={`https://static.treepadcloud.com/images/${icon}`} 
-                />
+            <div className='add-tree-mobile'>
+            <div className='add-tree-mobile__content'>
+                <IonButton fill="clear" routerLink="icon-picker" style={{backgroundColor: 'white', height: '5rem'}}>
+                    <img  
+                        style={{ display: 'block', marginTop: '.5rem'}}
+                        className='add-tree__icon' 
+                        src={`https://static.treepadcloud.com/images/${icon}`} 
+                    />
+                </IonButton>
                 <p className='add-tree__instructions'>click to change</p>
-                <IonItem className='add-tree__input-tree-name'>
+                <IonItem className='add-tree-mobile__input-tree-name'>
                     <IonLabel position='floating'>Tree Name</IonLabel>
                     <IonInput
                         value={treeName}
                         onIonChange={e => setTreeName(e.detail.value || '')}  
                         type='text' />
                 </IonItem>
-                <IonItem className='add-tree__input-tree-description'>
+                <IonItem className='add-tree-mobile__input-tree-description'>
                     <IonLabel position='floating'>Tree Description (optional)</IonLabel>
                     <IonTextarea
                         value={treeDesc}
@@ -83,4 +86,4 @@ const AddTree = () => {
     )
 }
 
-export default AddTree;
+export default AddTreeMobile;
