@@ -1,12 +1,10 @@
-import { IonBackButton, IonButton, IonButtons,  IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonPage, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar, isPlatform } from "@ionic/react";
 import './IconPicker.scss';
 import React, { useState } from 'react';
+import { IonButton, IonSearchbar, IonSelect, IonSelectOption } from '@ionic/react';
 import iconList from '../data/svg-filenames.json';
 import iconSets from '../data/iconSets.json';
 
-import treePadIcon from '../assets/icons/treepadcloud-icon-white.svg';
-
-const IconPicker = (props) => {
+const IconPicker = props => {
     const maxIconsAllowed = 1000;
 
     const [iconSet, setIconSet] = useState('regular');
@@ -35,23 +33,9 @@ const IconPicker = (props) => {
         return test2;
     });
 
+
     return (
-        <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonButtons slot='start'>
-                        <IonBackButton defaultHref="/trees" color="light"/>
-                    </IonButtons>
-                    <IonTitle>
-                        <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                            <IonImg src={treePadIcon} style={{height: "1.5rem", display: "inline-block"}} />
-                            <div style={{display: "inline-block", fontSize: "1.25rem", marginLeft: '.15rem'}}>TreePad Cloud</div>
-                        </div>
-                    </IonTitle>
-                </IonToolbar>
-            </IonHeader>
-            <IonContent>
-           
+        <div className='icon-picker'>
             <div className='icon-picker__choice-container'>
                 <IonSearchbar 
                     onIonChange={(e) => setSearchValue(e.detail.value)}
@@ -82,7 +66,7 @@ const IconPicker = (props) => {
                         return (
                             <p 
                                 onClick={() => setIconName(iconName)}
-                                className='icon-picker-mobile__icon'
+                                className='icon-picker__icon'
                                 key={iconName}>{getIconName(iconName)}</p>
                         )
                     })}
@@ -91,10 +75,7 @@ const IconPicker = (props) => {
             </div>
             <IonButton onClick={() => setShowIconPicker(false)}>Close</IonButton>
             
-        
-            </IonContent>
-        </IonPage>
-       
+        </div>
     )
 }
 
