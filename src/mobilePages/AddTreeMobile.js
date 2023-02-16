@@ -3,16 +3,12 @@ import { useState } from "react";
 import treePadIcon from '../assets/icons/treepadcloud-icon-white.svg';
 import "./AddTreeMobile.scss";
 
-const AddTreeMobile = () => {
-    const [icon, setIcon] = useState('svg/tree.svg');
+const AddTreeMobile = ({icon, setIcon}) => {
+    
     const [showIconPicker, setShowIconPicker] = useState(false);
     const [treeName, setTreeName] = useState('');
     const [treeDesc, setTreeDesc] = useState('');
     const [message, setMessage] = useState('');
-
-    const setIconName = (name) => {
-        setIcon(name);
-    }
 
     const createTheTree = () => {
         if (!treeName) return setMessage('Please enter a tree name');

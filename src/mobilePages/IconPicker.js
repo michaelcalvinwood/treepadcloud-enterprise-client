@@ -1,6 +1,8 @@
 import { IonBackButton, IonButton, IonButtons,  IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonPage, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar, isPlatform } from "@ionic/react";
 import './IconPicker.scss';
 import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
+
 // import iconList from '../data/svg-filenames.json';
 // import iconSets from '../data/iconSets.json';
 import axios from "axios";
@@ -14,10 +16,17 @@ const IconPicker = (props) => {
     
     const [icons, setIcons] = useState(iconsArray);
     const [searchValue, setSearchValue] = useState('');
+    const [selectedIcon, setSelectedIcon] = useState(null);
 
     const {setIconName, setShowIconPicker} = props;
 
     const setTheIcons = icons => setIcons(icons);
+    const selectIcon = icon => {
+        setSelectedIcon(icon)
+    }
+    const chooseIcon = icon => {
+        setIconName(`/svg/${selectedIcon.t}/${selectedIcon.n}.svg`)
+    }
 
     function getIcons() {
         const request = {
@@ -38,6 +47,9 @@ const IconPicker = (props) => {
       });
 
     let filteredIcons = icons.filter(icon => icon.n.indexOf(searchValue) !== -1);
+
+    const history = useHistory();
+
     return (
         <IonPage>
             <IonHeader>
@@ -54,12 +66,26 @@ const IconPicker = (props) => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-           
-            <div className='icon-picker__choice-container'>
+            <IonImg 
+                className="add-tree__icon"
+                style={{marginTop: '.5rem'}}
+                src={selectedIcon ? 
+                    `https://static.treepadcloud.com/images/svg/${selectedIcon.t}/${selectedIcon.n}.svg` : 
+                    'https://static.treepadcloud.com/images/svg/tree.svg'} 
+                />
+            <div className='icon-picker-mobile__choice-container'>
                 <IonSearchbar 
                     onIonChange={(e) => setSearchValue(e.detail.value)}
-                    className='icon-picker__search'/>
-                
+                    className='icon-picker-mobile__search'/>
+                <IonButton 
+                    onClick={() => {
+                        if (selectedIcon) chooseIcon();
+                        history.push('/add-tree');
+                    }}
+                    style={{display: 'block', margin: 'auto', width: '4.5rem'}}
+                >
+                    Select
+            </IonButton>
             </div>
              
             <div className='icon-picker__list-container'>
@@ -67,7 +93,7 @@ const IconPicker = (props) => {
                 { filteredIcons.length <= 2500 && filteredIcons.map(icon => {
                         return (
                             <p 
-                                onClick={() => setIconName(`/svg/${icon.t}/${icon.n}.svg`)}
+                                onClick={() => selectIcon(icon)}
                                 className='icon-picker__icon'
                                 key={`${icon.t}-${icon.n}`}>{icon.n}</p>
                         )
@@ -78,7 +104,7 @@ const IconPicker = (props) => {
                     }
                 </div>
             </div>
-            <IonButton onClick={() => setShowIconPicker(false)}>Close</IonButton>
+            
             
         
             </IonContent>

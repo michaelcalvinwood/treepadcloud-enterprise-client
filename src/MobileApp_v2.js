@@ -1,7 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, IonTabs, setupIonicReact, IonTabBar, IonIcon, IonLabel, IonTabButton } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-
+import { useState } from 'react';
 
 import TreeIcon from './assets/icons/tree.svg';
 import BranchesIcon from './assets/icons/branch.svg';
@@ -15,7 +15,14 @@ import Settings from './mobilePages/Settings';
 import IconPicker from './mobilePages/IconPicker';
 import AddTreeMobile from './mobilePages/AddTreeMobile';
 
-const MobileApp = () => (
+const MobileApp = () => {
+  const [icon, setIcon] = useState('svg/tree.svg');
+  
+  const setIconName = (name) => {
+    setIcon(name);
+  }
+
+  return (
   <IonApp>
     <IonReactRouter>
       <IonTabs>
@@ -39,11 +46,15 @@ const MobileApp = () => (
           </Route>
 
           <Route path="/add-tree">
-              <AddTreeMobile />
+              <AddTreeMobile 
+                icon={icon}
+                setIcon={setIcon}/>
           </Route>
 
           <Route path="/icon-picker">
-              <IconPicker />
+              <IconPicker 
+                setIconName={setIconName}
+              />
           </Route>
 
           {/* Default Route */}
@@ -80,6 +91,6 @@ const MobileApp = () => (
       </IonTabs>
     </IonReactRouter>
   </IonApp>
-);
+)};
 
 export default MobileApp;
