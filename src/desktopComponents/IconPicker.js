@@ -51,7 +51,7 @@ const IconPicker = props => {
                     { filteredIcons.length <= 2500 && filteredIcons.map(icon => {
                         return (
                             <p 
-                                onClick={() => setIconName(`/svg/${icon.t}/${icon.n}`)}
+                                onClick={() => setIconName(`/svg/${icon.t}/${icon.n}.svg`)}
                                 className='icon-picker__icon'
                                 key={`${icon.t}-${icon.n}`}>{icon.n}</p>
                         )

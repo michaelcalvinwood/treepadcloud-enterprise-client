@@ -1,40 +1,43 @@
 import { IonBackButton, IonButton, IonButtons,  IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonPage, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar, isPlatform } from "@ionic/react";
 import './IconPicker.scss';
-import React, { useState } from 'react';
-import iconList from '../data/svg-filenames.json';
-import iconSets from '../data/iconSets.json';
-
+import React, { useState, useEffect } from 'react';
+// import iconList from '../data/svg-filenames.json';
+// import iconSets from '../data/iconSets.json';
+import axios from "axios";
 import treePadIcon from '../assets/icons/treepadcloud-icon-white.svg';
 
 const IconPicker = (props) => {
     const maxIconsAllowed = 1000;
 
-    const [iconSet, setIconSet] = useState('regular');
+    let iconsStr = localStorage.getItem('icons');
+    let iconsArray = iconsStr ? JSON.parse(iconsStr) : [];
+    
+    const [icons, setIcons] = useState(iconsArray);
     const [searchValue, setSearchValue] = useState('');
 
     const {setIconName, setShowIconPicker} = props;
 
-    const getIconName = icon => {
-        let loc = 5;
-        let end = icon.indexOf('/', loc);
-        const set = icon.substring(loc, end);
-        let name = icon.substring(end + 1);
-        loc = name.indexOf('.');
-        name = name.substring(0, loc);
-        return name;
+    const setTheIcons = icons => setIcons(icons);
+
+    function getIcons() {
+        const request = {
+            url: "https://static.treepadcloud.com/images/svg/icons.json",
+            method: 'get'
+        }
+        axios(request)
+        .then(response => {
+            setTheIcons(response.data);
+            console.log('typeof response.data', response.data);
+            localStorage.setItem('icons', JSON.stringify(response.data));
+        })
+        .catch(error => console.error(error));
     }
 
-    const filteredList = iconList.filter(item => {
-        const test1 = iconSet === 'all' || item.indexOf(`/svg/${iconSet}/`) !== -1;
+    useEffect(() => {
+        if (!icons.length) getIcons();
+      });
 
-        if (!searchValue) return test1;
-        if (!test1) return false;
-
-        const test2 = item.indexOf(searchValue, iconSet.length + 6) !== -1;
-
-        return test2;
-    });
-
+    let filteredIcons = icons.filter(icon => icon.n.indexOf(searchValue) !== -1);
     return (
         <IonPage>
             <IonHeader>
@@ -56,37 +59,23 @@ const IconPicker = (props) => {
                 <IonSearchbar 
                     onIonChange={(e) => setSearchValue(e.detail.value)}
                     className='icon-picker__search'/>
-                <IonSelect 
-                    className='icon-picker__select' 
-                    value={iconSet} 
-                    placeholder={iconSet} 
-                    onIonChange={e => setIconSet(e.detail.value)}
-                    >
-                    {iconSets.map(set => {
-                        return (
-                            <IonSelectOption key={set} value={set}>{set}</IonSelectOption>
-                        )
-                    })}
-                </IonSelect>
+                
             </div>
              
             <div className='icon-picker__list-container'>
                 <div className='icon-picker__icon-list'>
-                    {filteredList.length <= maxIconsAllowed && filteredList
-                    .sort((a, b) => {
-                        if (getIconName(a) > getIconName(b)) return 1;
-                        if (getIconName(a) < getIconName(b)) return -1;
-                        return 0;
-                    })
-                    .map(iconName => {
+                { filteredIcons.length <= 2500 && filteredIcons.map(icon => {
                         return (
                             <p 
-                                onClick={() => setIconName(iconName)}
-                                className='icon-picker-mobile__icon'
-                                key={iconName}>{getIconName(iconName)}</p>
+                                onClick={() => setIconName(`/svg/${icon.t}/${icon.n}.svg`)}
+                                className='icon-picker__icon'
+                                key={`${icon.t}-${icon.n}`}>{icon.n}</p>
                         )
-                    })}
-                    {filteredList.length > maxIconsAllowed && <div><span style={ {color: "black", fontWeight: 700}}>{filteredList.length}</span> icons</div>}
+                    })
+                    }
+                    {
+                        filteredIcons.length > 2500 && `${filteredIcons.length} icons`
+                    }
                 </div>
             </div>
             <IonButton onClick={() => setShowIconPicker(false)}>Close</IonButton>
