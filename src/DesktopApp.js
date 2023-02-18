@@ -8,7 +8,7 @@ import Leaves from "./desktopSections/Leaves";
 import LoginSignUp from "./desktopComponents/LoginSignUp";
 
 const DesktopApp = () => {
-
+  const [token, setToken] = useState(localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null);
   const [sections, setSections] = useState({
     controls: true,
     trees: true,
@@ -24,14 +24,23 @@ const DesktopApp = () => {
     console.log(modified);
   }
 
-  return (
-    <div id="desktopApp">
-      <div className="desktop">
-        <LoginSignUp />
-      </div>
-    </div>
-  )
+  const updateToken = token => {
+     localStorage.setItem('token', JSON.stringify(token));
+     setToken(token);
+  }
 
+  if (token) {
+    return (
+      <div id="desktopApp">
+        <div className="desktop">
+          <LoginSignUp 
+            updateToken={updateToken}
+          />
+        </div>
+      </div>
+    )  
+  }
+  
   return (
     <div id="desktopApp">
       <div className='desktop'>

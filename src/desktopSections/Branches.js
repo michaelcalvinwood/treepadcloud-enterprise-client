@@ -1,6 +1,6 @@
 import './Branches.scss';
 import React, { useContext, useState, useEffect } from "react";
-import settingsIcon from '../assets/icons/settings.svg';
+import settingsIcon from '../assets/icons/link.svg';
 import cloudIcon from '../assets/icons/cloud.svg';
 import closeIcon from '../assets/icons/close.svg';
 import { IonSearchbar } from '@ionic/react';

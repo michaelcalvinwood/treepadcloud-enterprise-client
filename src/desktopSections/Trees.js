@@ -4,7 +4,7 @@ import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonPage, IonSearc
 
 import cloudIcon from '../assets/icons/cloud.svg';
 import closeIcon from '../assets/icons/close.svg';
-import settingsIcon from '../assets/icons/settings.svg';
+import settingsIcon from '../assets/icons/link.svg';
 
 import { addOutline } from 'ionicons/icons';
 import AddTree from '../desktopComponents/AddTree';

@@ -54,6 +54,9 @@
     }
     &__settings {
         filter: invert(40%) sepia(51%) saturate(2904%) hue-rotate(206deg) brightness(101%) contrast(101%);
+        height: 1rem;
+        width: 1rem;
+        margin-top: -3px;
     }
 
 }
