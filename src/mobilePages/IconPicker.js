@@ -98,10 +98,8 @@ const IconPicker = (props) => {
                                 key={`${icon.t}-${icon.n}`}>{icon.n}</p>
                         )
                     })
-                    }
-                    {
-                        filteredIcons.length > 2500 && `${filteredIcons.length} icons`
-                    }
+                }
+                { filteredIcons.length > 2500 && `${filteredIcons.length} icons` }
                 </div>
             </div>
             

@@ -5,6 +5,8 @@ import Title from "./desktopSections/Title";
 import Branches from "./desktopSections/Branches";
 import Leaves from "./desktopSections/Leaves";
 
+import LoginSignUp from "./desktopComponents/LoginSignUp";
+
 const DesktopApp = () => {
 
   const [sections, setSections] = useState({
@@ -21,6 +23,14 @@ const DesktopApp = () => {
     setSections({...modified});
     console.log(modified);
   }
+
+  return (
+    <div id="desktopApp">
+      <div className="desktop">
+        <LoginSignUp />
+      </div>
+    </div>
+  )
 
   return (
     <div id="desktopApp">
