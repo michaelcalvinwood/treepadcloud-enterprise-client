@@ -2,7 +2,7 @@ import './LoginSignUp.scss';
 import { IonButton, IonInput, IonItem, IonLabel, IonToast } from '@ionic/react';
 import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios'
-//import * as EmailValidator from 'email-validator';
+import * as EmailValidator from 'email-validator';
 import zxcvbn from 'zxcvbn';
 import treepadIcon from '../assets/icons/treepadcloud-icon.svg';
 
@@ -35,14 +35,27 @@ const LoginSignUp = () => {
 
     const handleUserName = (e) => {
         setUserName(e.target.value);
-     }
+    }
+
+    const isValidHostName = name => {
+        if (!name) return false;
+        
+        if (name.startsWith('-')) return false;
+        if (name.endsWith('-')) return false;
+    
+        let test = name.indexOf('--');
+        if (test !== -1) return false;
+    
+        return (/^[a-zA-Z0-9-]{1,63}$/.test(name))
+    }
+    
  
     const registerUser = () => {
         const strength = zxcvbn(password).score;
 
-        if (strength < 3) {
-            return setToast('Password is too weak.');
-        }
+        if (strength < 3) return setToast('Password is too weak.');
+
+        if (!isValidHostName(userName)) return setToast("Allowed user name characters: a-z 0-9 and -");
         
         return;
         
@@ -50,7 +63,7 @@ const LoginSignUp = () => {
             url: `https://authentication.treepadcloud.com:6200/register`,
             method: 'post',
             data: {
-                userName,
+                userName: userName.toLowerCase(),
                 email,
                 password
             }
@@ -160,7 +173,7 @@ const LoginSignUp = () => {
                 position='middle'
                 message={toast}
                 isOpen={!!toast}
-                duration={2500}
+                duration={3500}
                 onDidDismiss={() => setToast('')}
             />
             {/* { mode === 'login' && appCtx.windowDimensions.height >= 600 &&
