@@ -8,10 +8,6 @@ import treepadIcon from '../assets/icons/treepadcloud-icon.svg';
 
 //import * as socketIo from '../utils/resourceServerEmit';
 
-//import monitor from '../utils/eventMonitor';
-
-// TODO: Add confirmation password to registration and only send if the two passwords match
-
 const LoginSignUp = () => {
     const [mode, setMode] = useState('login');
     
@@ -56,6 +52,8 @@ const LoginSignUp = () => {
         if (strength < 3) return setToast('Password is too weak.');
 
         if (!isValidHostName(userName)) return setToast("Allowed user name characters: a-z 0-9 and -");
+        
+        if (!EmailValidator.validate(email)) return setToast("Invalid email address.");
         
         return;
         
