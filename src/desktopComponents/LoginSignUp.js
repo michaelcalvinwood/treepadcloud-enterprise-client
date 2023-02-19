@@ -8,7 +8,7 @@ import treepadIcon from '../assets/icons/treepadcloud-icon.svg';
 
 //import * as socketIo from '../utils/resourceServerEmit';
 
-const LoginSignUp = () => {
+const LoginSignUp = ({updateToken}) => {
     const [mode, setMode] = useState('login');
     
     const [password, setPassword] = useState('');
@@ -79,6 +79,33 @@ const LoginSignUp = () => {
     }
 
     const loginUser = (user, password) => {
+        const strength = zxcvbn(password).score;
+
+        if (strength < 3) return setToast('Password is too weak.');
+
+        if (!isValidHostName(userName)) return setToast("Allowed user name characters: a-z 0-9 and -");
+        
+        //if (!EmailValidator.validate(email)) return setToast("Invalid email address.");
+        
+        const request = {
+            url: `https://authentication.treepadcloud.com:6200/login`,
+            method: 'post',
+            data: {
+                email,
+                password
+            }
+        }
+        axios(request)
+        .then(res => {
+            return updateToken(res.data);
+        })
+        .catch(err => {
+            console.log(err.response.data);
+            
+            setToast(`Error: ${err.response.data.msg}`);
+            
+        })
+
         return;
        
     }
