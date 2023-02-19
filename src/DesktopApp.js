@@ -39,6 +39,13 @@ const DesktopApp = () => {
     setSettings(false);
   }
 
+  const clearToken = () => {
+    console.log('clear token');
+    setToken(null);
+  }
+
+  console.log('token', token);
+
   if (!token) {
     return (
       <div id="desktopApp">
@@ -75,7 +82,7 @@ const DesktopApp = () => {
               <Leaves 
                 sections={sections}  
               />
-              { settings && <Settings closeSettings={closeSettings}/> }
+              { settings && <Settings closeSettings={closeSettings} clearToken={clearToken}/> }
           </div>
     </div>
   );
