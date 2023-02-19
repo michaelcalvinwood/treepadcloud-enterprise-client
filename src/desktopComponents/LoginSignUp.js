@@ -78,20 +78,19 @@ const LoginSignUp = ({updateToken}) => {
         return;
     }
 
-    const loginUser = (user, password) => {
+    const loginUser = () => {
+        console.log(userName, password)
         const strength = zxcvbn(password).score;
 
         if (strength < 3) return setToast('Password is too weak.');
 
         if (!isValidHostName(userName)) return setToast("Allowed user name characters: a-z 0-9 and -");
         
-        //if (!EmailValidator.validate(email)) return setToast("Invalid email address.");
-        
         const request = {
             url: `https://authentication.treepadcloud.com:6200/login`,
             method: 'post',
             data: {
-                email,
+                userName,
                 password
             }
         }

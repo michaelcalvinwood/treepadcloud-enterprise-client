@@ -6,6 +6,7 @@ import Branches from "./desktopSections/Branches";
 import Leaves from "./desktopSections/Leaves";
 
 import LoginSignUp from "./desktopComponents/LoginSignUp";
+import Settings from "./desktopComponents/Settings";
 
 const DesktopApp = () => {
   const [token, setToken] = useState(localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null);
@@ -15,6 +16,7 @@ const DesktopApp = () => {
     branches: true,
     leaves: true
   })
+  const [settings, setSettings] = useState(false);
 
   const toggleSection = section => {
     console.log('toggleSection', section);
@@ -27,6 +29,14 @@ const DesktopApp = () => {
   const updateToken = token => {
      localStorage.setItem('token', JSON.stringify(token));
      setToken(token);
+  }
+
+  const openSettings = () => {
+    setSettings(true);
+  }
+
+  const closeSettings = () => {
+    setSettings(false);
   }
 
   if (!token) {
@@ -47,6 +57,7 @@ const DesktopApp = () => {
               <Title 
                 sections={sections}
                 toggleSection={toggleSection}
+                openSettings={openSettings}
               />
               <Controls 
                 sections={sections}
@@ -64,7 +75,7 @@ const DesktopApp = () => {
               <Leaves 
                 sections={sections}  
               />
-              {/* <Modals /> */}
+              { settings && <Settings closeSettings={closeSettings}/> }
           </div>
     </div>
   );

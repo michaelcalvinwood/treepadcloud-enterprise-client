@@ -6,8 +6,9 @@ import IconTray from '../desktopComponents/IconTray';
 import treeIcon from '../assets/icons/tree.svg';
 import branchIcon from '../assets/icons/branch.svg';
 import controlsIcon from '../assets/icons/controls.svg';
+import settingIcon from '../assets/icons/settings.svg';
 
-const Title = ({sections, toggleSection}) => {
+const Title = ({sections, toggleSection, openSettings}) => {
     const { trees: treesState, controls: controlsState, branches: branchesState } = sections;
     const titleClassName = () => {
         let cname = 'title';
@@ -24,6 +25,7 @@ const Title = ({sections, toggleSection}) => {
                 {!branchesState && <IconTray sectionHandler={toggleSection} name="branches" icon={branchIcon} />}
                 {!controlsState && <IconTray sectionHandler={toggleSection} name="controls" icon={controlsIcon} />}
             </div>
+            <img className="title__settings" src={settingIcon} onClick={openSettings}/>
             <div className="title__logo-container">
                 <img className='title__logo-image' src={treepadIcon} />
                 <h1 className='title__logo-name'>TreePad Cloud</h1>

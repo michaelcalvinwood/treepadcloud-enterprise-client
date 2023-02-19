@@ -38,6 +38,15 @@
     &__logo-name {
         padding-bottom: .5rem;
     }
+    &__settings {
+        filter: invert(40%) sepia(51%) saturate(2904%) hue-rotate(206deg) brightness(101%) contrast(101%);
+        height: .75rem;
+        width: .75rem;
+        position: fixed;
+        top: .25rem;
+        right: .2rem;
+        cursor: pointer;
+    }
 
 }
 .title__icon-tray div:not(:first-child) {
