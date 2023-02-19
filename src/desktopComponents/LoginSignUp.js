@@ -55,8 +55,6 @@ const LoginSignUp = () => {
         
         if (!EmailValidator.validate(email)) return setToast("Invalid email address.");
         
-        return;
-        
         const request = {
             url: `https://authentication.treepadcloud.com:6200/register`,
             method: 'post',
@@ -68,19 +66,13 @@ const LoginSignUp = () => {
         }
         axios(request)
         .then(res => {
-            setToast(res.data);
-            return;
-
+            return setToast(`Success: Email verification sent to ${email}`);
         })
         .catch(err => {
             console.log(err.response.data);
-            if (!err.response.data) {
-                setToast(err.message);
-                return;
-            } else {
-                setToast(err.response.data);
-                return;
-            }
+            
+            setToast(`Error: ${err.response.data.msg}`);
+            
         })
 
         return;
