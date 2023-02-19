@@ -3,8 +3,7 @@ import { IonButton, IonInput, IonItem, IonLabel, IonToast } from '@ionic/react';
 import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios'
 //import * as EmailValidator from 'email-validator';
-//import PasswordStrengthMeter from './PasswordStrengthMeter';
-//import zxcvbn from 'zxcvbn';
+import zxcvbn from 'zxcvbn';
 import treepadIcon from '../assets/icons/treepadcloud-icon.svg';
 
 //import * as socketIo from '../utils/resourceServerEmit';
@@ -15,37 +14,43 @@ import treepadIcon from '../assets/icons/treepadcloud-icon.svg';
 
 const LoginSignUp = () => {
     const [mode, setMode] = useState('login');
-    const [toast, setToast] = useState('');
+    
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [userName, setUserName] = useState('');
 
-    const userRef = useRef(null);
-    const emailRef = useRef(null);
-    const passRef = useRef(null);
+    const [toast, setToast] = useState('');
 
-    const handleRegister = () => {
-        setMode('register');
+    const changeMode = (mode) => {
+        setMode(mode);
     }
 
-    const handleLogin = () => {
-        setMode('login');
+    const handlePassword = (e) => {
+       setPassword(e.target.value);
     }
 
-    const handlePassword = () => {
+    const handleEmail = (e) => {
+        setEmail(e.target.value);
+     }
+
+    const handleUserName = (e) => {
+        setUserName(e.target.value);
+     }
+ 
+    const registerUser = () => {
+        const strength = zxcvbn(password).score;
+
+        if (strength < 3) {
+            return setToast('Password is too weak.');
+        }
+        
         return;
-        const passwordVal = passRef.current.value;
-
-        if (!passwordVal) return;
-
-        setPassword(passwordVal.toString());
-    }
-
-    const registerUser = (user, email, password) => {
-        return;
+        
         const request = {
-            url: `${process.env.REACT_APP_AUTHENTICATION_SERVER}/authentication/register`,
+            url: `https://authentication.treepadcloud.com:6200/register`,
             method: 'post',
             data: {
-                user,
+                userName,
                 email,
                 password
             }
@@ -75,14 +80,6 @@ const LoginSignUp = () => {
        
     }
 
-    const handleSubmit = () => {
-        return;
-        const user = userRef.current.value;
-        //const testPassword = zxcvbn(passwordVal);
-
-        //isValidEmail = EmailValidator.validate(email.toString());
-     
-    }
 
     return (
         <div className="login">
@@ -97,21 +94,30 @@ const LoginSignUp = () => {
                 <div className='login__container'>
                     <IonItem>
                         <IonLabel position="floating">User Name</IonLabel>
-                        <IonInput type="text" ref={userRef}/>
+                        <IonInput 
+                            type="text"
+                            value={userName}
+                            onIonChange={handleUserName} 
+                        />
                     </IonItem>
                     { mode === 'register' && 
                         <IonItem>
                             <IonLabel position="floating">Email</IonLabel>
-                            <IonInput type="email" ref={emailRef}/>
+                            <IonInput 
+                                type="email" 
+                                value={email}
+                                onIonChange={handleEmail}
+                            />
                         </IonItem>
                     }
                     <IonItem>
                         <IonLabel position="floating">Password</IonLabel>
                         <IonInput 
                             type="password" 
-                            ref={passRef} 
+                            //ref={passRef} 
                             value={password} 
-                            onIonChange={handlePassword}/>
+                            onIonChange={handlePassword}
+                        />
                     </IonItem>
                     { mode === 'register' &&
                         // <PasswordStrengthMeter password={password}/> 
@@ -123,12 +129,12 @@ const LoginSignUp = () => {
                                 <IonButton 
                                 
                                 className='login__button'
-                                onClick={handleSubmit}>Login</IonButton> 
+                                onClick={loginUser}>Login</IonButton> 
 
                                 <IonButton 
                                 fill='outline'
                                 className='login__button'
-                                onClick={handleRegister}>Register</IonButton>
+                                onClick={() => setMode('register')}>Register</IonButton>
                             </div>
                         }
                         { mode === 'register' &&
@@ -136,12 +142,12 @@ const LoginSignUp = () => {
                                 <IonButton 
                                 
                                 className='login__button'
-                                onClick={handleSubmit}>Submit</IonButton> 
+                                onClick={registerUser}>Submit</IonButton> 
 
                                 <IonButton 
                                 fill='outline'
                                 className='login__button'
-                                onClick={handleLogin}>Login</IonButton>
+                                onClick={() => setMode('login')}>Login</IonButton>
                             </div>
                         }   
 
@@ -149,14 +155,15 @@ const LoginSignUp = () => {
                 </div>
             </div>
         
-            {/* <IonToast 
+            <IonToast 
                 color="secondary"
                 position='middle'
                 message={toast}
                 isOpen={!!toast}
                 duration={2500}
-                onDidDismiss={() => setToast('')}/>
-            { mode === 'login' && appCtx.windowDimensions.height >= 600 &&
+                onDidDismiss={() => setToast('')}
+            />
+            {/* { mode === 'login' && appCtx.windowDimensions.height >= 600 &&
                 <IonButton className="login__recovery" fill="outline">Password Recovery</IonButton>
             } */}
     </div>

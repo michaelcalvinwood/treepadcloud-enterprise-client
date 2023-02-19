@@ -29,7 +29,7 @@ const DesktopApp = () => {
      setToken(token);
   }
 
-  if (token) {
+  if (!token) {
     return (
       <div id="desktopApp">
         <div className="desktop">
