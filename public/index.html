@@ -27,14 +27,16 @@
 <body>
   <div id="root"></div>
   <script>
-    const socketIntervalId = setInterval(() => {
-      if (typeof io === 'undefined') {
-        return;
-      }
-      clearInterval(socketIntervalId);
-      window.socketIo = io;
-    }, 250);
+    window.socket = {};
+    window.socket.connections = {};
 
+    window.socket.connectToForrest = async name => {
+      const { connections } = window.socket;
+
+      if (!connections[name]) {
+        connections[name] = io.connect(`https://${name}.treepadcloud.com:6102`);
+      }
+    }
   </script>
 </body>
 

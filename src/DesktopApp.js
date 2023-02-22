@@ -19,7 +19,7 @@ const DesktopApp = () => {
   const [settings, setSettings] = useState(false);
 
   if (token && token.info && token.info.userName) {
-    console.log(`connect to ${token.info.userName}.treepadcloud.com`);
+    window.socket.connectToForrest(token.info.userName);
   }
 
   const toggleSection = section => {
