@@ -18,6 +18,10 @@ const DesktopApp = () => {
   })
   const [settings, setSettings] = useState(false);
 
+  if (token && token.info && token.info.userName) {
+    console.log(`connect to ${token.info.userName}.treepadcloud.com`);
+  }
+
   const toggleSection = section => {
     console.log('toggleSection', section);
     let modified = sections;

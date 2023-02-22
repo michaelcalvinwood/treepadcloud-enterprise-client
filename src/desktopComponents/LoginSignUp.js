@@ -1,4 +1,6 @@
 import './LoginSignUp.scss';
+
+
 import { IonButton, IonInput, IonItem, IonLabel, IonToast } from '@ionic/react';
 import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios'
@@ -96,7 +98,7 @@ const LoginSignUp = ({updateToken}) => {
         }
         axios(request)
         .then(res => {
-            return updateToken(res.data);
+            updateToken(res.data);
         })
         .catch(err => {
             console.log(err.response.data);
