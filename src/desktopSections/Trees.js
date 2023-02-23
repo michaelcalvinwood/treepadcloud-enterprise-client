@@ -62,13 +62,13 @@ const Trees = ({ treesState, toggleSection }) => {
                 })
                 } */}
         
-                <IonFab horizontal="end" vertical="bottom" slot="fixed">
+                { window.socket.isUser() && <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton onClick={() => {
                        toggleAddModal();
                     }}>
                     <IonIcon icon={addOutline} />
                     </IonFabButton>
-                </IonFab>
+                </IonFab> }
                 </IonContent>
         </IonPage>
         { showAddModal && 

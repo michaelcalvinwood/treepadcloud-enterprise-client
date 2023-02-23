@@ -8,5 +8,4 @@ const setForrestEvents = name => {
     })
     
     socket.emit('token', window.token);
-
 }

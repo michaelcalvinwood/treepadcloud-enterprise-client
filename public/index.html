@@ -31,7 +31,6 @@
     window.socket = {};
     window.socket.connections = {};
 
-
     window.socket.connectToForrest = () => {
       console.log('connectToForrest', window.token, window.socket);
       if (!window.token) return;
@@ -47,6 +46,16 @@
       }
       console.log('window.socket after connectToForrest', window.socket);
     }
+
+    window.socket.isUser = () => {
+      if (!window.token) return false;
+      if (!window.token.info) return false;
+      if (!window.token.info.userName) return false;
+
+      return true;
+    }
+
+
     console.log('window.socket', window.socket);
   </script>
 </body>
