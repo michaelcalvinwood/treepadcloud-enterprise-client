@@ -22,6 +22,7 @@
   <meta name="apple-mobile-web-app-title" content="TreePad Cloud" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <script defer src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script defer src="socket-lib.js"></script>
 </head>
 
 <body>
@@ -30,12 +31,22 @@
     window.socket = {};
     window.socket.connections = {};
 
-    window.socket.connectToForrest = async name => {
-      const { connections } = window.socket;
 
-      if (!connections[name]) {
-        connections[name] = io.connect(`https://${name}.treepadcloud.com:6102`);
+    window.socket.connectToForrest = () => {
+      console.log('connectToForrest', window.token, window.socket);
+      const { connections } = window.socket;
+      if (!window.token) return;
+      if (!window.token.info) return;
+      if (!window.token.info.userName) return;
+
+      const name = window.token.info.userName;
+
+      if (!window.socket.connections[name]) {
+        console.log('connecting to forrest');
+        window.socket.connections[name] = io.connect(`https://${name}.treepadcloud.com:6102`);
+        setForrestEvents(name);
       }
+
     }
   </script>
 </body>

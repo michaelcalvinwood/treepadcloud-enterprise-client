@@ -18,9 +18,14 @@ const DesktopApp = () => {
   })
   const [settings, setSettings] = useState(false);
 
+  window.token = token;
+
   if (token && token.info && token.info.userName) {
-    window.socket.connectToForrest(token.info.userName);
+    window.socket.connectToForrest();
   }
+
+
+
 
   const toggleSection = section => {
     console.log('toggleSection', section);
