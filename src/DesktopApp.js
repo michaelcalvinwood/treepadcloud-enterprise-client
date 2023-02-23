@@ -7,6 +7,7 @@ import Leaves from "./desktopSections/Leaves";
 
 import LoginSignUp from "./desktopComponents/LoginSignUp";
 import Settings from "./desktopComponents/Settings";
+import { IonToast } from "@ionic/react";
 
 const DesktopApp = () => {
   const [token, setToken] = useState(localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null);
@@ -18,14 +19,15 @@ const DesktopApp = () => {
   })
   const [settings, setSettings] = useState(false);
 
+  const [toast, setToast] = useState('');
+
+  window.setToast = setToast;
   window.token = token;
 
   if (token && token.info && token.info.userName) {
+    console.log('window.socket', window.socket);
     window.socket.connectToForrest();
   }
-
-
-
 
   const toggleSection = section => {
     console.log('toggleSection', section);
@@ -92,7 +94,16 @@ const DesktopApp = () => {
                 sections={sections}  
               />
               { settings && <Settings closeSettings={closeSettings} clearToken={clearToken}/> }
-          </div>
+          
+              <IonToast 
+                color="secondary"
+                position='middle'
+                message={toast}
+                isOpen={!!toast}
+                duration={3500}
+                onDidDismiss={() => setToast('')}
+            />          
+        </div>
     </div>
   );
 }

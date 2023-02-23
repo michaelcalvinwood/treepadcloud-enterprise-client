@@ -34,7 +34,6 @@
 
     window.socket.connectToForrest = () => {
       console.log('connectToForrest', window.token, window.socket);
-      const { connections } = window.socket;
       if (!window.token) return;
       if (!window.token.info) return;
       if (!window.token.info.userName) return;
@@ -46,8 +45,9 @@
         window.socket.connections[name] = io.connect(`https://${name}.treepadcloud.com:6102`);
         setForrestEvents(name);
       }
-
+      console.log('window.socket after connectToForrest', window.socket);
     }
+    console.log('window.socket', window.socket);
   </script>
 </body>
 
