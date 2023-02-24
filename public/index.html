@@ -22,46 +22,13 @@
   <meta name="apple-mobile-web-app-title" content="TreePad Cloud" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <script defer src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-  <script defer src="socket-lib.js"></script>
+  <script src="forrest-socket-lib.js"></script>
 </head>
 
 <body>
   <div id="root"></div>
   <script>
-    window.socket = {};
-    window.socket.connections = {};
 
-    window.socket.isUser = () => {
-      if (!window.token) return false;
-      if (!window.token.info) return false;
-      if (!window.token.info.userName) return false;
-
-      return true;
-    }
-
-    window.socket.connectToForrest = () => {
-      console.log('connectToForrest', window.token, window.socket);
-      if (!window.socket.isUser()) return;
-
-      const name = window.token.info.userName;
-
-      if (!window.socket.connections[name]) {
-        console.log('connecting to forrest');
-        window.socket.connections[name] = io.connect(`https://${name}.treepadcloud.com:6102`);
-        setForrestEvents(name);
-      }
-      console.log('window.socket after connectToForrest', window.socket);
-    }
-
-
-
-    window.socket.createTree = (icon, treeName, treeDesc) => {
-      if (!window.socket.isUser()) return;
-
-      const { userName } = window.token.info;
-
-      window.socket.connections[userName].emit('createTree', { icon, treeName, treeDesc });
-    }
 
 
 

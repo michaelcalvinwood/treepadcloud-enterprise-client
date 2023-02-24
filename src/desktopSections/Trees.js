@@ -12,6 +12,9 @@ import AddTree from '../desktopComponents/AddTree';
 const Trees = ({ treesState, toggleSection }) => {
     const [showAddModal, setShowAddModal] = useState(false);
 
+    const [trees, setTrees] = useState([]);
+    window.socket.forrestOn('getTrees', setTrees);
+
     const toggleAddModal = () => {
         setShowAddModal(!showAddModal);
     }
@@ -23,6 +26,7 @@ const Trees = ({ treesState, toggleSection }) => {
         else return 'trees trees--inactive'
     }
 
+    
     return (
         <>
             <IonPage className={treesClassName()}>

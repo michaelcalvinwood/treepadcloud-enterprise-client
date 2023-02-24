@@ -24,7 +24,7 @@ const AddTree = ({toggleAddModal}) => {
     const createTheTree = () => {
         if (!treeName) return setMessage('Please enter a tree name');
 
-        window.socket.createTree(icon, treeName, treeDesc);
+        window.socket.forrestEmit ('createTree', { icon, treeName, treeDesc });
         toggleAddModal();
     }
        
