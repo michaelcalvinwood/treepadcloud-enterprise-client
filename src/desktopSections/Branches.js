@@ -12,7 +12,7 @@ import Branch from '../desktopComponents/Branch';
 
 let controlToggle = false;
 
-const Branches = ({sections, treeName, toggleSection, activeTree}) => {
+const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, setActiveBranch}) => {
     const debug = true;
     const { branches: branchesState, trees: treesState, controls: controlsState} = sections; 
     const [branches, setBranches] = useState([]);
@@ -79,6 +79,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree}) => {
                             <Branch 
                                 key={branch.branchId} 
                                 branch={branch}
+                                activeBranch={activeBranch}
                             />
                         )
                     })

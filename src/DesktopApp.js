@@ -10,7 +10,7 @@ import Settings from "./desktopComponents/Settings";
 import { IonToast } from "@ionic/react";
 
 const DesktopApp = () => {
-  const debug = false;
+  const debug = true;
 
   const [token, setToken] = useState(localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null);
   const [sections, setSections] = useState({
@@ -27,6 +27,8 @@ const DesktopApp = () => {
   const [activeLeaf, setActiveLeaf] = useState(null);
 
   if (debug) console.log('DesktopApp token', token);
+  if (debug) console.log('DesktopApp activeTree, activeBranch, activeLeaf', activeTree, activeBranch, activeLeaf);
+  
 
   window.setToast = setToast;
   window.token = token;
@@ -59,8 +61,6 @@ const DesktopApp = () => {
     console.log('clear token');
     setToken(null);
   }
-
-
 
   if (!token) {
     return (

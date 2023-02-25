@@ -1,10 +1,17 @@
 import './Branch.scss';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 
 
-const Branch = ({branch}) => {
+const Branch = ({branch, activeBranch, setActiveBranch}) => {
     const debug = true;
     const [name, setName] = useState('');
+    const inputRef = useRef();
+
+    if (debug) console.log('Branch', branch, activeBranch)
+
+    const active = activeBranch && branch.branchId === activeBranch.branchId ? true : false;
+
+    if (debug) console.log('Branch active', branch.branchId, active);
 
     const id = branch.branchId;
 
@@ -27,12 +34,16 @@ const Branch = ({branch}) => {
         setName(branchName)
     }
 
+    useEffect(() => {
+        if (active) inputRef.current.focus();
+    })
+
     return (
         <div 
-            className={focused ? "branch branch--focused" : 'branch'} 
+            className={active ? "branch branch--focused" : 'branch'} 
             key={id}>
             <input
-                //ref={inputRef}
+                ref={inputRef}
                 onChange={handleBranchNameChange}
                 //onFocus={() => setFocus(id)}
                 //onBlur={() => handleBlur(id)}
@@ -40,7 +51,7 @@ const Branch = ({branch}) => {
                 className={inputClassName()}
                 type='text' 
                 value={name}
-                placeholder={'Enter branch name'} 
+                
             />
         </div>
     )
