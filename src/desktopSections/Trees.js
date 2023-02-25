@@ -13,7 +13,7 @@ const Trees = ({ treesState, toggleSection }) => {
     const [showAddModal, setShowAddModal] = useState(false);
 
     const [trees, setTrees] = useState([]);
-    window.socket.forrestOn('getTrees', setTrees);
+    
 
     const toggleAddModal = () => {
         setShowAddModal(!showAddModal);
@@ -26,7 +26,14 @@ const Trees = ({ treesState, toggleSection }) => {
         else return 'trees trees--inactive'
     }
 
-    
+    useEffect(() => {
+        const getTrees = async () => {
+            await window.socket.forrestOn('getTrees', setTrees);
+            window.socket.forrestEmit('getTrees', {});
+        }
+        getTrees();
+    }, [setTrees])
+
     return (
         <>
             <IonPage className={treesClassName()}>
