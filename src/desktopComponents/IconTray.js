@@ -2,7 +2,9 @@ import './IconTray.scss';
 import React from "react";
 
 const IconTray = props => {
-    console.log('IconTray', props);
+    const debug = false;
+
+    if (debug) console.log('IconTray', props);
     
     return (
         

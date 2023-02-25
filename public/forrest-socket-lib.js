@@ -1,5 +1,3 @@
-console.log('forrest-emits');
-
 window.socket = {};
 window.socket.connections = {};
 window.socket.callbacks = {};
@@ -43,20 +41,30 @@ window.socket.forrestEmit = (msg, data) => {
     const { userName } = window.token.info;
     data.userName = userName;
   
-    console.log('forrestEmit', msg, data);
+    console.log('forrestEvent emit', msg, data);
     window.socket.connections[userName].emit(msg, data);
 }
 
-window.socket.forrestOn = async (msg, callback) => {
+window.socket.forrestSetEventHandler = async (msg, callback) => {
+  const debug = true;
+
   if (!window.socket.isUser()) return;
   const { userName } = window.token.info;
 
-  console.log('forrestOn', msg);
+  if (debug) console.log('forrestSetEventHandler', msg);
 
   const socket = window.socket.connections[userName];
+
   if (!window.socket.callbacks[msg]) {
-    await socket.on(msg, data => window.socket.callbacks[msg](data));
-  }
+    window.socket.callbacks[msg] = callback;
+    if (debug) console.log('forrestSetEventHandler: creating socket event', msg);
+    await socket.on(msg, data => {
+      console.log('forrestEvent on', msg, data);
+      window.socket.callbacks[msg](data)
+    });
+    return;
+  } 
+
   window.socket.callbacks[msg] = callback;
 } 
 

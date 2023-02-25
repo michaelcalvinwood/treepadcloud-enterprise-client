@@ -10,16 +10,16 @@ import { addOutline } from 'ionicons/icons';
 import AddTree from '../desktopComponents/AddTree';
 
 const Trees = ({ treesState, toggleSection }) => {
+    const debug = true;
     const [showAddModal, setShowAddModal] = useState(false);
 
     const [trees, setTrees] = useState([]);
-    
+
+    if (debug) console.log('Trees', trees);
 
     const toggleAddModal = () => {
         setShowAddModal(!showAddModal);
     }
-
-    console.log("Trees", treesState);
 
     const treesClassName = () => {
         if (treesState) return 'trees';
@@ -28,7 +28,7 @@ const Trees = ({ treesState, toggleSection }) => {
 
     useEffect(() => {
         const getTrees = async () => {
-            await window.socket.forrestOn('getTrees', setTrees);
+            await window.socket.forrestSetEventHandler('getTrees', setTrees);
             window.socket.forrestEmit('getTrees', {});
         }
         getTrees();

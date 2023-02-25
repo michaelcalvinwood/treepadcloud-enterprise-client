@@ -10,6 +10,8 @@ import Settings from "./desktopComponents/Settings";
 import { IonToast } from "@ionic/react";
 
 const DesktopApp = () => {
+  const debug = false;
+
   const [token, setToken] = useState(localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null);
   const [sections, setSections] = useState({
     controls: false,
@@ -25,17 +27,15 @@ const DesktopApp = () => {
   window.token = token;
 
   if (token && token.info && token.info.userName) {
-    console.log('window.socket', window.socket);
+    if (debug) console.log('DesktopApp window.socket', window.socket);
     window.socket.connectToForrest();
   }
 
   const toggleSection = section => {
-    console.log('toggleSection', section);
     let modified = sections;
     sections[section] = !sections[section];
     setSections({...modified});
-    console.log(modified);
-  }
+    }
 
   const updateToken = token => {
      localStorage.setItem('token', JSON.stringify(token));
@@ -55,7 +55,7 @@ const DesktopApp = () => {
     setToken(null);
   }
 
-  console.log('token', token);
+  if (debug) console.log('token', token);
 
   if (!token) {
     return (

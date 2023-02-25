@@ -19,8 +19,10 @@ import settingsIcon from '../assets/icons/settings.svg';
 import closeIcon from '../assets/icons/close.svg';
 
 const Controls = ({sections, toggleSection}) => {
+    const debug = false;
+
     const {trees: treesState, controls: controlsState} = sections
-    console.log('Controls', sections);
+    if (debug) console.log('Controls sections', sections);
     const controlsClassName = () => {
         let cname = 'controls';
 
