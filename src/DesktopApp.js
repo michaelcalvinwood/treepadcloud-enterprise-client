@@ -21,6 +21,7 @@ const DesktopApp = () => {
   })
   const [settings, setSettings] = useState(false);
   const [toast, setToast] = useState('');
+  const [activeTree, setActiveTree] = useState(null);
 
   if (debug) console.log('DesktopApp token', token);
 
@@ -86,6 +87,8 @@ const DesktopApp = () => {
                 treesState={sections.trees}
                 toggleSection={toggleSection}
                 token={token}
+                activeTree={activeTree}
+                setActiveTree={setActiveTree}
               />
               <Branches 
                 treeName={"test"}

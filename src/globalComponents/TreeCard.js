@@ -11,26 +11,23 @@ import upIcon from '../assets/icons/up.svg';
 const TreeCard = props => {
     const debug = true;
 
-    const {treeName, treeId, ownerName, icon, active} = props;
+    const {treeName, treeId, ownerName, icon, activeTree, subscribeToTree} = props;
 
     if (debug) console.log('TreeCard props', props);
 
-    //const appCtx = useContext(AppContext);
-
     return (
-        <div className={active ? 'tree-card tree-card--active' : 'tree-card'}>
+        <div className={activeTree && activeTree._id === treeId ? 'tree-card tree-card--active' : 'tree-card'}>
             <div 
-                //onClick={() => appCtx.subscribeToTree(treeId)}
+                onClick={() => subscribeToTree(treeId)}
                 className='tree-card__click-area'>
-                {/* { !actions && */}
-                    <img 
+                <img 
                     className='tree-card__image'
-                    src={`https://static.treepadcloud.com/images/${icon}`} /> 
-                {/* } */}
+                    src={`https://static.treepadcloud.com/images/${icon}`} 
+            /> 
                 <h2 className='tree-card__title'>{treeName}</h2>
                 <p className='tree-card__subtitle'>{ownerName}</p>
             </div>
-            { active &&
+            { activeTree && activeTree._id === treeId &&
                 <div className='tree-card__actions'>
                      <img
                         // onClick={() => appCtx.setModals(prev => {

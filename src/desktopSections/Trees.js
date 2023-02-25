@@ -10,13 +10,21 @@ import { addOutline } from 'ionicons/icons';
 import AddTree from '../desktopComponents/AddTree';
 import TreeCard from '../globalComponents/TreeCard';
 
-const Trees = ({ treesState, toggleSection, token }) => {
+const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree }) => {
     const debug = true;
     const [showAddModal, setShowAddModal] = useState(false);
 
     const [trees, setTrees] = useState([]);
 
-    if (debug) console.log('Trees', trees);
+    if (debug) console.log('Trees', trees, activeTree);
+
+    const subscribeToTree = id => {
+        const debug = true;
+        if (debug) console.log('Trees subscribeToTree', id);
+
+        const tree = trees.find(tree => tree._id === id);
+        setActiveTree(tree);
+    }
 
     const toggleAddModal = () => {
         setShowAddModal(!showAddModal);
@@ -62,12 +70,12 @@ const Trees = ({ treesState, toggleSection, token }) => {
                     return (
                         <TreeCard 
                             key={tree._id}
-                            //server={server}
                             icon={tree.icon}
                             treeName={tree.name}
                             treeId={tree._id}
                             ownerName={token.info.userName}
-                            active={true}
+                            activeTree={activeTree}
+                            subscribeToTree={subscribeToTree}
                             //actions={settings}
                         />
                     )
