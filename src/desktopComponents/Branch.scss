@@ -45,6 +45,10 @@ $indentMargin: .75rem;
             margin-left: calc($indentMargin * 9);
         }
 
+        &::placeholder {
+            text-align: center;
+        }
+
     }
 
 

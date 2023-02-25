@@ -9,8 +9,6 @@
 
     transition: all $sectionCloseRate;
 
-   
-
     &--no-branches {
         left: $treeWidth;
         width: calc($leaveWidth + $branchWidth);
@@ -53,7 +51,10 @@
         background-color: white;
     }
 
-    &__full-screen, &__normal-screen {      
+    &__full-screen, &__normal-screen {  
+        position: fixed;
+        right: 8px;
+        bottom: 8px;    
         height: .75rem;
         width: .75rem;
         cursor: pointer;
@@ -107,6 +108,13 @@
     }
     &__active-module-icon {
         filter: invert(40%) sepia(51%) saturate(2904%) hue-rotate(206deg) brightness(101%) contrast(101%);
+    }
+
+    &__modules {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: .75rem .5rem;
     }
    
 }

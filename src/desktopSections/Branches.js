@@ -4,6 +4,7 @@ import settingsIcon from '../assets/icons/link.svg';
 import cloudIcon from '../assets/icons/cloud.svg';
 import closeIcon from '../assets/icons/close.svg';
 import { IonSearchbar } from '@ionic/react';
+import Branch from '../desktopComponents/Branch';
 //import Branch from '../desktopComponents/Branch';
 // import * as socketIo from '../../../utils/resourceServerEmit';
 // import * as monitor from '../../../utils/eventMonitor';
@@ -11,8 +12,14 @@ import { IonSearchbar } from '@ionic/react';
 
 let controlToggle = false;
 
-const Branches = ({sections, treeName, toggleSection}) => {
+const Branches = ({sections, treeName, toggleSection, activeTree}) => {
+    const debug = true;
     const { branches: branchesState, trees: treesState, controls: controlsState} = sections; 
+    const [branches, setBranches] = useState([]);
+    const [curTree, setCurTree] = useState(null);
+
+    if (debug) console.log('Branches', branches);
+
     
     const branchesClassName = () => {
         let cname = 'branches';
@@ -27,6 +34,13 @@ const Branches = ({sections, treeName, toggleSection}) => {
     const nameHasBeenChecked = (branchId) => {
     
     }
+
+    useEffect(() => {
+        if (curTree !== activeTree) {
+            setCurTree(activeTree);
+            setBranches(activeTree.branches);
+        }
+    })
 
     return (
         <div className={branchesClassName()}>
@@ -59,14 +73,16 @@ const Branches = ({sections, treeName, toggleSection}) => {
                 className='branches__search' 
                 placeholder=''/>
             <div className="branches__list">
-                {/* {
-                    appCtx.branches.map(branch => {
-                        return <Branch 
-                            key={branch.id+branch.name} 
-                            curBranch={branch}
+                {
+                    branches.map(branch => {
+                        return (
+                            <Branch 
+                                key={branch.name ? branch.branchId+branch.name : branch.branchId} 
+                                branch={branch}
                             />
+                        )
                     })
-                } */}
+                }
                 
             </div>
 

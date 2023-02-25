@@ -5,8 +5,22 @@ import fullScreenIcon from '../assets/icons/full-screen.svg';
 import normalScreenIcon from '../assets/icons/normal-screen.svg';
 import settingsIcon from '../assets/icons/settings.svg';
 import cloudIcon from '../assets/icons/cloud.svg';
+import LeafCard from '../globalComponents/LeafCard';
 
 const Leaves = ({sections}) => {
+    const leaves = [
+        {
+            id: 'etherpad',
+            icon: 'etherpad.svg',
+            name: 'EtherPad'
+        },
+        {
+            id: 'audioChat',
+            icon: 'audio.svg',
+            name: 'Audio Chat'
+        }
+    ]
+
     const { controls: controlsState, trees: treesState, branches: branchesState } = sections;
     
     const [isFullScreen, setIsFullScreen] = useState(false);
@@ -59,40 +73,20 @@ const Leaves = ({sections}) => {
                     src={fullScreenIcon} />
                }
             </div>
-            <div className='leaves__module'>
-                
-                {/* {activeModules && activeModules.length &&
-                    <div className='leaves__active-modules-container'>
-                        <div className='leaves__active-modules'>
-                            {activeModules.map(moduleId => {
-                                return (
-                                    <div 
-                                        key={`module_${moduleId}`}
-                                        onClick={() => {
-                                            setAddModule(false);
-                                            if (moduleId !== module?.id) socketIo.setCurModule(moduleId, appCtx)
-                                        }}
-                                        className={moduleId === module?.id && !addModule ?
-                                            'leaves__active-module leaves__active-module--current' :
-                                            'leaves__active-module'}>
-                                        <img
-                                            className='leaves__active-module-icon' 
-                                            src={moduleImgSrc(moduleId)} />
-                                    </div>
-                                )
-                            })}
-                            <div className='leaves__active-module'>
-                                <img
-                                    // onClick={() => setAddModule(true)}
-                                    className='leaves__active-module-icon' 
-                                    src={server+'/svg/add-module.svg'} />
-                            </div>
-                        </div>
-                    </div>
-                }
-                */}
-
-               </div>
+            <div className='leaves__modules'>
+            {
+                leaves.map(leaf => {
+                    return (
+                        <LeafCard 
+                            key={leaf.id}
+                            icon={leaf.icon}
+                            name={leaf.name}
+                        />
+                    )
+                })
+            }    
+              
+            </div>
             
 
 
