@@ -12,7 +12,7 @@ import { IonToast } from "@ionic/react";
 const DesktopApp = () => {
   const [token, setToken] = useState(localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null);
   const [sections, setSections] = useState({
-    controls: true,
+    controls: false,
     trees: true,
     branches: true,
     leaves: true
