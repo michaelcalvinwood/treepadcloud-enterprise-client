@@ -8,8 +8,9 @@ import settingsIcon from '../assets/icons/link.svg';
 
 import { addOutline } from 'ionicons/icons';
 import AddTree from '../desktopComponents/AddTree';
+import TreeCard from '../globalComponents/TreeCard';
 
-const Trees = ({ treesState, toggleSection }) => {
+const Trees = ({ treesState, toggleSection, token }) => {
     const debug = true;
     const [showAddModal, setShowAddModal] = useState(false);
 
@@ -57,21 +58,21 @@ const Trees = ({ treesState, toggleSection }) => {
                     className='trees__search ion-text-left' 
                     placeholder=''
                     />
-                {/* {appCtx.trees.map(tree => {
+                {trees.length && trees.map(tree => {
                     return (
                         <TreeCard 
-                            key={tree.id}
-                            server={server}
+                            key={tree._id}
+                            //server={server}
                             icon={tree.icon}
                             treeName={tree.name}
-                            treeId={tree.id}
-                            ownerName={tree.ownerName}
-                            active={tree.id === appCtx.curTreeId}
-                            actions={settings}
+                            treeId={tree._id}
+                            ownerName={token.info.userName}
+                            active={true}
+                            //actions={settings}
                         />
                     )
                 })
-                } */}
+                }
         
                 { window.socket.isUser() && <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton onClick={() => {
