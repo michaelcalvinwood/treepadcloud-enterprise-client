@@ -23,6 +23,25 @@ window.socket.isUser = () => {
     reconnect_failed
   */
 
+const getBranchName = ({id, name}) => {
+  const debug = true;
+  if (debug) console.log('forrest-socket-lib getBranchName', id, name);
+  if ( window.eywa.setBranchName[id]) window.eywa.setBranchName[id](name);
+}
+
+const setForrestSocketEvents = socket => {
+  console.log('setForrestEvents', socket);
+  socket.on('message', data => showMessage(data.msg))
+  socket.on('connect_error', (err) => showMessage(`connect_error due to ${err.message}`)) 
+  socket.on('getBranchName', data => {
+    console.log('hello hello')
+    getBranchName(data)
+  });
+  
+  socket.emit('token', window.token);
+
+}
+
 window.socket.connectToForrest = () => {
     if (!window.socket.isUser()) return;
     const name = window.token.info.userName;
@@ -31,9 +50,7 @@ window.socket.connectToForrest = () => {
     console.log('connectToForrest', name);
     window.socket.connections[name] = io.connect(`https://${name}.treepadcloud.com:6102`);
     let socket = window.socket.connections[name];
-    socket.on('message', data => showMessage(data.msg))
-    socket.on('connect_error', (err) => showMessage(`connect_error due to ${err.message}`)) 
-    socket.emit('token', window.token);
+    setForrestSocketEvents(socket);
   }
 
 window.socket.forrestEmit = (msg, data) => {  

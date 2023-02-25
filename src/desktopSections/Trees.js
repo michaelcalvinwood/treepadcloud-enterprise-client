@@ -10,7 +10,7 @@ import { addOutline } from 'ionicons/icons';
 import AddTree from '../desktopComponents/AddTree';
 import TreeCard from '../globalComponents/TreeCard';
 
-const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree }) => {
+const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, setActiveBranch }) => {
     const debug = true;
     const [showAddModal, setShowAddModal] = useState(false);
 
@@ -24,6 +24,7 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree }) 
 
         const tree = trees.find(tree => tree._id === id);
         setActiveTree(tree);
+        setActiveBranch(tree.branches[0]);
     }
 
     const toggleAddModal = () => {

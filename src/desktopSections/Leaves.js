@@ -7,7 +7,9 @@ import settingsIcon from '../assets/icons/settings.svg';
 import cloudIcon from '../assets/icons/cloud.svg';
 import LeafCard from '../globalComponents/LeafCard';
 
-const Leaves = ({sections}) => {
+const Leaves = ({sections, activeBranch, activeLeaf, setActiveLeaf}) => {
+    const debug = true;
+    if (debug) console.log('Leaves', activeBranch, activeLeaf)
     const leaves = [
         {
             id: 'etherpad',
@@ -75,7 +77,7 @@ const Leaves = ({sections}) => {
             </div>
             <div className='leaves__modules'>
             {
-                leaves.map(leaf => {
+                activeBranch && !activeLeaf && leaves.map(leaf => {
                     return (
                         <LeafCard 
                             key={leaf.id}

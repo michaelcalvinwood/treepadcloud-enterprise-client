@@ -77,7 +77,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree}) => {
                     branches.map(branch => {
                         return (
                             <Branch 
-                                key={branch.name ? branch.branchId+branch.name : branch.branchId} 
+                                key={branch.branchId} 
                                 branch={branch}
                             />
                         )
