@@ -6,6 +6,7 @@ import normalScreenIcon from '../assets/icons/normal-screen.svg';
 import settingsIcon from '../assets/icons/settings.svg';
 import cloudIcon from '../assets/icons/cloud.svg';
 import LeafCard from '../globalComponents/LeafCard';
+import ModuleRouter from '../globalComponents/ModuleRouter';
 
 const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {
     const debug = true;
@@ -86,7 +87,14 @@ const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {
                         />
                     )
                 })
-            }    
+            }
+            {
+                activeModule && 
+                <ModuleRouter 
+                    activeBranch={activeBranch}
+                    activeModule={activeModule}
+                />
+            }
               
             </div>
             
