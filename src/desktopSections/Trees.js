@@ -14,7 +14,7 @@ import TreeCard from '../globalComponents/TreeCard';
 const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, setActiveBranch, setActiveModule }) => {
     const debug = true;
     const [showAddModal, setShowAddModal] = useState(false);
-   
+    const [searchVal, setSearchVal] = useState('');
 
     const [trees, setTrees] = useState([]);
 
@@ -48,6 +48,11 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
         getTrees();
     }, [setTrees])
 
+    const searchValLower = searchVal.toLowerCase();
+    const treesInfo = trees.filter(tree => !searchVal || tree.name.toLowerCase().indexOf(searchValLower) !== -1);
+
+    console.log('TreesInfo', searchVal, treesInfo)
+
     return (
         <>
             <IonPage className={treesClassName()}>
@@ -68,11 +73,11 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
                 </div>
                 <p className='trees__title ion-color-primary'>Trees</p>
                 <IonSearchbar 
-                    // onIonChange={e => setSearch(e.detail.value || '')}
+                    onIonChange={e => setSearchVal(e.target.value || '')}
                     className='trees__search ion-text-left' 
                     placeholder=''
                 />
-                {trees.map(tree => {
+                {treesInfo.map(tree => {
                     return (
                         <TreeCard 
                             key={tree._id}
