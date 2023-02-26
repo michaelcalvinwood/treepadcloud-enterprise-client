@@ -31,12 +31,10 @@ const getBranchName = ({id, name}) => {
 
 const setForrestSocketEvents = socket => {
   console.log('setForrestEvents', socket);
+  
   socket.on('message', data => showMessage(data.msg))
   socket.on('connect_error', (err) => showMessage(`connect_error due to ${err.message}`)) 
-  socket.on('getBranchName', data => {
-    console.log('hello hello')
-    getBranchName(data)
-  });
+  socket.on('getBranchName', data => getBranchName(data));
   
   socket.emit('token', window.token);
 

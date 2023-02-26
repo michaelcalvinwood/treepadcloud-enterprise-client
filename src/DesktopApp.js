@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Controls from "./desktopSections/Controls";
 import Trees from "./desktopSections/Trees";
 import Title from "./desktopSections/Title";
@@ -24,10 +24,18 @@ const DesktopApp = () => {
 
   const [activeTree, setActiveTree] = useState(null);
   const [activeBranch, setActiveBranch] = useState(null);
-  const [activeLeaf, setActiveLeaf] = useState(null);
+  const [activeModule, setActiveModule] = useState(null);
 
+  const getActiveModule = info => {
+    const debug = true;
+    if (debug) console.log('getActiveModule', info);
+    const { moduleId, branchId } = info;
+    if (activeBranch.branchId === branchId && activeModule !== moduleId) setActiveModule(moduleId);
+  }
+
+  
   if (debug) console.log('DesktopApp token', token);
-  if (debug) console.log('DesktopApp activeTree, activeBranch, activeLeaf', activeTree, activeBranch, activeLeaf);
+  if (debug) console.log('DesktopApp activeTree, activeBranch, activeModule', activeTree, activeBranch, activeModule);
   
 
   window.setToast = setToast;
@@ -61,6 +69,14 @@ const DesktopApp = () => {
     console.log('clear token');
     setToken(null);
   }
+
+  useEffect(() => {
+    const myAsyncFunction = async () => {
+      await window.socket.forrestSetEventHandler('getActiveModule', getActiveModule);
+    }
+    myAsyncFunction();
+
+  });
 
   if (!token) {
     return (
@@ -105,8 +121,8 @@ const DesktopApp = () => {
               <Leaves 
                 sections={sections}  
                 activeBranch={activeBranch}
-                activeLeaf={activeLeaf}
-                setActiveLeaf={setActiveLeaf}
+                activeModule={activeModule}
+                
               />
               { settings && <Settings closeSettings={closeSettings} clearToken={clearToken}/> }
           
