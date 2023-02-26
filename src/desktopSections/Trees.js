@@ -67,7 +67,7 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
                     className='trees__search ion-text-left' 
                     placeholder=''
                 />
-                {trees.length ? '' : trees.map(tree => {
+                {trees.map(tree => {
                     return (
                         <TreeCard 
                             key={tree._id}
