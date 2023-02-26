@@ -19,9 +19,9 @@ const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {
             name: 'EtherPad'
         },
         {
-            id: 'audioChat',
-            icon: 'audio.svg',
-            name: 'Audio Chat'
+            id: 'link',
+            icon: 'link.svg',
+            name: 'Link'
         }
     ]
 
@@ -69,7 +69,7 @@ const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {
             <div className='leaves__actions'>
                 <img 
                     onClick={() => toggleCloudModal()} 
-                    className='leaves__cloud' 
+                    className={activeModule ? 'leaves__cloud' : 'leaves__cloud--hidden'} 
                     src={cloudIcon} />
                 {activeModule && 
                     <img

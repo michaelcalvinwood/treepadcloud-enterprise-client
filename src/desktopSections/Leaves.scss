@@ -69,6 +69,11 @@
         height: .75rem;
         width: .75rem;
         cursor: pointer;
+
+        &--hidden {
+            visibility: hidden;
+            width: .75rem;
+        }
     }
     &__close {
         height: .55rem;
