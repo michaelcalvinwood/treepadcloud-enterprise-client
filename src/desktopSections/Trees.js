@@ -8,11 +8,13 @@ import settingsIcon from '../assets/icons/link.svg';
 
 import { addOutline } from 'ionicons/icons';
 import AddTree from '../desktopComponents/AddTree';
+import CloudModal from '../desktopComponents/CloudModal';
 import TreeCard from '../globalComponents/TreeCard';
 
 const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, setActiveBranch, setActiveModule }) => {
     const debug = true;
     const [showAddModal, setShowAddModal] = useState(false);
+   
 
     const [trees, setTrees] = useState([]);
 
@@ -37,6 +39,7 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
         else return 'trees trees--inactive'
     }
 
+   
     useEffect(() => {
         const getTrees = async () => {
             await window.socket.forrestSetEventHandler('getTrees', setTrees);
@@ -51,6 +54,7 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
                 <IonContent className='ion-text-center'>
                 <div className='trees__actions'>
                     <img 
+                        
                         className='trees__cloud' 
                         src={cloudIcon} />
                     <img
@@ -95,6 +99,7 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
         { showAddModal && 
             <AddTree toggleAddModal={toggleAddModal}/> 
         }
+       
     </>
     )
 }

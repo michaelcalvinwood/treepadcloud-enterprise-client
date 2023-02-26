@@ -3,7 +3,7 @@ import "./ModuleRouter.scss";
 import React, {useState, useEffect} from 'react'
 import EtherPad from "../desktopModules/EtherPad";
 
-function ModuleRouter({activeBranch, activeModule}) {
+function ModuleRouter({activeBranch, activeModule, setCloudUrl, cloudUrl}) {
   const debug = true;
   const [leaf, setLeaf] = useState(null);
 
@@ -28,7 +28,13 @@ function ModuleRouter({activeBranch, activeModule}) {
 
   return (
     <div className="module-router">
-        {activeModule === 'etherpad' && <EtherPad leaf={leaf}/>}
+        {activeModule === 'etherpad' && 
+          <EtherPad 
+            leaf={leaf}
+            setCloudUrl={setCloudUrl}
+            cloudUrl={cloudUrl}
+          />
+        }
     </div>
   )
 }

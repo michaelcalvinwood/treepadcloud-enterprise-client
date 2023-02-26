@@ -7,6 +7,7 @@ import settingsIcon from '../assets/icons/settings.svg';
 import cloudIcon from '../assets/icons/cloud.svg';
 import LeafCard from '../globalComponents/LeafCard';
 import ModuleRouter from '../globalComponents/ModuleRouter';
+import CloudModal from '../desktopComponents/CloudModal';
 
 const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {
     const debug = true;
@@ -27,6 +28,13 @@ const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {
     const { controls: controlsState, trees: treesState, branches: branchesState } = sections;
     
     const [isFullScreen, setIsFullScreen] = useState(false);
+    const [showCloudModal, setShowCloudModal] = useState(false);
+    const [cloudUrl, setCloudUrl] = useState('');
+
+     const toggleCloudModal = () => {
+        console.log('toggleCloudModal');
+        setShowCloudModal(!showCloudModal);
+    }
 
     const setFullScreen = () => setIsFullScreen(true);
 
@@ -60,6 +68,7 @@ const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {
         <div className={leavesClassName()}>
             <div className='leaves__actions'>
                 <img 
+                    onClick={() => toggleCloudModal()} 
                     className='leaves__cloud' 
                     src={cloudIcon} />
                 {/* <img
@@ -93,7 +102,15 @@ const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {
                 <ModuleRouter 
                     activeBranch={activeBranch}
                     activeModule={activeModule}
+                    setCloudUrl={setCloudUrl}
+                    cloudUrl={cloudUrl}
                 />
+            }
+            { showCloudModal && 
+                <CloudModal 
+                    cloudUrl={cloudUrl}
+                    toggleCloudModal={toggleCloudModal}
+                /> 
             }
               
             </div>
