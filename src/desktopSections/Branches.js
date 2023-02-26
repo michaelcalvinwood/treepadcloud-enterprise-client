@@ -65,7 +65,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                     src={closeIcon} />
             </div>
             <div className='branches__title-container'> 
-                <p className='branches__title'>{treesState && treeName}</p>
+                <p className='branches__title'>{treesState && activeTree && activeTree.name}</p>
             </div>
 
            <IonSearchbar 
