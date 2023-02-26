@@ -15,6 +15,11 @@ const TreeCard = props => {
 
     if (debug) console.log('TreeCard props', props);
 
+    const deleteTree = () => {
+        if (debug) console.log('TreeCard deleteTree', treeId);
+        window.socket.forrestEmit('deleteTree', {treeId});
+    }
+
     return (
         <div className={activeTree && activeTree._id === treeId ? 'tree-card tree-card--active' : 'tree-card'}>
             <div 
@@ -40,7 +45,7 @@ const TreeCard = props => {
                         className='tree-card__edit'
                         src={editIcon} />
                     <img 
-                        //onClick={() => {deleteTree(appCtx.server, appCtx.token, treeId, appCtx.setTreeInfo, appCtx.setToast)}}
+                        onClick={deleteTree}
                         className='tree-card__delete' 
                         src={deleteIcon} />
                     {/* <img className='tree-card__up' src={upIcon} />

@@ -66,8 +66,8 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
                     // onIonChange={e => setSearch(e.detail.value || '')}
                     className='trees__search ion-text-left' 
                     placeholder=''
-                    />
-                {trees.length && trees.map(tree => {
+                />
+                {trees.length ? '' : trees.map(tree => {
                     return (
                         <TreeCard 
                             key={tree._id}
@@ -82,7 +82,6 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
                     )
                 })
                 }
-        
                 { window.socket.isUser() && <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton onClick={() => {
                        toggleAddModal();
