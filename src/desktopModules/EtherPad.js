@@ -8,7 +8,7 @@ function EtherPad({leaf}) {
     <div className='etherpad'>
         { leaf && leaf.module === 'etherpad' &&
         <iframe 
-            src={`https://etherpad-aaa.treepadcloud.com/p/test`} 
+            src={`https://etherpad-aaa.treepadcloud.com/p/${leaf._id.replaceAll('-', '')}`} 
             className='etherpad__content' />
 
 

@@ -32,12 +32,10 @@ const DesktopApp = () => {
     const { moduleId, branchId } = info;
     if (activeBranch.branchId === branchId && activeModule !== moduleId) setActiveModule(moduleId);
   }
-
   
   if (debug) console.log('DesktopApp token', token);
   if (debug) console.log('DesktopApp activeTree, activeBranch, activeModule', activeTree, activeBranch, activeModule);
   
-
   window.setToast = setToast;
   window.token = token;
 
@@ -109,6 +107,7 @@ const DesktopApp = () => {
                 activeTree={activeTree}
                 setActiveTree={setActiveTree}
                 setActiveBranch={setActiveBranch}
+                setActiveModule={setActiveModule}
               />
               <Branches 
                 treeName={"test"}
