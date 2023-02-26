@@ -23,7 +23,7 @@ const Title = ({sections, toggleSection, openSettings}) => {
             <div className='title__icon-tray'>
                 {!treesState && <IconTray sectionHandler={toggleSection} name="trees" icon={treeIcon} />}
                 {!branchesState && <IconTray sectionHandler={toggleSection} name="branches" icon={branchIcon} />}
-                {!controlsState && <IconTray sectionHandler={toggleSection} name="controls" icon={controlsIcon} />}
+                {/* {!controlsState && <IconTray sectionHandler={toggleSection} name="controls" icon={controlsIcon} />} */}
             </div>
             <img className="title__settings" src={settingIcon} onClick={openSettings}/>
             <div className="title__logo-container">
