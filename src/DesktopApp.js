@@ -121,6 +121,7 @@ const DesktopApp = () => {
                 sections={sections}  
                 activeBranch={activeBranch}
                 activeModule={activeModule}
+                setActiveModule={setActiveModule}
                 
               />
               { settings && <Settings closeSettings={closeSettings} clearToken={clearToken}/> }

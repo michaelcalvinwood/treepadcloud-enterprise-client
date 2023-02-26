@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import fullScreenIcon from '../assets/icons/full-screen.svg';
 import normalScreenIcon from '../assets/icons/normal-screen.svg';
-import settingsIcon from '../assets/icons/settings.svg';
+import leavesIcon from '../assets/icons/leaf.svg';
 import cloudIcon from '../assets/icons/cloud.svg';
 import LeafCard from '../globalComponents/LeafCard';
 import ModuleRouter from '../globalComponents/ModuleRouter';
@@ -71,9 +71,13 @@ const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {
                     onClick={() => toggleCloudModal()} 
                     className='leaves__cloud' 
                     src={cloudIcon} />
-                {/* <img
-                    className='leaves__settings' 
-                    src={settingsIcon} /> */}
+                {activeModule && 
+                    <img
+                        onClick={() => setActiveModule(null)}
+                        className='leaves__settings' 
+                        src={leavesIcon} 
+                    />
+                }
                { isFullScreen ?
                 <img 
                 className='leaves__normal-screen'
