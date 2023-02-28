@@ -5,12 +5,8 @@ import cloudIcon from '../assets/icons/cloud.svg';
 import closeIcon from '../assets/icons/close.svg';
 import { IonPage, IonContent, IonSearchbar, IonFab, IonFabButton, IonIcon } from '@ionic/react';
 import Branch from '../desktopComponents/Branch';
-
 import { addOutline } from 'ionicons/icons';
-//import Branch from '../desktopComponents/Branch';
-// import * as socketIo from '../../../utils/resourceServerEmit';
-// import * as monitor from '../../../utils/eventMonitor';
-//import ModalContainer from '../../../components/ModalContainer';
+
 
 let controlToggle = false;
 
@@ -21,7 +17,6 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     const [curTree, setCurTree] = useState(null);
 
     if (debug) console.log('Branches', branches);
-
     
     const branchesClassName = () => {
         let cname = 'branches';
@@ -31,6 +26,12 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         if (!controlsState) cname += ' branches--no-controls';
         
         return cname;
+    }
+
+    const addBranch = () => {
+        if (debug) console.log('addBranch activeTree', activeTree);
+
+        window.socket.forrestEmit('addBranch', {treeId: activeTree._id});
     }
 
     const nameHasBeenChecked = (branchId) => {
@@ -91,10 +92,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
             </div>
             { window.socket.isUser() && <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton 
-                        // onClick={() => {
-                        //     setModalInfo({action: 'add'});
-                        //     toggleAddModal();
-                        // }}
+                        onClick={addBranch}
                     >
                     <IonIcon icon={addOutline} />
                     </IonFabButton>
