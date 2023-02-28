@@ -9,9 +9,9 @@ import upIcon from '../assets/icons/up.svg';
 //import AppContext from '../data/AppContext';
 
 const TreeCard = props => {
-    const debug = true;
+    const debug = false;
 
-    const {treeName, treeId, ownerName, icon, activeTree, subscribeToTree} = props;
+    const {treeName, treeDesc, treeId, ownerName, icon, activeTree, subscribeToTree, toggleAddModal, setModalInfo} = props;
 
     if (debug) console.log('TreeCard props', props);
 
@@ -35,13 +35,16 @@ const TreeCard = props => {
             { activeTree && activeTree._id === treeId &&
                 <div className='tree-card__actions'>
                      <img
-                        // onClick={() => appCtx.setModals(prev => {
-                          
-                        //     prev.addTree.active = true;
-                        //     prev.addTree.type = 'edit';
-                        //     prev.addTree.treeId = treeId
-                        //     return {...prev}
-                        // })} 
+                        onClick={() => {
+                            setModalInfo({
+                                action: 'edit',
+                                icon,
+                                treeId,
+                                treeName,
+                                treeDesc
+                            });
+                            toggleAddModal();
+                        }} 
                         className='tree-card__edit'
                         src={editIcon} />
                     <img 

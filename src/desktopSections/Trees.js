@@ -14,6 +14,7 @@ import TreeCard from '../globalComponents/TreeCard';
 const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, setActiveBranch, setActiveModule }) => {
     const debug = true;
     const [showAddModal, setShowAddModal] = useState(false);
+    const [modalInfo, setModalInfo] = useState({action: 'add'});
     const [searchVal, setSearchVal] = useState('');
 
     const [trees, setTrees] = useState([]);
@@ -84,9 +85,12 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
                             icon={tree.icon}
                             treeName={tree.name}
                             treeId={tree._id}
+                            treeDesc={tree.desc}
                             ownerName={token.info.userName}
                             activeTree={activeTree}
                             subscribeToTree={subscribeToTree}
+                            setModalInfo={setModalInfo}
+                            toggleAddModal={toggleAddModal}
                             //actions={settings}
                         />
                     )
@@ -94,7 +98,8 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
                 }
                 { window.socket.isUser() && <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton onClick={() => {
-                       toggleAddModal();
+                        setModalInfo({action: 'add'});
+                        toggleAddModal();
                     }}>
                     <IonIcon icon={addOutline} />
                     </IonFabButton>
@@ -102,7 +107,10 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
                 </IonContent>
         </IonPage>
         { showAddModal && 
-            <AddTree toggleAddModal={toggleAddModal}/> 
+            <AddTree 
+                toggleAddModal={toggleAddModal}
+                modalInfo={modalInfo}
+            /> 
         }
        
     </>

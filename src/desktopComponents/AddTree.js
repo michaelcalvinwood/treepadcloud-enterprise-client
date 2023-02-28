@@ -6,12 +6,16 @@ import IconPicker from './IconPicker';
 //import IconPicker from '../components/IconPicker';
 //import { createTree, editTree } from '../utils/api-axios';
 
-const AddTree = ({toggleAddModal}) => {
+const AddTree = ({toggleAddModal, modalInfo}) => {
     const [icon, setIcon] = useState('svg/tree.svg');
     const [showIconPicker, setShowIconPicker] = useState(false);
     const [treeName, setTreeName] = useState('');
     const [treeDesc, setTreeDesc] = useState('');
     const [message, setMessage] = useState('');
+
+    const debug = true;
+
+    if (debug) console.log('AddTree', modalInfo);
 
     //const appCtx = useContext(AppContext);
 
@@ -27,6 +31,21 @@ const AddTree = ({toggleAddModal}) => {
         window.socket.forrestEmit ('createTree', { icon, treeName, treeDesc });
         toggleAddModal();
     }
+
+    const updateTheTree = () => {
+        if (!treeName) return setMessage('Please enter a tree name');
+
+        window.socket.forrestEmit ('updateTree', { treeId: modalInfo.treeId, icon, treeName, treeDesc });
+        toggleAddModal();      
+    }
+
+    useEffect(() => {
+        if (modalInfo.action === 'edit') {
+            if (icon !== modalInfo.icon) setIcon(modalInfo.icon);
+            if (treeName !== modalInfo.treeName) setTreeName(modalInfo.treeName);
+            if (treeDesc !== modalInfo.treeDesc) setTreeDesc(modalInfo.treeDesc);
+        }
+    }, [])
        
     return (
         <div className='add-tree'>
@@ -51,13 +70,9 @@ const AddTree = ({toggleAddModal}) => {
                         onIonChange={e => setTreeDesc(e.detail.value || '')}/>
                 </IonItem>
                 <IonButton 
-                    onClick={createTheTree}
+                    onClick={modalInfo.action === 'add' ? createTheTree : updateTheTree}
                     className='add-tree__button-create'>
-                    {/* { appCtx.modals.addTree.type === 'insert' ?
-                        'Create' :
-                        'Submit'
-                    } */}
-                    Create
+                    {modalInfo.action === 'add' ? 'Create' : 'Update'}
                 </IonButton>
                 {showIconPicker && 
                     <IconPicker 
