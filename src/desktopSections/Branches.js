@@ -3,8 +3,10 @@ import React, { useContext, useState, useEffect } from "react";
 import settingsIcon from '../assets/icons/link.svg';
 import cloudIcon from '../assets/icons/cloud.svg';
 import closeIcon from '../assets/icons/close.svg';
-import { IonSearchbar } from '@ionic/react';
+import { IonPage, IonContent, IonSearchbar, IonFab, IonFabButton, IonIcon } from '@ionic/react';
 import Branch from '../desktopComponents/Branch';
+
+import { addOutline } from 'ionicons/icons';
 //import Branch from '../desktopComponents/Branch';
 // import * as socketIo from '../../../utils/resourceServerEmit';
 // import * as monitor from '../../../utils/eventMonitor';
@@ -43,7 +45,8 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     })
 
     return (
-        <div className={branchesClassName()}>
+        <IonPage className={branchesClassName()}>
+        <IonContent>    
             <div className='trees__actions'>
                 <img 
                     className='trees__cloud' 
@@ -86,9 +89,19 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                 }
                 
             </div>
-
-            
-        </div>
+            { window.socket.isUser() && <IonFab horizontal="end" vertical="bottom" slot="fixed">
+                    <IonFabButton 
+                        // onClick={() => {
+                        //     setModalInfo({action: 'add'});
+                        //     toggleAddModal();
+                        // }}
+                    >
+                    <IonIcon icon={addOutline} />
+                    </IonFabButton>
+                </IonFab> 
+                }
+        </IonContent>    
+        </IonPage>
     )
 }
 

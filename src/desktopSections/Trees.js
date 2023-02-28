@@ -103,7 +103,8 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
                     }}>
                     <IonIcon icon={addOutline} />
                     </IonFabButton>
-                </IonFab> }
+                </IonFab> 
+                }
                 </IonContent>
         </IonPage>
         { showAddModal && 
