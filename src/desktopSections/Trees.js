@@ -71,7 +71,7 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
                         className='trees__close' 
                         src={closeIcon} />
                 </div>
-                <p className='trees__title ion-color-primary'>Trees</p>
+                <p className='trees__title ion-color-primary'>{!trees.length && 'Add a Tree'}</p>
                 <IonSearchbar 
                     onIonChange={e => setSearchVal(e.target.value || '')}
                     className='trees__search ion-text-left' 

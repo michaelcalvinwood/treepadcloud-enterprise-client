@@ -38,13 +38,13 @@
     &__logo-name {
         padding-bottom: .5rem;
     }
-    &__settings {
+    &__logout {
         filter: invert(40%) sepia(51%) saturate(2904%) hue-rotate(206deg) brightness(101%) contrast(101%);
-        height: .75rem;
-        width: .75rem;
+        height: .9rem;
+        width: .9rem;
         position: fixed;
-        top: .25rem;
-        right: .2rem;
+        top: .5rem;
+        right: .5rem;
         cursor: pointer;
     }
 

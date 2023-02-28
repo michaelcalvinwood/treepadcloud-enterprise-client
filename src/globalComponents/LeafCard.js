@@ -3,7 +3,7 @@ import "./LeafCard.scss";
 import React from 'react'
 
 function LeafCard({leaf, activeBranch}) {
-  const { id, icon, name } = leaf;
+  const { id, icon, name, version } = leaf;
 
 
 

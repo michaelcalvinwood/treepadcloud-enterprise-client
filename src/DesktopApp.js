@@ -94,6 +94,7 @@ const DesktopApp = () => {
               <Title 
                 sections={sections}
                 toggleSection={toggleSection}
+                clearToken={clearToken}
                 openSettings={openSettings}
               />
               <Controls 

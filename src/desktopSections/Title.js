@@ -6,9 +6,9 @@ import IconTray from '../desktopComponents/IconTray';
 import treeIcon from '../assets/icons/tree.svg';
 import branchIcon from '../assets/icons/branch.svg';
 import controlsIcon from '../assets/icons/controls.svg';
-import settingIcon from '../assets/icons/settings.svg';
+import logoutIcon from '../assets/icons/logout.svg';
 
-const Title = ({sections, toggleSection, openSettings}) => {
+const Title = ({sections, toggleSection, openSettings, clearToken}) => {
     const { trees: treesState, controls: controlsState, branches: branchesState } = sections;
     const titleClassName = () => {
         let cname = 'title';
@@ -17,7 +17,11 @@ const Title = ({sections, toggleSection, openSettings}) => {
 
         return cname;
     }
-
+    const logout = () => {
+        localStorage.removeItem('token');
+        clearToken();
+        window.location.reload();
+    }
     return (
        <div className={titleClassName()}>
             <div className='title__icon-tray'>
@@ -25,7 +29,7 @@ const Title = ({sections, toggleSection, openSettings}) => {
                 {!branchesState && <IconTray sectionHandler={toggleSection} name="branches" icon={branchIcon} />}
                 {/* {!controlsState && <IconTray sectionHandler={toggleSection} name="controls" icon={controlsIcon} />} */}
             </div>
-            <img className="title__settings" src={settingIcon} onClick={openSettings}/>
+            <img className="title__logout" src={logoutIcon} onClick={logout}/>
             <div className="title__logo-container">
                 <img className='title__logo-image' src={treepadIcon} />
                 <h1 className='title__logo-name'>TreePad Cloud</h1>
