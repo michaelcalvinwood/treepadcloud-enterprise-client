@@ -90,7 +90,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                 }
                 
             </div>
-            { window.socket.isUser() && <IonFab horizontal="end" vertical="bottom" slot="fixed">
+            { activeTree && window.socket.isUser() && <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton 
                         onClick={addBranch}
                     >
