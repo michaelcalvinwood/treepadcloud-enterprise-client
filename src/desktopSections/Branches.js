@@ -29,9 +29,10 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     }
 
     const addBranch = () => {
-        if (debug) console.log('addBranch activeTree', activeTree);
+        if (debug) console.log('addBranch activeTree', activeTree, activeBranch);
+        if (!activeTree || !activeBranch) return;
 
-        window.socket.forrestEmit('addBranch', {treeId: activeTree._id});
+        window.socket.forrestEmit('addBranch', {treeId: activeTree._id, branchId: activeBranch._id});
     }
 
     const nameHasBeenChecked = (branchId) => {
