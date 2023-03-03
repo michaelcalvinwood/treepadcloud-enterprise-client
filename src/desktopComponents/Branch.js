@@ -48,6 +48,7 @@ const Branch = ({branch, activeBranch, setActiveBranch}) => {
                 //onFocus={() => setFocus(id)}
                 //onBlur={() => handleBlur(id)}
                 //onKeyUp={(e) => handleKeyUp(e, id)}
+                placeholder='New Branch'
                 className={inputClassName()}
                 type='text' 
                 value={name}

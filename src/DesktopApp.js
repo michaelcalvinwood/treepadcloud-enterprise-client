@@ -9,6 +9,8 @@ import LoginSignUp from "./desktopComponents/LoginSignUp";
 import Settings from "./desktopComponents/Settings";
 import { IonToast } from "@ionic/react";
 
+import _ from 'lodash';
+
 const DesktopApp = () => {
   const debug = true;
 
@@ -32,6 +34,34 @@ const DesktopApp = () => {
     const { moduleId, branchId } = info;
     if (activeBranch.branchId === branchId && activeModule !== moduleId) setActiveModule(moduleId);
   }
+
+  const addBranch = info => {
+    if (debug) console.log('DesktopApp addBranch', info, activeTree);
+    
+    // update all displayed trees here. Need to add code for trees that are merged in
+    if (activeTree._id === info.treeId) {
+      let flag = false;
+      for (let i = 0; i < activeTree.branches.length; ++i) {
+        if (activeTree.branches[i].branchId === info.branchId) {
+          flag = i;
+          break;
+        }
+      }
+      if (flag !== false) {
+        const treeCopy = _.cloneDeep(activeTree);
+        console.log('treeCopy before', treeCopy);
+        treeCopy.branches.splice(flag+1, 0, info.newBranch);
+        console.log('treeCopy after', treeCopy);
+        setActiveTree(treeCopy);
+      }
+    }
+  }
+
+  const myAsyncFunction = async () => {
+    await window.socket.forrestSetEventHandler('getActiveModule', getActiveModule);
+    await window.socket.forrestSetEventHandler('addBranch', addBranch);
+  }
+  myAsyncFunction();
   
   if (debug) console.log('DesktopApp token', token);
   if (debug) console.log('DesktopApp activeTree, activeBranch, activeModule', activeTree, activeBranch, activeModule);
@@ -69,10 +99,7 @@ const DesktopApp = () => {
   }
 
   useEffect(() => {
-    const myAsyncFunction = async () => {
-      await window.socket.forrestSetEventHandler('getActiveModule', getActiveModule);
-    }
-    myAsyncFunction();
+   
 
   });
 

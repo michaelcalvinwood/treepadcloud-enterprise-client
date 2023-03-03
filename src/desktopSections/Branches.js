@@ -16,7 +16,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     const [branches, setBranches] = useState([]);
     const [curTree, setCurTree] = useState(null);
 
-    if (debug) console.log('Branches', branches);
+    if (debug) console.log('Branches', branches, activeTree);
     
     const branchesClassName = () => {
         let cname = 'branches';
@@ -29,10 +29,10 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     }
 
     const addBranch = () => {
-        if (debug) console.log('addBranch activeTree', activeTree, activeBranch);
+        if (debug) console.log('addBranch', activeTree, activeBranch);
         if (!activeTree || !activeBranch) return;
 
-        window.socket.forrestEmit('addBranch', {treeId: activeTree._id, branchId: activeBranch._id});
+        window.socket.forrestEmit('addBranch', {treeId: activeTree._id, branchId: activeBranch.branchId});
     }
 
     const nameHasBeenChecked = (branchId) => {
