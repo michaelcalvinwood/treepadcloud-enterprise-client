@@ -85,6 +85,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                                 key={branch.branchId} 
                                 branch={branch}
                                 activeBranch={activeBranch}
+                                setActiveBranch={setActiveBranch}
                             />
                         )
                     })

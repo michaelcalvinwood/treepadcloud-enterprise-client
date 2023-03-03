@@ -34,6 +34,15 @@ const Branch = ({branch, activeBranch, setActiveBranch}) => {
         setName(branchName)
     }
 
+    const handleFocus = () => {
+        if (debug) console.log('Branch handleFocus', branch);
+        setActiveBranch(branch);
+    }
+
+    const handleBlur = () => {
+        if (activeBranch === branch) setActiveBranch(null);
+    }
+
     useEffect(() => {
         if (active) inputRef.current.focus();
     })
@@ -45,8 +54,8 @@ const Branch = ({branch, activeBranch, setActiveBranch}) => {
             <input
                 ref={inputRef}
                 onChange={handleBranchNameChange}
-                //onFocus={() => setFocus(id)}
-                //onBlur={() => handleBlur(id)}
+                onFocus={() => handleFocus()}
+                //onBlur={() => handleBlur()}
                 //onKeyUp={(e) => handleKeyUp(e, id)}
                 placeholder='New Branch'
                 className={inputClassName()}
