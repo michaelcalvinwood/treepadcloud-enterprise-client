@@ -2,7 +2,7 @@ import './Branch.scss';
 import React, { useContext, useEffect, useState, useRef } from 'react';
 
 
-const Branch = ({branch, activeBranch, setActiveBranch}) => {
+const Branch = ({search, branch, activeBranch, setActiveBranch}) => {
     const debug = true;
     const [name, setName] = useState('');
     const inputRef = useRef();
@@ -48,14 +48,14 @@ const Branch = ({branch, activeBranch, setActiveBranch}) => {
 
     }
 
-    
-
     useEffect(() => {
         if (active) inputRef.current.focus();
     })
 
+    if (search && name.toLowerCase().indexOf(search.toLowerCase()) === -1) return;
+
     return (
-        <div 
+          <div 
             className={active ? "branch branch--focused" : 'branch'} 
             key={id}>
             <input
@@ -70,7 +70,7 @@ const Branch = ({branch, activeBranch, setActiveBranch}) => {
                 value={name}
                 
             />
-        </div>
+        </div> 
     )
 }
 

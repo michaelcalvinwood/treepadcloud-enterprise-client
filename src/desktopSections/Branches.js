@@ -15,6 +15,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     const { branches: branchesState, trees: treesState, controls: controlsState} = sections; 
     const [branches, setBranches] = useState([]);
     const [curTree, setCurTree] = useState(null);
+    const [search, setSearch] = useState('');
 
     if (debug) console.log('Branches', branches, activeTree);
     
@@ -90,6 +91,17 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
 
     }
 
+    const moveBranchDown = () => {
+        if (debug) console.log("Branches moveBranchDown", activeBranch, branches);
+
+        const index = getActiveBranchIndex();
+
+        if (index === -1 || index >= branches.length) return false;
+        
+        window.socket.forrestEmit('moveBranchDown', {treeId: activeTree._id, branchId: activeBranch.branchId});
+
+    }
+
     const addBranch = () => {
         if (debug) console.log('Branches addBranch', activeTree, activeBranch);
         if (!activeTree || !activeBranch) return;
@@ -119,9 +131,8 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
             case 'ArrowLeft':
                 break;
             case 'ArrowDown':
-                if (shiftKey) moveBranchUp() 
+                if (shiftKey) moveBranchDown() 
                 else focusNextBranch();
-                
                 break;
             case 'ArrowUp':
                 if (shiftKey) moveBranchUp()
@@ -180,10 +191,30 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
     }
 
+    const moveBranchDownEvent = info => {
+        if (debug) console.log('Branches moveBranchDownEvent', info);
+
+        const { treeId, branchId } = info;
+
+        const index = getBranchesIndex(branchId);
+
+        if (debug) console.log('Branches moveBranchDownEvent index', index);
+
+        // IMPORTANT TODO: MOVE CHILDREN WHEN HIERARCHY EXISTS
+
+        if (index !== -1 && index < branches.length - 1) {
+            let branchesCopy = _.cloneDeep(branches);
+            const branch = branchesCopy.splice(index, 1)[0];
+            branchesCopy.splice(index+1, 0, branch);
+            setBranches(branchesCopy);
+        }
+    }
+
+
     const myAsyncFunction = async () => {
         await window.socket.forrestSetEventHandler('deleteBranch', deleteBranchEvent);
-
         await window.socket.forrestSetEventHandler('moveBranchUp', moveBranchUpEvent);
+        await window.socket.forrestSetEventHandler('moveBranchDown', moveBranchDownEvent);
     }
 
     myAsyncFunction();
@@ -231,7 +262,10 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
             </div>
 
            <IonSearchbar 
-                // onIonChange={e => setSearch(e.detail!.value || '')}
+                onIonChange={e => {
+                    setActiveBranch(null); 
+                    setSearch((e.detail && e.detail.value) || '')
+                }}
                 className='branches__search' 
                 placeholder=''/>
             <div className="branches__list">
@@ -243,6 +277,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                                 branch={branch}
                                 activeBranch={activeBranch}
                                 setActiveBranch={setActiveBranch}
+                                search={search}
                             />
                         )
                     })
