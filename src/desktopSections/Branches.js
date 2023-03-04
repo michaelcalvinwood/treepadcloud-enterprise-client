@@ -28,6 +28,18 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         return cname;
     }
 
+    const getActiveBranchIndex = () => {
+        let index = -1;
+        for (let i = 0; i < branches.length; ++i) {
+            console.log('Branches focusNextBranch compare', branches[i].branchId, activeBranch.branchId);
+            if (branches[i].branchId === activeBranch.branchId) {
+                index = i;
+                break;
+            }
+        }
+        
+        return index;
+    }
 
     const nameHasBeenChecked = (branchId) => {
     
@@ -56,15 +68,8 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     const focusNextBranch = () => {
         if (debug) console.log('Branches focusNextBranch', activeBranch, branches);
 
-        let index = -1;
-        for (let i = 0; i < branches.length; ++i) {
-            console.log('Branches focusNextBranch compare', branches[i].branchId, activeBranch.branchId);
-            if (branches[i].branchId === activeBranch.branchId) {
-                index = i;
-                break;
-            }
-        }
-            
+        const index = getActiveBranchIndex();
+
         if (debug) console.log('Branches focusNextBranch index', index);
         if (index === -1) return false;
 
@@ -74,6 +79,17 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         return true;
     }
 
+    const moveBranchUp = () => {
+        if (debug) console.log("Branches moveBranchUp", activeBranch, branches);
+
+        const index = getActiveBranchIndex();
+
+        if (index === -1 || index === 0) return false;
+        
+        window.socket.forrestEmit('moveBranchUp', {treeId: activeTree._id, branchId: activeBranch.branchId});
+
+    }
+
     const addBranch = () => {
         if (debug) console.log('Branches addBranch', activeTree, activeBranch);
         if (!activeTree || !activeBranch) return;
@@ -81,7 +97,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         window.socket.forrestEmit('addBranch', {treeId: activeTree._id, branchId: activeBranch.branchId});
     }
 
-    const removeBranch = () => {
+    const deleteBranch = () => {
         if (debug) console.log('Branches deleteBranch', activeTree, activeBranch);
         if (!activeTree || !activeBranch) return;
         let result = focusNextBranch();
@@ -92,7 +108,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
 
     const handleKeys = e => {
         const { key, keyCode, ctrlKey, shiftKey } = e;
-        if (debug) console.log('Branches handleKeys', key, ctrlKey);
+        if (debug) console.log('Branches handleKeys', key, shiftKey);
 
         switch(key) {
             case 'Enter':
@@ -103,36 +119,39 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
             case 'ArrowLeft':
                 break;
             case 'ArrowDown':
-                if (ctrlKey) {
-
-                } else focusNextBranch();
+                if (shiftKey) moveBranchUp() 
+                else focusNextBranch();
                 
                 break;
             case 'ArrowUp':
-                if (ctrlKey) {
-
-                } else focusPrevBranch();
+                if (shiftKey) moveBranchUp()
+                else focusPrevBranch();
                 break;
             case 'Backspace':
-                if (ctrlKey) removeBranch();
+                if (shiftKey) deleteBranch();
                 break;    
         }
     }
 
-    const deleteBranch = info => {
-        if (debug) console.log('Branches deleteBranch', info, branches);
-
-        const { treeId, branchId } = info;
-
+    const getBranchesIndex = id => {
         let index = -1;
         for (let i = 0; i < branches.length; ++i) {
-           if (branches[i].branchId === branchId) {
+           if (branches[i].branchId === id) {
             index = i;
             break;
            }
         }
+        return index;
+    }
 
-        if (debug) console.log('Branches deleteBranch index', index);
+    const deleteBranchEvent = info => {
+        if (debug) console.log('Branches deleteBranchEvent', info, branches);
+
+        const { treeId, branchId } = info;
+
+        const index = getBranchesIndex(branchId);
+
+        if (debug) console.log('Branches deleteBranchEvent index', index);
         // IMPORTANT TODO: REMOVE CHILDREN WHEN HIERARCHY EXISTS
 
         if (index > -1) {
@@ -142,8 +161,29 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
     }
 
+    const moveBranchUpEvent = info => {
+        if (debug) console.log('branches moveBranchUpEvent', info);
+
+        const { treeId, branchId } = info;
+
+        const index = getBranchesIndex(branchId);
+
+        if (debug) console.log('Branches moveBranchUpEvent index', index);
+
+        // IMPORTANT TODO: MOVE CHILDREN WHEN HIERARCHY EXISTS
+
+        if (index > 0) {
+            let branchesCopy = _.cloneDeep(branches);
+            const branch = branchesCopy.splice(index, 1)[0];
+            branchesCopy.splice(index-1, 0, branch);
+            setBranches(branchesCopy);
+        }
+    }
+
     const myAsyncFunction = async () => {
-        await window.socket.forrestSetEventHandler('deleteBranch', deleteBranch);
+        await window.socket.forrestSetEventHandler('deleteBranch', deleteBranchEvent);
+
+        await window.socket.forrestSetEventHandler('moveBranchUp', moveBranchUpEvent);
     }
 
     myAsyncFunction();
