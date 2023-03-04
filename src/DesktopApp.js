@@ -45,7 +45,19 @@ const DesktopApp = () => {
         const treeCopy = _.cloneDeep(activeTree);
         treeCopy.branches.splice(index+1, 0, info.newBranch);
         setActiveTree(treeCopy);
+        setActiveBranch(info.newBranch);
       }
+    }
+  }
+
+  const deleteTree = treeId => {
+    if (debug) console.log('DesktopApp deleteTree', treeId, activeTree);
+
+    window.socket.forrestEmit('deleteTree', {treeId});
+    if (activeTree._id === treeId) {
+      setActiveTree(null);
+      setActiveBranch(null);
+      setActiveModule(null);
     }
   }
 
@@ -128,6 +140,7 @@ const DesktopApp = () => {
                 setActiveTree={setActiveTree}
                 setActiveBranch={setActiveBranch}
                 setActiveModule={setActiveModule}
+                deleteTree={deleteTree}
               />
               <Branches 
                 treeName={"test"}

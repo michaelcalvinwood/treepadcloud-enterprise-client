@@ -51,7 +51,8 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     }
 
     useEffect(() => {
-        if (curTree !== activeTree) {
+        if (debug) console.log("Branches useEffect", activeTree);
+        if (activeTree && curTree !== activeTree) {
             setCurTree(activeTree);
             setBranches(activeTree.branches);
         }
@@ -97,7 +98,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                 placeholder=''/>
             <div className="branches__list">
                 {
-                    branches.map(branch => {
+                    activeTree && branches.map(branch => {
                         return (
                             <Branch 
                                 key={branch.branchId} 

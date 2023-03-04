@@ -11,7 +11,7 @@ import AddTree from '../desktopComponents/AddTree';
 import CloudModal from '../desktopComponents/CloudModal';
 import TreeCard from '../globalComponents/TreeCard';
 
-const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, setActiveBranch, setActiveModule }) => {
+const Trees = ({ deleteTree, treesState, toggleSection, token, activeTree, setActiveTree, setActiveBranch, setActiveModule }) => {
     const debug = true;
     const [showAddModal, setShowAddModal] = useState(false);
     const [modalInfo, setModalInfo] = useState({action: 'add'});
@@ -91,6 +91,7 @@ const Trees = ({ treesState, toggleSection, token, activeTree, setActiveTree, se
                             subscribeToTree={subscribeToTree}
                             setModalInfo={setModalInfo}
                             toggleAddModal={toggleAddModal}
+                            deleteTree={deleteTree}
                             //actions={settings}
                         />
                     )
