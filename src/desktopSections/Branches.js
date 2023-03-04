@@ -39,14 +39,51 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     
     }
 
+    const focusNextBranch = () => {
+        if (debug) console.log('Branches focusNextBranch', activeBranch, branches);
+
+        let index = -1;
+        for (let i = 0; i < branches.length; ++i) {
+            console.log('Branches focusNextBranch compare', branches[i].branchId, activeBranch.branchId);
+            if (branches[i].branchId === activeBranch.branchId) {
+                index = i;
+                break;
+            }
+        }
+            
+        
+        if (debug) console.log('Branches focusNextBranch index', index);
+        if (index === -1) return;
+
+        if (index >= branches.length - 1) return;
+
+        setActiveBranch(branches[index+1]);
+
+    }
+
     const handleKeys = e => {
         const { key, keyCode, ctrlKey, shiftKey } = e;
-        if (debug) console.log('Branches handleKeys', key);
+        if (debug) console.log('Branches handleKeys', key, ctrlKey);
 
         switch(key) {
             case 'Enter':
                 addBranch();
                 break;
+            case 'ArrowRight':
+                break;
+            case 'ArrowLeft':
+                break;
+            case 'ArrowDown':
+                if (ctrlKey) {
+
+                } else {
+                    focusNextBranch();
+                }
+                break;
+            case 'ArrowUp':
+                break;
+            case 'Backspace':
+                break;    
         }
     }
 
