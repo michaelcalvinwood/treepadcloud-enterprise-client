@@ -10,7 +10,7 @@ import _ from 'lodash';
 
 let controlToggle = false;
 
-const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, setActiveBranch}) => {
+const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, changeActiveBranch}) => {
     const debug = true;
     const { branches: branchesState, trees: treesState, controls: controlsState} = sections; 
     const [branches, setBranches] = useState([]);
@@ -62,7 +62,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
 
         if (index === 0) return false;
 
-        setActiveBranch(branches[index-1]);
+        changeActiveBranch(branches[index-1]);
         return true;
     }
 
@@ -76,7 +76,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
 
         if (index >= branches.length - 1) return false;
 
-        setActiveBranch(branches[index+1]);
+        changeActiveBranch(branches[index+1]);
         return true;
     }
 
@@ -220,7 +220,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     myAsyncFunction();
 
     const handleSearch = e => {
-        setActiveBranch(null); 
+        changeActiveBranch(null); 
         setSearch((e.detail && e.detail.value) || '')
     }
 
@@ -278,7 +278,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                                 key={branch.branchId} 
                                 branch={branch}
                                 activeBranch={activeBranch}
-                                setActiveBranch={setActiveBranch}
+                                changeActiveBranch={changeActiveBranch}
                                 search={search}
                             />
                         )

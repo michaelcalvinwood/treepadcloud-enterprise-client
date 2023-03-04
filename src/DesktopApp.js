@@ -35,6 +35,12 @@ const DesktopApp = () => {
     if (activeBranch.branchId === branchId && activeModule !== moduleId) setActiveModule(moduleId);
   }
 
+  const changeActiveBranch = branch => {
+    if (branch === activeBranch) return;
+    setActiveBranch(branch);
+    setActiveModule(null);
+  }
+
   const addBranch = info => {
     if (debug) console.log('DesktopApp addBranch', info, activeTree);
     
@@ -45,7 +51,7 @@ const DesktopApp = () => {
         const treeCopy = _.cloneDeep(activeTree);
         treeCopy.branches.splice(index+1, 0, info.newBranch);
         setActiveTree(treeCopy);
-        setActiveBranch(info.newBranch);
+        changeActiveBranch(info.newBranch);
       }
     }
   }
@@ -56,14 +62,13 @@ const DesktopApp = () => {
     window.socket.forrestEmit('deleteTree', {treeId});
     if (activeTree._id === treeId) {
       setActiveTree(null);
-      setActiveBranch(null);
-      setActiveModule(null);
+      changeActiveBranch(null);
     }
   }
 
   const myAsyncFunction = async () => {
     await window.socket.forrestSetEventHandler('getActiveModule', getActiveModule);
-    await window.socket.forrestSetEventHandler('addBranch', addBranch);
+    
   }
   myAsyncFunction();
   
@@ -102,6 +107,8 @@ const DesktopApp = () => {
     setToken(null);
   }
 
+
+
   useEffect(() => {
    
 
@@ -138,7 +145,7 @@ const DesktopApp = () => {
                 token={token}
                 activeTree={activeTree}
                 setActiveTree={setActiveTree}
-                setActiveBranch={setActiveBranch}
+                changeActiveBranch={changeActiveBranch}
                 setActiveModule={setActiveModule}
                 deleteTree={deleteTree}
               />
@@ -148,7 +155,7 @@ const DesktopApp = () => {
                 toggleSection={toggleSection}
                 activeTree={activeTree}
                 activeBranch={activeBranch}
-                setActiveBranch={setActiveBranch}
+                changeActiveBranch={changeActiveBranch}
               />
               <Leaves 
                 sections={sections}  

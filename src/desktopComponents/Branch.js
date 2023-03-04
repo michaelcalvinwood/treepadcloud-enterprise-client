@@ -2,7 +2,7 @@ import './Branch.scss';
 import React, { useContext, useEffect, useState, useRef } from 'react';
 
 
-const Branch = ({search, branch, activeBranch, setActiveBranch}) => {
+const Branch = ({search, branch, activeBranch, changeActiveBranch}) => {
     const debug = true;
     const [name, setName] = useState('');
     const inputRef = useRef();
@@ -36,11 +36,11 @@ const Branch = ({search, branch, activeBranch, setActiveBranch}) => {
 
     const handleFocus = () => {
         if (debug) console.log('Branch handleFocus', branch);
-        setActiveBranch(branch);
+        changeActiveBranch(branch);
     }
 
     const handleBlur = () => {
-        if (activeBranch === branch) setActiveBranch(null);
+        if (activeBranch === branch) changeActiveBranch(null);
     }
 
     const handleKeyUp = e => {

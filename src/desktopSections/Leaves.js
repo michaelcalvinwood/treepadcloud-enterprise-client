@@ -32,7 +32,7 @@ const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {
     const [cloudUrl, setCloudUrl] = useState('');
 
      const toggleCloudModal = () => {
-        console.log('toggleCloudModal');
+        if (debug) console.log('Leaves toggleCloudModal');
         setShowCloudModal(!showCloudModal);
     }
 
