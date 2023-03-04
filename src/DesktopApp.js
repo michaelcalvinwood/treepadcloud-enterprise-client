@@ -40,18 +40,10 @@ const DesktopApp = () => {
     
     // update all displayed trees here. Need to add code for trees that are merged in
     if (activeTree._id === info.treeId) {
-      let flag = false;
-      for (let i = 0; i < activeTree.branches.length; ++i) {
-        if (activeTree.branches[i].branchId === info.branchId) {
-          flag = i;
-          break;
-        }
-      }
-      if (flag !== false) {
+      let index = activeTree.branches.findIndex(branch => branch.branchId === info.branchId);
+      if (index !== -1) {
         const treeCopy = _.cloneDeep(activeTree);
-        console.log('treeCopy before', treeCopy);
-        treeCopy.branches.splice(flag+1, 0, info.newBranch);
-        console.log('treeCopy after', treeCopy);
+        treeCopy.branches.splice(index+1, 0, info.newBranch);
         setActiveTree(treeCopy);
       }
     }

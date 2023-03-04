@@ -43,6 +43,11 @@ const Branch = ({branch, activeBranch, setActiveBranch}) => {
         if (activeBranch === branch) setActiveBranch(null);
     }
 
+    const handleKeyUp = e => {
+        if (debug) console.log('Branch handleKeyUp', e);
+
+    }
+
     useEffect(() => {
         if (active) inputRef.current.focus();
     })
@@ -56,7 +61,7 @@ const Branch = ({branch, activeBranch, setActiveBranch}) => {
                 onChange={handleBranchNameChange}
                 onFocus={() => handleFocus()}
                 //onBlur={() => handleBlur()}
-                //onKeyUp={(e) => handleKeyUp(e, id)}
+                //onKeyUp={handleKeyUp}
                 placeholder='New Branch'
                 className={inputClassName()}
                 type='text' 

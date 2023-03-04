@@ -29,7 +29,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     }
 
     const addBranch = () => {
-        if (debug) console.log('addBranch', activeTree, activeBranch);
+        if (debug) console.log('Branches addBranch', activeTree, activeBranch);
         if (!activeTree || !activeBranch) return;
 
         window.socket.forrestEmit('addBranch', {treeId: activeTree._id, branchId: activeBranch.branchId});
@@ -39,10 +39,28 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     
     }
 
+    const handleKeys = e => {
+        const { key, keyCode, ctrlKey, shiftKey } = e;
+        if (debug) console.log('Branches handleKeys', key);
+
+        switch(key) {
+            case 'Enter':
+                addBranch();
+                break;
+        }
+    }
+
     useEffect(() => {
         if (curTree !== activeTree) {
             setCurTree(activeTree);
             setBranches(activeTree.branches);
+        }
+        if (debug) console.log('Branches useEffect')
+        document.addEventListener('keyup', handleKeys);
+
+        return () => {
+            if (debug) console.log('Branches useEffect return');
+            document.removeEventListener('keyup', handleKeys);
         }
     })
 
