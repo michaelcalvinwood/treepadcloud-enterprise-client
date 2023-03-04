@@ -48,6 +48,8 @@ const Branch = ({branch, activeBranch, setActiveBranch}) => {
 
     }
 
+    
+
     useEffect(() => {
         if (active) inputRef.current.focus();
     })

@@ -6,7 +6,7 @@ import closeIcon from '../assets/icons/close.svg';
 import { IonPage, IonContent, IonSearchbar, IonFab, IonFabButton, IonIcon } from '@ionic/react';
 import Branch from '../desktopComponents/Branch';
 import { addOutline } from 'ionicons/icons';
-
+import _ from 'lodash';
 
 let controlToggle = false;
 
@@ -28,19 +28,6 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         return cname;
     }
 
-    const addBranch = () => {
-        if (debug) console.log('Branches addBranch', activeTree, activeBranch);
-        if (!activeTree || !activeBranch) return;
-
-        window.socket.forrestEmit('addBranch', {treeId: activeTree._id, branchId: activeBranch.branchId});
-    }
-
-    const deleteBranch = () => {
-        if (debug) console.log('Branches deleteBranch', activeTree, activeBranch);
-        if (!activeTree || !activeBranch) return;
-
-        window.socket.forrestEmit('deleteBranch', {treeId: activeTree._id, branchId: activeBranch.branchId});
-    }
 
     const nameHasBeenChecked = (branchId) => {
     
@@ -58,11 +45,12 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
             
         if (debug) console.log('Branches focusPrevBranch index', index);
-        if (index === -1) return;
+        if (index === -1) return false;
 
-        if (index === 0) return;
+        if (index === 0) return false;
 
         setActiveBranch(branches[index-1]);
+        return true;
     }
 
     const focusNextBranch = () => {
@@ -78,11 +66,28 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
             
         if (debug) console.log('Branches focusNextBranch index', index);
-        if (index === -1) return;
+        if (index === -1) return false;
 
-        if (index >= branches.length - 1) return;
+        if (index >= branches.length - 1) return false;
 
         setActiveBranch(branches[index+1]);
+        return true;
+    }
+
+    const addBranch = () => {
+        if (debug) console.log('Branches addBranch', activeTree, activeBranch);
+        if (!activeTree || !activeBranch) return;
+
+        window.socket.forrestEmit('addBranch', {treeId: activeTree._id, branchId: activeBranch.branchId});
+    }
+
+    const removeBranch = () => {
+        if (debug) console.log('Branches deleteBranch', activeTree, activeBranch);
+        if (!activeTree || !activeBranch) return;
+        let result = focusNextBranch();
+        if (!result) result = focusPrevBranch();
+
+        window.socket.forrestEmit('deleteBranch', {treeId: activeTree._id, branchId: activeBranch.branchId});
     }
 
     const handleKeys = e => {
@@ -109,10 +114,39 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                 } else focusPrevBranch();
                 break;
             case 'Backspace':
-                if (ctrlKey) deleteBranch();
+                if (ctrlKey) removeBranch();
                 break;    
         }
     }
+
+    const deleteBranch = info => {
+        if (debug) console.log('Branches deleteBranch', info, branches);
+
+        const { treeId, branchId } = info;
+
+        let index = -1;
+        for (let i = 0; i < branches.length; ++i) {
+           if (branches[i].branchId === branchId) {
+            index = i;
+            break;
+           }
+        }
+
+        if (debug) console.log('Branches deleteBranch index', index);
+        // IMPORTANT TODO: REMOVE CHILDREN WHEN HIERARCHY EXISTS
+
+        if (index > -1) {
+            const branchesCopy = _.cloneDeep(branches);
+            branchesCopy.splice(index, 1);
+            setBranches(branchesCopy);
+        }
+    }
+
+    const myAsyncFunction = async () => {
+        await window.socket.forrestSetEventHandler('deleteBranch', deleteBranch);
+    }
+
+    myAsyncFunction();
 
     useEffect(() => {
         if (debug) console.log("Branches useEffect", activeTree);
