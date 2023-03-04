@@ -219,6 +219,11 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
 
     myAsyncFunction();
 
+    const handleSearch = e => {
+        setActiveBranch(null); 
+        setSearch((e.detail && e.detail.value) || '')
+    }
+
     useEffect(() => {
         if (debug) console.log("Branches useEffect", activeTree);
         if (activeTree && curTree !== activeTree) {
@@ -262,10 +267,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
             </div>
 
            <IonSearchbar 
-                onIonChange={e => {
-                    setActiveBranch(null); 
-                    setSearch((e.detail && e.detail.value) || '')
-                }}
+                onIonChange={handleSearch}
                 className='branches__search' 
                 placeholder=''/>
             <div className="branches__list">
