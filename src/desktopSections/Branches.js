@@ -35,8 +35,34 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         window.socket.forrestEmit('addBranch', {treeId: activeTree._id, branchId: activeBranch.branchId});
     }
 
+    const deleteBranch = () => {
+        if (debug) console.log('Branches deleteBranch', activeTree, activeBranch);
+        if (!activeTree || !activeBranch) return;
+
+        window.socket.forrestEmit('deleteBranch', {treeId: activeTree._id, branchId: activeBranch.branchId});
+    }
+
     const nameHasBeenChecked = (branchId) => {
     
+    }
+    const focusPrevBranch = () => {
+        if (debug) console.log('Branches focusPrevBranch', activeBranch, branches);
+
+        let index = -1;
+        for (let i = 0; i < branches.length; ++i) {
+            console.log('Branches focusPrevBranch compare', branches[i].branchId, activeBranch.branchId);
+            if (branches[i].branchId === activeBranch.branchId) {
+                index = i;
+                break;
+            }
+        }
+            
+        if (debug) console.log('Branches focusPrevBranch index', index);
+        if (index === -1) return;
+
+        if (index === 0) return;
+
+        setActiveBranch(branches[index-1]);
     }
 
     const focusNextBranch = () => {
@@ -51,14 +77,12 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
             }
         }
             
-        
         if (debug) console.log('Branches focusNextBranch index', index);
         if (index === -1) return;
 
         if (index >= branches.length - 1) return;
 
         setActiveBranch(branches[index+1]);
-
     }
 
     const handleKeys = e => {
@@ -76,13 +100,16 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
             case 'ArrowDown':
                 if (ctrlKey) {
 
-                } else {
-                    focusNextBranch();
-                }
+                } else focusNextBranch();
+                
                 break;
             case 'ArrowUp':
+                if (ctrlKey) {
+
+                } else focusPrevBranch();
                 break;
             case 'Backspace':
+                if (ctrlKey) deleteBranch();
                 break;    
         }
     }
