@@ -1,5 +1,7 @@
 import './Branch.scss';
 import React, { useContext, useEffect, useState, useRef } from 'react';
+import branchOpenIcon from '../assets/icons/branch-open.svg';
+import branchClosedIcon from '../assets/icons/branch-closed.svg';
 
 
 const Branch = ({search, branch, activeBranch, changeActiveBranch, setBranchName}) => {
@@ -54,6 +56,12 @@ const Branch = ({search, branch, activeBranch, changeActiveBranch, setBranchName
           <div 
             className={active ? "branch branch--focused" : 'branch'} 
             key={id}>
+            <div>
+                <img 
+                    src={branchOpenIcon} 
+                    className="branch--image"
+                />
+            </div>
             <input
                 ref={inputRef}
                 onChange={handleBranchNameChange}
