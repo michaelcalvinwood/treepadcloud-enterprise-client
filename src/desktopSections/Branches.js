@@ -113,7 +113,18 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
 
         window.socket.forrestEmit('moveBranchRight', {treeId: activeTree._id, branchId: activeBranch.branchId});
     }
+    
+    const moveBranchLeft = () => {
+        if (debug) console.log("Branches moveBranchLeft", activeBranch, branches);
 
+        const index = getActiveBranchIndex();
+
+        if (index === -1) return false;
+        if (index === 0) return false;
+        if (branches[index].level === 0) return false;
+
+        window.socket.forrestEmit('moveBranchLeft', {treeId: activeTree._id, branchId: activeBranch.branchId});
+    }
     const addBranch = () => {
         if (debug) console.log('Branches addBranch', activeTree, activeBranch);
         if (!activeTree || !activeBranch) return;
@@ -139,9 +150,10 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                 addBranch();
                 break;
             case 'ArrowRight':
-                if (shiftKey) moveBranchRight() 
+                if (shiftKey) moveBranchRight();
                 break;
             case 'ArrowLeft':
+                if (shiftKey) moveBranchLeft();
                 break;
             case 'ArrowDown':
                 if (shiftKey) moveBranchDown() 
