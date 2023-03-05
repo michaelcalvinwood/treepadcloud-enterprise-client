@@ -11,11 +11,19 @@ $indentMargin: .75rem;
         background-color: $app-tertiary-color;
     }
 
+    &--image-container {
+        height: 1.5rem;
+        width: 1rem;
+    }
+
     &--image {
         margin-top: .25rem;
         height: 1rem;
         width: 1rem;
         
+        &__hidden {
+            visibility: hidden;
+        }
     }
 
     &__input {  

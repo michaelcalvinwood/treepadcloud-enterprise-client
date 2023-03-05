@@ -46,20 +46,23 @@ const Branch = ({search, branch, activeBranch, changeActiveBranch, setBranchName
 
     }
 
+
     useEffect(() => {
         if (active) inputRef.current.focus();
     })
 
     if (search && branch.name.toLowerCase().indexOf(search.toLowerCase()) === -1) return;
 
+
+
     return (
           <div 
             className={active ? "branch branch--focused" : 'branch'} 
             key={id}>
-            <div>
+            <div className='branch--image-container'>
                 <img 
-                    src={branchOpenIcon} 
-                    className="branch--image"
+                    src={branch.isOpen ? branchOpenIcon : branchClosedIcon} 
+                    className={branch.isParent ? "branch--image" : "branch--image__hidden"}
                 />
             </div>
             <input

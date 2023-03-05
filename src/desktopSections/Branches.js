@@ -242,7 +242,10 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                 let branches = activeTree.branches;
                 for (let i = 0; i < branches.length; ++i) {
                     branches[i].name=null;
-                    branches[i].open=true;
+                    branches[i].isOpen=false;
+                    if (i === branches.length - 1) branches[i].isParent = false;
+                    else if (branches[i].level < branches[i+1].level) branches[i].isParent = true;
+                    else branches[i].isParent = false;
                     window.socket.forrestEmit('getBranchName', {id: branches[i].branchId})
                 }
 
