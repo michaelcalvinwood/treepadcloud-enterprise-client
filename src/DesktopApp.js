@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Controls from "./desktopSections/Controls";
 import Trees from "./desktopSections/Trees";
 import Title from "./desktopSections/Title";
@@ -25,20 +25,45 @@ const DesktopApp = () => {
   const [toast, setToast] = useState('');
 
   const [activeTree, setActiveTree] = useState(null);
-  const [activeBranch, setActiveBranch] = useState(null);
-  const [activeModule, setActiveModule] = useState(null);
+
+  // activeModule & setActiveModule with useRef for event handlers
+  const [activeModule, _setActiveModule] = useState(null);
+  const activeModuleRef = useRef(activeModule);
+  const setActiveModule = data => {
+    if (debug) console.log('DesktopApp setActiveModule', data);
+    activeModuleRef.current = data;
+    _setActiveModule(data);
+  }
+
+  // activeBranch & setActiveBranch with useRef for event handlers
+  const [activeBranch, _setActiveBranch] = useState(null);
+  const activeBranchRef = useRef(activeBranch);
+  const setActiveBranch = data => {
+    activeBranchRef.current = data;
+    _setActiveBranch(data);
+  }
+
+  if (debug) console.log('DesktopApp activeModule', activeModule, activeBranch);
 
   const getActiveModule = info => {
     const debug = true;
-    if (debug) console.log('getActiveModule', info);
     const { moduleId, branchId } = info;
-    if (activeBranch.branchId === branchId && activeModule !== moduleId) setActiveModule(moduleId);
+    const activeBranch = activeBranchRef.current;
+    const activeModule = activeModuleRef.current;
+    if (debug) console.log('DesktopApp getActiveModule', branchId, activeBranch, moduleId, activeModule);
+    if (activeBranch === null) {
+      if (debug) console.log('DesktopApp getActiveModule: NO ACTIVE BRANCH');
+      return;
+    } else if (activeBranch.branchId === branchId && activeModule !== moduleId) setActiveModule(moduleId);
   }
 
-  const changeActiveBranch = branch => {
+  const changeActiveBranch = async branch => {
+    if (debug) console.log('DesktopApp changeActiveBranch', branch, "activeModule");
     if (branch === activeBranch) return;
     setActiveBranch(branch);
     setActiveModule(null);
+    await window.socket.forrestSetEventHandler('ActiveModule', getActiveModule);
+    window.socket.forrestEmit ('getActiveModule', { branchId: branch.branchId });
   }
 
   const addBranch = info => {
@@ -67,7 +92,8 @@ const DesktopApp = () => {
   }
 
   const myAsyncFunction = async () => {
-    await window.socket.forrestSetEventHandler('getActiveModule', getActiveModule);
+    
+    await window.socket.forrestSetEventHandler('addBranch', addBranch);
     
   }
   myAsyncFunction();
