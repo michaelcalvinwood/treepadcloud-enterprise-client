@@ -210,6 +210,13 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
     }
 
+    const setBranchName = (branchId, branchName) => {
+        const branchesCopy = _.cloneDeep(branches);
+        const branch = branchesCopy.find(branch => branch.branchId === branchId);
+        if (!branch) return;
+        branch.name = branchName;
+        setBranches(branchesCopy);
+    }
 
     const myAsyncFunction = async () => {
         await window.socket.forrestSetEventHandler('deleteBranch', deleteBranchEvent);
@@ -224,11 +231,21 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         setSearch((e.detail && e.detail.value) || '')
     }
 
+    
+
     useEffect(() => {
-        if (debug) console.log("Branches useEffect", activeTree);
+        if (debug) console.log("Branches useEffect", curTree, activeTree);
         if (activeTree && curTree !== activeTree) {
-            setCurTree(activeTree);
-            setBranches(activeTree.branches);
+            if (curTree !== activeTree) {
+                setCurTree(activeTree);
+                let branches = activeTree.branches;
+                for (let i = 0; i < branches.length; ++i) {
+                    branches[i].name=null;
+                    branches[i].open=true;
+                }
+
+                setBranches(branches);
+            }
         }
         if (debug) console.log('Branches useEffect')
         document.addEventListener('keyup', handleKeys);
@@ -279,6 +296,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                                 branch={branch}
                                 activeBranch={activeBranch}
                                 changeActiveBranch={changeActiveBranch}
+                                setBranchName={setBranchName}
                                 search={search}
                             />
                         )

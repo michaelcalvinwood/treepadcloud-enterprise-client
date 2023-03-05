@@ -2,9 +2,8 @@ import './Branch.scss';
 import React, { useContext, useEffect, useState, useRef } from 'react';
 
 
-const Branch = ({search, branch, activeBranch, changeActiveBranch}) => {
+const Branch = ({search, branch, activeBranch, changeActiveBranch, setBranchName}) => {
     const debug = true;
-    const [name, setName] = useState('');
     const inputRef = useRef();
 
     if (debug) console.log('Branch', branch, activeBranch)
@@ -14,9 +13,6 @@ const Branch = ({search, branch, activeBranch, changeActiveBranch}) => {
     if (debug) console.log('Branch active', branch.branchId, active);
 
     const id = branch.branchId;
-
-    window.eywa.setBranchName[id] = setName;
-    window.socket.forrestEmit('getBranchName', {id});
   
     const inputClassName = () => {
         let className = 'branch__input';
@@ -31,7 +27,7 @@ const Branch = ({search, branch, activeBranch, changeActiveBranch}) => {
         if (debug) console.log("Branch handleBranchNameChange", branchName);
         // update database and all subscribers
         window.socket.forrestEmit('setBranchName', {id, name: branchName})
-        setName(branchName)
+        setBranchName(branch.branchId, branchName)
     }
 
     const handleFocus = () => {
@@ -52,7 +48,7 @@ const Branch = ({search, branch, activeBranch, changeActiveBranch}) => {
         if (active) inputRef.current.focus();
     })
 
-    if (search && name.toLowerCase().indexOf(search.toLowerCase()) === -1) return;
+    if (search && branch.name.toLowerCase().indexOf(search.toLowerCase()) === -1) return;
 
     return (
           <div 
@@ -67,7 +63,7 @@ const Branch = ({search, branch, activeBranch, changeActiveBranch}) => {
                 placeholder='New Branch'
                 className={inputClassName()}
                 type='text' 
-                value={name}
+                value={branch.name}
                 
             />
         </div> 
