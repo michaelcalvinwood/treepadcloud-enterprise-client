@@ -210,15 +210,18 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
     }
 
-    const setBranchName = (branchId, branchName) => {
+    const setBranchName = ({branchId, branchName}) => {
         const branchesCopy = _.cloneDeep(branches);
         const branch = branchesCopy.find(branch => branch.branchId === branchId);
         if (!branch) return;
-        branch.name = branchName;
-        setBranches(branchesCopy);
+        if (branch.name !== branchName) {
+            branch.name = branchName;
+            setBranches(branchesCopy);
+        }
     }
 
     const myAsyncFunction = async () => {
+        await window.socket.forrestSetEventHandler('setBranchName', setBranchName);
         await window.socket.forrestSetEventHandler('deleteBranch', deleteBranchEvent);
         await window.socket.forrestSetEventHandler('moveBranchUp', moveBranchUpEvent);
         await window.socket.forrestSetEventHandler('moveBranchDown', moveBranchDownEvent);
@@ -231,8 +234,6 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         setSearch((e.detail && e.detail.value) || '')
     }
 
-    
-
     useEffect(() => {
         if (debug) console.log("Branches useEffect", curTree, activeTree);
         if (activeTree && curTree !== activeTree) {
@@ -242,6 +243,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                 for (let i = 0; i < branches.length; ++i) {
                     branches[i].name=null;
                     branches[i].open=true;
+                    window.socket.forrestEmit('getBranchName', {id: branches[i].branchId})
                 }
 
                 setBranches(branches);

@@ -27,7 +27,7 @@ const Branch = ({search, branch, activeBranch, changeActiveBranch, setBranchName
         if (debug) console.log("Branch handleBranchNameChange", branchName);
         // update database and all subscribers
         window.socket.forrestEmit('setBranchName', {id, name: branchName})
-        setBranchName(branch.branchId, branchName)
+        setBranchName({branchId: branch.branchId, branchName})
     }
 
     const handleFocus = () => {
