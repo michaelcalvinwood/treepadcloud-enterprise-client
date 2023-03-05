@@ -270,6 +270,16 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
             }
             if (debug) console.log('Branches toggleBranch targetLevel', targetLevel, index,  branchesCopy);
             setBranches(branchesCopy);
+        } else {
+            branchesCopy[index].isOpen = false;
+            const currentLevel = branchesCopy[index].level;
+            if (debug) console.log('Branches toggleBranch currentLevel', currentLevel, index);
+            for (let i = index + 1; i < branchesCopy.length; ++i) {
+                if (branchesCopy[i].level > currentLevel) branchesCopy[i].isShown = false;
+                else break;
+            }
+            if (debug) console.log('Branches toggleBranch currentLevel', currentLevel, index,  branchesCopy);
+            setBranches(branchesCopy);
         }
 
     }
