@@ -73,7 +73,10 @@ const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {
                     src={cloudIcon} />
                 {activeModule && 
                     <img
-                        onClick={() => setActiveModule(null)}
+                        onClick={() => {
+                            setActiveModule(null);
+                            window.socket.forrestEmit ('setActiveModule', { branchId: activeBranch.branchId, moduleId: null });
+                        }}
                         className='leaves__settings' 
                         src={leavesIcon} 
                     />
