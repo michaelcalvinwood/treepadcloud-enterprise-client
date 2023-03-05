@@ -107,7 +107,9 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
 
         const index = getActiveBranchIndex();
 
-        if (index === -1 || branches[index].level >= 5) return false;
+        if (index === -1) return false;
+        if (index === 0) return false;
+        if (branches[index].level >= 5) return false;
 
         window.socket.forrestEmit('moveBranchRight', {treeId: activeTree._id, branchId: activeBranch.branchId});
     }
@@ -155,10 +157,11 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
     }
 
-    const getBranchesIndex = id => {
+    const getBranchesIndex = (id, array = branches) => {
         let index = -1;
-        for (let i = 0; i < branches.length; ++i) {
-           if (branches[i].branchId === id) {
+    
+        for (let i = 0; i < array.length; ++i) {
+           if (array[i].branchId === id) {
             index = i;
             break;
            }
@@ -221,6 +224,25 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
     }
 
+    const moveBranchRightEvent = info => {
+        if (debug) console.log('Branches moveBranchRight', info);
+
+        const { treeId, branchId } = info;
+
+        let branchesCopy = _.cloneDeep(branches);
+        const index = getBranchesIndex(branchId, branchesCopy);
+
+        if (debug) console.log('Branches moveBranchRightEvent index', index);
+
+        if (index === -1) return false;
+        if (index === 0) return false;
+        if (branchesCopy[index].level >= 5) return false;
+        if (branchesCopy[index].level > branchesCopy[index-1].level) return false;
+
+        ++branchesCopy[index].level;
+        setBranches(branchesCopy);
+    }
+
     const setBranchName = ({branchId, branchName}) => {
         const branchesCopy = _.cloneDeep(branches);
         const branch = branchesCopy.find(branch => branch.branchId === branchId);
@@ -236,6 +258,8 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         await window.socket.forrestSetEventHandler('deleteBranch', deleteBranchEvent);
         await window.socket.forrestSetEventHandler('moveBranchUp', moveBranchUpEvent);
         await window.socket.forrestSetEventHandler('moveBranchDown', moveBranchDownEvent);
+        await window.socket.forrestSetEventHandler('moveBranchRight', moveBranchRightEvent);
+        
     }
 
     myAsyncFunction();
