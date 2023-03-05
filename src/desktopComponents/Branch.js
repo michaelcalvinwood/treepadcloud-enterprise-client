@@ -4,7 +4,7 @@ import branchOpenIcon from '../assets/icons/branch-open.svg';
 import branchClosedIcon from '../assets/icons/branch-closed.svg';
 
 
-const Branch = ({search, branch, activeBranch, changeActiveBranch, setBranchName}) => {
+const Branch = ({search, branch, activeBranch, changeActiveBranch, setBranchName, toggleBranch}) => {
     const debug = true;
     const inputRef = useRef();
 
@@ -62,6 +62,7 @@ const Branch = ({search, branch, activeBranch, changeActiveBranch, setBranchName
             key={id}>
             <div className='branch--image-container'>
                 <img 
+                    onClick={() => toggleBranch(branch.branchId)}
                     src={branch.isOpen ? branchOpenIcon : branchClosedIcon} 
                     className={branch.isParent ? "branch--image" : "branch--image__hidden"}
                 />

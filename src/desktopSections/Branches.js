@@ -253,6 +253,27 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
     }
 
+    const toggleBranch = branchId => {
+        if (debug) console.log('Branches toggleBranch', branchId);
+        const branchesCopy = _.cloneDeep(branches);
+        const index = getBranchesIndex(branchId, branchesCopy);
+        if (index === -1) return false;
+        if (!branchesCopy[index].isParent) return false;
+        
+        if (!branchesCopy[index].isOpen) {
+            branchesCopy[index].isOpen = true;
+            const targetLevel = branchesCopy[index].level + 1;
+            if (debug) console.log('Branches toggleBranch targetLevel', targetLevel, index);
+            for (let i = index + 1; i < branchesCopy.length; ++i) {
+                if (branchesCopy[i].level === targetLevel) branchesCopy[i].isShown = true;
+                else break;
+            }
+            if (debug) console.log('Branches toggleBranch targetLevel', targetLevel, index,  branchesCopy);
+            setBranches(branchesCopy);
+        }
+
+    }
+
     const myAsyncFunction = async () => {
         await window.socket.forrestSetEventHandler('setBranchName', setBranchName);
         await window.socket.forrestSetEventHandler('deleteBranch', deleteBranchEvent);
@@ -342,6 +363,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                                 activeBranch={activeBranch}
                                 changeActiveBranch={changeActiveBranch}
                                 setBranchName={setBranchName}
+                                toggleBranch={toggleBranch}
                                 search={search}
                             />
                         )
