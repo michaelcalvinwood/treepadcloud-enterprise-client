@@ -54,6 +54,7 @@ const Branch = ({search, branch, activeBranch, changeActiveBranch, setBranchName
     if (search && branch.name.toLowerCase().indexOf(search.toLowerCase()) === -1) return;
 
 
+    if (!branch.isShown) return <div></div>;
 
     return (
           <div 
