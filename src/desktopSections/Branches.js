@@ -79,52 +79,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         changeActiveBranch(branches[index+1]);
         return true;
     }
-
-    const moveBranchUp = () => {
-        if (debug) console.log("Branches moveBranchUp", activeBranch, branches);
-
-        const index = getActiveBranchIndex();
-
-        if (index === -1 || index === 0) return false;
-        
-        window.socket.forrestEmit('moveBranchUp', {treeId: activeTree._id, branchId: activeBranch.branchId});
-
-    }
-
-    const moveBranchDown = () => {
-        if (debug) console.log("Branches moveBranchDown", activeBranch, branches);
-
-        const index = getActiveBranchIndex();
-
-        if (index === -1 || index >= branches.length) return false;
-        
-        window.socket.forrestEmit('moveBranchDown', {treeId: activeTree._id, branchId: activeBranch.branchId});
-
-    }
-
-    const moveBranchRight = () => {
-        if (debug) console.log("Branches moveBranchRight", activeBranch, branches);
-
-        const index = getActiveBranchIndex();
-
-        if (index === -1) return false;
-        if (index === 0) return false;
-        if (branches[index].level >= 5) return false;
-
-        window.socket.forrestEmit('moveBranchRight', {treeId: activeTree._id, branchId: activeBranch.branchId});
-    }
     
-    const moveBranchLeft = () => {
-        if (debug) console.log("Branches moveBranchLeft", activeBranch, branches);
-
-        const index = getActiveBranchIndex();
-
-        if (index === -1) return false;
-        if (index === 0) return false;
-        if (branches[index].level === 0) return false;
-
-        window.socket.forrestEmit('moveBranchLeft', {treeId: activeTree._id, branchId: activeBranch.branchId});
-    }
     const addBranch = () => {
         if (debug) console.log('Branches addBranch', activeTree, activeBranch);
         if (!activeTree || !activeBranch) return;
@@ -144,23 +99,24 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     const handleKeys = e => {
         const { key, keyCode, ctrlKey, shiftKey } = e;
         if (debug) console.log('Branches handleKeys', key, shiftKey);
+        if (!activeTree || !activeBranch) return;
 
         switch(key) {
             case 'Enter':
                 addBranch();
                 break;
             case 'ArrowRight':
-                if (shiftKey) moveBranchRight();
+                if (shiftKey) window.socket.forrestEmit('moveBranchRight', {treeId: activeTree._id, branchId: activeBranch.branchId});
                 break;
             case 'ArrowLeft':
-                if (shiftKey) moveBranchLeft();
+                if (shiftKey) window.socket.forrestEmit('moveBranchLeft', {treeId: activeTree._id, branchId: activeBranch.branchId});
                 break;
             case 'ArrowDown':
-                if (shiftKey) moveBranchDown() 
+                if (shiftKey)  window.socket.forrestEmit('moveBranchDown', {treeId: activeTree._id, branchId: activeBranch.branchId}); 
                 else focusNextBranch();
                 break;
             case 'ArrowUp':
-                if (shiftKey) moveBranchUp()
+                if (shiftKey) window.socket.forrestEmit('moveBranchUp', {treeId: activeTree._id, branchId: activeBranch.branchId});
                 else focusPrevBranch();
                 break;
             case 'Backspace':
@@ -180,6 +136,67 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
         return index;
     }
+
+    const setBranchName = ({branchId, branchName}) => {
+        const branchesCopy = _.cloneDeep(branches);
+        const branch = branchesCopy.find(branch => branch.branchId === branchId);
+        if (!branch) return;
+        if (branch.name !== branchName) {
+            branch.name = branchName;
+            setBranches(branchesCopy);
+        }
+    }
+
+    const toggleBranch = branchId => {
+        if (debug) console.log('Branches toggleBranch', branchId);
+        const branchesCopy = _.cloneDeep(branches);
+        const index = getBranchesIndex(branchId, branchesCopy);
+        if (index === -1) return false;
+        if (!branchesCopy[index].isParent) return false;
+        
+        if (!branchesCopy[index].isOpen) {
+            branchesCopy[index].isOpen = true;
+            const targetLevel = branchesCopy[index].level + 1;
+            if (debug) console.log('Branches toggleBranch targetLevel', targetLevel, index);
+            for (let i = index + 1; i < branchesCopy.length; ++i) {
+                if (branchesCopy[i].level === targetLevel) branchesCopy[i].isShown = true;
+                else break;
+            }
+            if (debug) console.log('Branches toggleBranch targetLevel', targetLevel, index,  branchesCopy);
+            setBranches(branchesCopy);
+        } else {
+            branchesCopy[index].isOpen = false;
+            const currentLevel = branchesCopy[index].level;
+            if (debug) console.log('Branches toggleBranch currentLevel', currentLevel, index);
+            for (let i = index + 1; i < branchesCopy.length; ++i) {
+                if (branchesCopy[i].level > currentLevel) branchesCopy[i].isShown = false;
+                else break;
+            }
+            if (debug) console.log('Branches toggleBranch currentLevel', currentLevel, index,  branchesCopy);
+            setBranches(branchesCopy);
+        }
+
+    }
+
+    /*
+     * Branch utility functions
+     */
+
+    const prevSiblingIndex = (branches, index) => {
+        if (index <= 0) return false;
+        if (index >= branches.length) return false;
+      
+        const level = branches[index].level;
+        for (let i = index - 1; i >= 0; --i) {
+          if (branches[i].level === level) return i;
+        }
+      
+        return false;
+      }
+
+    /*
+     * set and handle branch events
+     */
 
     const deleteBranchEvent = info => {
         if (debug) console.log('Branches deleteBranchEvent', info, branches);
@@ -236,64 +253,37 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
     }
 
-    const moveBranchRightEvent = info => {
-        if (debug) console.log('Branches moveBranchRight', info);
-
-        const { treeId, branchId } = info;
+    const moveBranchRightEvent = ({ treeId, branchId }) => {
+        if (debug) console.log('Branches moveBranchRight', treeId, branchId);
 
         let branchesCopy = _.cloneDeep(branches);
         const index = getBranchesIndex(branchId, branchesCopy);
 
         if (debug) console.log('Branches moveBranchRightEvent index', index);
 
-        if (index === -1) return false;
-        if (index === 0) return false;
-        if (branchesCopy[index].level >= 5) return false;
-        if (branchesCopy[index].level > branchesCopy[index-1].level) return false;
+        // if (index === -1) return false;
+        // if (index === 0) return false;
+        // if (branchesCopy[index].level >= 5) return false;
+        // if (branchesCopy[index].level > branchesCopy[index-1].level) return false;
 
         ++branchesCopy[index].level;
         setBranches(branchesCopy);
     }
 
-    const setBranchName = ({branchId, branchName}) => {
-        const branchesCopy = _.cloneDeep(branches);
-        const branch = branchesCopy.find(branch => branch.branchId === branchId);
-        if (!branch) return;
-        if (branch.name !== branchName) {
-            branch.name = branchName;
-            setBranches(branchesCopy);
-        }
-    }
+    const moveBranchLeft = ({ treeId, branchId }) => {
+        if (debug) console.log('Branches moveBranchLeft', treeId, branchId);
 
-    const toggleBranch = branchId => {
-        if (debug) console.log('Branches toggleBranch', branchId);
-        const branchesCopy = _.cloneDeep(branches);
+        let branchesCopy = _.cloneDeep(branches);
         const index = getBranchesIndex(branchId, branchesCopy);
-        if (index === -1) return false;
-        if (!branchesCopy[index].isParent) return false;
-        
-        if (!branchesCopy[index].isOpen) {
-            branchesCopy[index].isOpen = true;
-            const targetLevel = branchesCopy[index].level + 1;
-            if (debug) console.log('Branches toggleBranch targetLevel', targetLevel, index);
-            for (let i = index + 1; i < branchesCopy.length; ++i) {
-                if (branchesCopy[i].level === targetLevel) branchesCopy[i].isShown = true;
-                else break;
-            }
-            if (debug) console.log('Branches toggleBranch targetLevel', targetLevel, index,  branchesCopy);
-            setBranches(branchesCopy);
-        } else {
-            branchesCopy[index].isOpen = false;
-            const currentLevel = branchesCopy[index].level;
-            if (debug) console.log('Branches toggleBranch currentLevel', currentLevel, index);
-            for (let i = index + 1; i < branchesCopy.length; ++i) {
-                if (branchesCopy[i].level > currentLevel) branchesCopy[i].isShown = false;
-                else break;
-            }
-            if (debug) console.log('Branches toggleBranch currentLevel', currentLevel, index,  branchesCopy);
-            setBranches(branchesCopy);
-        }
 
+        --branchesCopy[index].level;
+        const prevSibling = prevSiblingIndex(branchesCopy, index);
+        if (!prevSibling === index - 1) {
+          let removed = branchesCopy.splice(index, 1)[0];
+          branchesCopy.splice(prevSibling + 1, 0, removed)
+        }
+      
+        setBranches(branchesCopy);
     }
 
     const myAsyncFunction = async () => {
@@ -302,6 +292,8 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         await window.socket.forrestSetEventHandler('moveBranchUp', moveBranchUpEvent);
         await window.socket.forrestSetEventHandler('moveBranchDown', moveBranchDownEvent);
         await window.socket.forrestSetEventHandler('moveBranchRight', moveBranchRightEvent);
+        await window.socket.forrestSetEventHandler('moveBranchLeft', moveBranchLeft);
+        
         
     }
 

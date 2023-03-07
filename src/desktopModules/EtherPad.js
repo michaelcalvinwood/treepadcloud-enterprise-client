@@ -10,7 +10,7 @@ function EtherPad({leaf, setCloudUrl, cloudUrl}) {
     <div className='etherpad'>
         { leaf && leaf.module === 'etherpad' &&
         <iframe 
-            allow={"camera;microphone"}
+            allow={"camera *;microphone *;speakers *"}
             src={url} 
             className='etherpad__content' />
         }
