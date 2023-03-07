@@ -182,6 +182,10 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
      * Branch utility functions
      */
 
+    function insertIntoArray(arr, pos, el) {
+        for (let i = 0; i < el.length; ++i) arr.splice(pos + i, 0, el[i]);
+    }
+
     const prevSiblingIndex = (branches, index) => {
         if (index <= 0) return false;
         if (index >= branches.length) return false;
@@ -192,6 +196,16 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
       
         return false;
+      }
+
+      const numChildren = (branches, index) => {
+        if (index === branches.length - 1) return 0;
+        const level = branches[index].level;
+        let count = 0;
+        for (let i = index + 1; i < branches.length; ++i) {
+          if (branches[i].level > level) ++count;
+          else return count;
+        }
       }
 
     /*
@@ -278,11 +292,15 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
 
         --branchesCopy[index].level;
         const prevSibling = prevSiblingIndex(branchesCopy, index);
-        if (!prevSibling === index - 1) {
-          let removed = branchesCopy.splice(index, 1)[0];
-          branchesCopy.splice(prevSibling + 1, 0, removed)
+        const prevSiblingChildren = numChildren(branches, prevSibling);
+        let removed = branchesCopy.splice(index, 1)[0];
+        branchesCopy.splice(prevSibling + prevSiblingChildren + 1, 0, removed);
+
+        if (prevSiblingChildren === 0) {
+            branchesCopy[prevSibling].isParent = false;
+            branchesCopy[prevSibling].isOpen = false;
         }
-      
+       
         setBranches(branchesCopy);
     }
 
