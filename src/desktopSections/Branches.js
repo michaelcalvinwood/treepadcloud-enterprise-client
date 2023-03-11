@@ -267,7 +267,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         }
     }
 
-    const moveBranchRightEvent = ({ treeId, branchId }) => {
+    const moveBranchRight = ({ treeId, branchId }) => {
         if (debug) console.log('Branches moveBranchRight', treeId, branchId);
 
         let branchesCopy = _.cloneDeep(branches);
@@ -280,6 +280,10 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         // if (branchesCopy[index].level >= 5) return false;
         // if (branchesCopy[index].level > branchesCopy[index-1].level) return false;
 
+        const num = numChildren(branchesCopy, index);
+
+        for (let i = 0; i < num + 1; ++i) ++branchesCopy[index+i].level;
+        
         ++branchesCopy[index].level;
         setBranches(branchesCopy);
     }
@@ -290,17 +294,27 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         let branchesCopy = _.cloneDeep(branches);
         const index = getBranchesIndex(branchId, branchesCopy);
 
-        --branchesCopy[index].level;
-        const prevSibling = prevSiblingIndex(branchesCopy, index);
-        const prevSiblingChildren = numChildren(branches, prevSibling);
-        let removed = branchesCopy.splice(index, 1)[0];
-        branchesCopy.splice(prevSibling + prevSiblingChildren + 1, 0, removed);
+        // Move branch and its children left
+        const curChildren = numChildren(branchesCopy, index);
+        for (let i = index; i <= index + curChildren; ++i) --branchesCopy[i].level;
 
-        if (prevSiblingChildren === 0) {
-            branchesCopy[prevSibling].isParent = false;
-            branchesCopy[prevSibling].isOpen = false;
+        // Find previous sibling of branch
+        const prevSibling = prevSiblingIndex(branchesCopy, index);
+
+        if (prevSibling) {
+            // Remove branch and its children
+            const removed = branchesCopy.splice(index, curChildren + 1);
+    
+            // Insert the removed branchesCopy after the prevSibling and its children
+            const prevSiblingChildren = numChildren(branchesCopy, prevSibling);
+            insertIntoArray(branchesCopy, prevSibling + prevSiblingChildren + 1, removed);
+    
+            if (prevSiblingChildren === 0) {
+                branchesCopy[prevSibling].isParent = false;
+                branchesCopy[prevSibling].isOpen = false;
+            }
         }
-       
+
         setBranches(branchesCopy);
     }
 
@@ -309,7 +323,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         await window.socket.forrestSetEventHandler('deleteBranch', deleteBranchEvent);
         await window.socket.forrestSetEventHandler('moveBranchUp', moveBranchUpEvent);
         await window.socket.forrestSetEventHandler('moveBranchDown', moveBranchDownEvent);
-        await window.socket.forrestSetEventHandler('moveBranchRight', moveBranchRightEvent);
+        await window.socket.forrestSetEventHandler('moveBranchRight', moveBranchRight);
         await window.socket.forrestSetEventHandler('moveBranchLeft', moveBranchLeft);
         
         

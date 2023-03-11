@@ -9,6 +9,8 @@ import LoginSignUp from "./desktopComponents/LoginSignUp";
 import Settings from "./desktopComponents/Settings";
 import { IonToast } from "@ionic/react";
 
+import * as socketUtil from './utils/socket-utils';
+
 import _ from 'lodash';
 
 const DesktopApp = () => {
@@ -45,64 +47,68 @@ const DesktopApp = () => {
 
   if (debug) console.log('DesktopApp activeModule', activeModule, activeBranch);
 
-  const getActiveModule = info => {
-    const debug = true;
-    const { moduleId, branchId } = info;
-    const activeBranch = activeBranchRef.current;
-    const activeModule = activeModuleRef.current;
-    if (debug) console.log('DesktopApp getActiveModule', branchId, activeBranch, moduleId, activeModule);
-    if (activeBranch === null) {
-      if (debug) console.log('DesktopApp getActiveModule: NO ACTIVE BRANCH');
-      return;
-    } else if (activeBranch.branchId === branchId && activeModule !== moduleId) setActiveModule(moduleId);
-  }
+  socketUtil.subscribe('test');
+  socketUtil.subscribe('test');
+  socketUtil.subscribe('test');
+  
+  // const getActiveModule = info => {
+  //   const debug = true;
+  //   const { moduleId, branchId } = info;
+  //   const activeBranch = activeBranchRef.current;
+  //   const activeModule = activeModuleRef.current;
+  //   if (debug) console.log('DesktopApp getActiveModule', branchId, activeBranch, moduleId, activeModule);
+  //   if (activeBranch === null) {
+  //     if (debug) console.log('DesktopApp getActiveModule: NO ACTIVE BRANCH');
+  //     return;
+  //   } else if (activeBranch.branchId === branchId && activeModule !== moduleId) setActiveModule(moduleId);
+  // }
 
-  const changeActiveBranch = async branch => {
-    if (debug) console.log('DesktopApp changeActiveBranch', branch, "activeModule");
-    if (branch === activeBranch) return;
-    setActiveBranch(branch);
-    setActiveModule(null);
-    await window.socket.forrestSetEventHandler('ActiveModule', getActiveModule);
-    window.socket.forrestEmit ('getActiveModule', { branchId: branch.branchId });
-  }
+  // const changeActiveBranch = async branch => {
+  //   if (debug) console.log('DesktopApp changeActiveBranch', branch, "activeModule");
+  //   if (branch === activeBranch) return;
+  //   setActiveBranch(branch);
+  //   setActiveModule(null);
+  //   await window.socket.forrestSetEventHandler('ActiveModule', getActiveModule);
+  //   window.socket.forrestEmit ('getActiveModule', { branchId: branch.branchId });
+  // }
 
-  const addBranch = info => {
-    if (debug) console.log('DesktopApp addBranch', info, activeTree);
+  // const addBranch = info => {
+  //   if (debug) console.log('DesktopApp addBranch', info, activeTree);
     
-    // update all displayed trees here. Need to add code for trees that are merged in
-    if (activeTree._id === info.treeId) {
-      let index = activeTree.branches.findIndex(branch => branch.branchId === info.branchId);
-      if (index !== -1) {
-        const treeCopy = _.cloneDeep(activeTree);
-        treeCopy.branches.splice(index+1, 0, info.newBranch);
-        setActiveTree(treeCopy);
-        changeActiveBranch(info.newBranch);
-      }
-    }
-  }
+  //   // update all displayed trees here. Need to add code for trees that are merged in
+  //   if (activeTree._id === info.treeId) {
+  //     let index = activeTree.branches.findIndex(branch => branch.branchId === info.branchId);
+  //     if (index !== -1) {
+  //       const treeCopy = _.cloneDeep(activeTree);
+  //       treeCopy.branches.splice(index+1, 0, info.newBranch);
+  //       setActiveTree(treeCopy);
+  //       changeActiveBranch(info.newBranch);
+  //     }
+  //   }
+  // }
 
-  const deleteTree = treeId => {
-    if (debug) console.log('DesktopApp deleteTree', treeId, activeTree);
+  // const deleteTree = treeId => {
+  //   if (debug) console.log('DesktopApp deleteTree', treeId, activeTree);
 
-    window.socket.forrestEmit('deleteTree', {treeId});
-    if (activeTree._id === treeId) {
-      setActiveTree(null);
-      changeActiveBranch(null);
-    }
-  }
+  //   window.socket.forrestEmit('deleteTree', {treeId});
+  //   if (activeTree._id === treeId) {
+  //     setActiveTree(null);
+  //     changeActiveBranch(null);
+  //   }
+  // }
 
-  const myAsyncFunction = async () => {
+  // const myAsyncFunction = async () => {
     
-    await window.socket.forrestSetEventHandler('addBranch', addBranch);
+  //   await window.socket.forrestSetEventHandler('addBranch', addBranch);
     
-  }
-  myAsyncFunction();
+  // }
+  // myAsyncFunction();
   
   if (debug) console.log('DesktopApp token', token);
   if (debug) console.log('DesktopApp activeTree, activeBranch, activeModule', activeTree, activeBranch, activeModule);
   
-  window.setToast = setToast;
-  window.token = token;
+  // window.setToast = setToast;
+  // window.token = token;
 
   if (token && token.info && token.info.userName) {
     if (debug) console.log('DesktopApp window.socket', window.socket);
@@ -132,13 +138,6 @@ const DesktopApp = () => {
     console.log('clear token');
     setToken(null);
   }
-
-
-
-  useEffect(() => {
-   
-
-  });
 
   if (!token) {
     return (
@@ -171,9 +170,9 @@ const DesktopApp = () => {
                 token={token}
                 activeTree={activeTree}
                 setActiveTree={setActiveTree}
-                changeActiveBranch={changeActiveBranch}
+                // changeActiveBranch={changeActiveBranch}
                 setActiveModule={setActiveModule}
-                deleteTree={deleteTree}
+                // deleteTree={deleteTree}
               />
               <Branches 
                 treeName={"test"}
@@ -181,7 +180,7 @@ const DesktopApp = () => {
                 toggleSection={toggleSection}
                 activeTree={activeTree}
                 activeBranch={activeBranch}
-                changeActiveBranch={changeActiveBranch}
+                // changeActiveBranch={changeActiveBranch}
               />
               <Leaves 
                 sections={sections}  
