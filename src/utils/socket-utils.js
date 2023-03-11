@@ -1,21 +1,32 @@
 import { add } from "ionicons/icons";
 import store from "../store/configureStore";
-import { addConnection } from "../store/sliceSockets";
+import { addSubscription } from "../store/sliceSubscriptions";
 import socketIOClient from "socket.io-client";
 
 
+const sockets = {};
+
+const handleSocketEvents = (socket, resource) => {
+  
+}
+
 export const subscribe = (resource, token) => {
-    const curState = store.getState();
+    if (sockets[resource]) return ('already subscribed!');
     const resourceParts = resource.split('_');
 
     switch(resourceParts[0]) {
         case 'u':
-            const test = curState.sockets.find(socket => socket.resource === resource);
-            if (test) return ('already subscribed!');
             const host = `https://${resourceParts[1]}.treepadcloud.com:6102`;
-            const connection = socketIOClient(host);
-            //console.log('connection', connection);
-            store.dispatch(addConnection({resource, host, connection}));
+            sockets[resource] = socketIOClient(host);
+            const socket = sockets[resource];
+            
+            socket.on('hello', () => socket.emit('subscribe', resource));
+            socket.on('subscribe', status => {
+                store.dispatch(addSubscription({resource, host, token, status}))
+                if (status === 'success') handleSocketEvents(socket, resource);
+                else socket.disconnect();
+            })
+
             break;
     }
 

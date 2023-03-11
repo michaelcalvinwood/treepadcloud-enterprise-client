@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import socketsReducer from './sliceSockets';
+import subscriptionsReducer from './sliceSubscriptions';
 import tokensReducer from './sliceTokens';
 
 const store = configureStore({ 
     reducer: {
-       sockets: socketsReducer,
+       subscriptions: subscriptionsReducer,
        tokens: tokensReducer
     }
 });

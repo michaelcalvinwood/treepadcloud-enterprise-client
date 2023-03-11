@@ -101,8 +101,6 @@ const DesktopApp = () => {
     )  
   }
   
-
-
   return (
     <div id="desktopApp">
       <div className='desktop'>
