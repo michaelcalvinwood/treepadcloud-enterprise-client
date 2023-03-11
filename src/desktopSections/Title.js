@@ -21,6 +21,7 @@ const Title = ({sections, toggleSection, openSettings}) => {
 
         return cname;
     }
+    
     const logout = () => {
         localStorage.removeItem('userToken');
         dispatch(clearTokens({}));

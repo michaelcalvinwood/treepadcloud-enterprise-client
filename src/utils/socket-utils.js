@@ -7,10 +7,11 @@ import socketIOClient from "socket.io-client";
 const sockets = {};
 
 const handleSocketEvents = (socket, resource) => {
-  
+  socket.on('msg', info => console.log('serverMsg: ',info));
 }
 
 export const subscribe = (resource, token) => {
+    console.log('subscribe', resource, token);
     if (sockets[resource]) return ('already subscribed!');
     const resourceParts = resource.split('_');
 
@@ -20,7 +21,7 @@ export const subscribe = (resource, token) => {
             sockets[resource] = socketIOClient(host);
             const socket = sockets[resource];
             
-            socket.on('hello', () => socket.emit('subscribe', resource));
+            socket.on('hello', () => socket.emit('subscribe', {resource, token}));
             socket.on('subscribe', status => {
                 store.dispatch(addSubscription({resource, host, token, status}))
                 if (status === 'success') handleSocketEvents(socket, resource);
