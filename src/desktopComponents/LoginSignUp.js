@@ -98,7 +98,7 @@ const LoginSignUp = ({updateToken}) => {
         }
         axios(request)
         .then(res => {
-            updateToken(res.data);
+            updateToken(`u-${userName}`, res.data);
         })
         .catch(err => {
             console.log(err.response.data);
