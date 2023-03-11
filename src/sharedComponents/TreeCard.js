@@ -5,46 +5,44 @@ import deleteIcon from '../assets/icons/delete.svg';
 import editIcon from '../assets/icons/edit.svg';
 import downIcon from '../assets/icons/down.svg';
 import upIcon from '../assets/icons/up.svg';
-//import { deleteTree } from '../utils/api-axios';
-//import AppContext from '../data/AppContext';
-
-const TreeCard = props => {
+import socketUtils from '../utils/socket-utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveTree } from '../store/sliceActiveTree';
+const TreeCard = ({deleteTree, tree, ownerName, toggleAddModal, setModalInfo}) => {
     const debug = false;
+    const dispatch = useDispatch();
 
-    const {deleteTree, treeName, treeDesc, treeId, ownerName, icon, activeTree, subscribeToTree, toggleAddModal, setModalInfo} = props;
+    const activeTree = useSelector(state => state.activeTree);
 
-    if (debug) console.log('TreeCard props', props);
-
-  
     return (
-        <div className={activeTree && activeTree._id === treeId ? 'tree-card tree-card--active' : 'tree-card'}>
+        <div className={activeTree && activeTree._id === tree._id ? 'tree-card tree-card--active' : 'tree-card'}>
             <div 
-                onClick={() => subscribeToTree(treeId)}
+                onClick={() => dispatch(setActiveTree({activeTree: tree}))}
                 className='tree-card__click-area'>
                 <img 
                     className='tree-card__image'
-                    src={`https://static.treepadcloud.com/images/${icon}`} 
+                    src={`https://static.treepadcloud.com/images/${tree.icon}`} 
             /> 
-                <h2 className='tree-card__title'>{treeName}</h2>
+                <h2 className='tree-card__title'>{tree.name}</h2>
                 <p className='tree-card__subtitle'>{ownerName}</p>
             </div>
-            { activeTree && activeTree._id === treeId &&
+            { activeTree && activeTree._id === tree.id &&
                 <div className='tree-card__actions'>
                      <img
                         onClick={() => {
                             setModalInfo({
                                 action: 'edit',
-                                icon,
-                                treeId,
-                                treeName,
-                                treeDesc
+                                icon: tree.icon,
+                                treeId: tree.id,
+                                treeName: tree.name,
+                                treeDesc: tree.desc
                             });
                             toggleAddModal();
                         }} 
                         className='tree-card__edit'
                         src={editIcon} />
                     <img 
-                        onClick={() => deleteTree(treeId)}
+                        onClick={() => deleteTree(tree.id)}
                         className='tree-card__delete' 
                         src={deleteIcon} />
                     {/* <img className='tree-card__up' src={upIcon} />

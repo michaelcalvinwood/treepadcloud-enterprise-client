@@ -5,8 +5,8 @@ import fullScreenIcon from '../assets/icons/full-screen.svg';
 import normalScreenIcon from '../assets/icons/normal-screen.svg';
 import leavesIcon from '../assets/icons/leaf.svg';
 import cloudIcon from '../assets/icons/cloud.svg';
-import LeafCard from '../globalComponents/LeafCard';
-import ModuleRouter from '../globalComponents/ModuleRouter';
+import LeafCard from '../sharedComponents/LeafCard';
+import ModuleRouter from '../sharedComponents/ModuleRouter';
 import CloudModal from '../desktopComponents/CloudModal';
 
 const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {

@@ -9,15 +9,17 @@ import settingsIcon from '../assets/icons/link.svg';
 import { addOutline } from 'ionicons/icons';
 import AddTree from '../desktopComponents/AddTree';
 import CloudModal from '../desktopComponents/CloudModal';
-import TreeCard from '../globalComponents/TreeCard';
+import TreeCard from '../sharedComponents/TreeCard';
+import { useSelector } from 'react-redux';
 
-const Trees = ({ deleteTree, treesState, toggleSection, token, activeTree, setActiveTree, changeActiveBranch, setActiveModule }) => {
+const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTree, changeActiveBranch, setActiveModule }) => {
     const debug = true;
     const [showAddModal, setShowAddModal] = useState(false);
     const [modalInfo, setModalInfo] = useState({action: 'add'});
     const [searchVal, setSearchVal] = useState('');
 
-    const [trees, setTrees] = useState([]);
+    const trees = useSelector(state => state.trees);
+    const tokens = useSelector(state => state.tokens);
 
     if (debug) console.log('Trees', trees, activeTree);
 
@@ -39,18 +41,11 @@ const Trees = ({ deleteTree, treesState, toggleSection, token, activeTree, setAc
         else return 'trees trees--inactive'
     }
 
-   
-    useEffect(() => {
-        const getTrees = async () => {
-            await window.socket.forrestSetEventHandler('getTrees', setTrees);
-            window.socket.forrestEmit('getTrees', {});
-        }
-        getTrees();
-    }, [setTrees])
 
     const searchValLower = searchVal.toLowerCase();
     const treesInfo = trees.filter(tree => !searchVal || tree.name.toLowerCase().indexOf(searchValLower) !== -1);
 
+    console.log('Trees tokens', tokens);
     console.log('TreesInfo', searchVal, treesInfo)
 
     return (
@@ -81,13 +76,8 @@ const Trees = ({ deleteTree, treesState, toggleSection, token, activeTree, setAc
                     return (
                         <TreeCard 
                             key={tree._id}
-                            icon={tree.icon}
-                            treeName={tree.name}
-                            treeId={tree._id}
-                            treeDesc={tree.desc}
-                            ownerName={token.info.userName}
-                            activeTree={activeTree}
-                            subscribeToTree={subscribeToTree}
+                            tree={tree}
+                            ownerName={tokens[0].token.info.userName}
                             setModalInfo={setModalInfo}
                             toggleAddModal={toggleAddModal}
                             deleteTree={deleteTree}

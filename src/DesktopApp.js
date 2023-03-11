@@ -37,7 +37,7 @@ const DesktopApp = () => {
   const [settings, setSettings] = useState(false);
   const [toast, setToast] = useState('');
 
-  const [activeTree, setActiveTree] = useState(null);
+
 
   // activeModule & setActiveModule with useRef for event handlers
   const [activeModule, _setActiveModule] = useState(null);
@@ -57,8 +57,6 @@ const DesktopApp = () => {
   }
 
   if (debug) console.log('DesktopApp activeModule', activeModule, activeBranch);
-  if (debug) console.log('DesktopApp activeTree, activeBranch, activeModule', activeTree, activeBranch, activeModule);
-  
 
   const toggleSection = section => {
     let modified = sections;
@@ -117,18 +115,12 @@ const DesktopApp = () => {
               <Trees 
                 treesState={sections.trees}
                 toggleSection={toggleSection}
-                //token={token}
-                activeTree={activeTree}
-                setActiveTree={setActiveTree}
-                // changeActiveBranch={changeActiveBranch}
                 setActiveModule={setActiveModule}
-                // deleteTree={deleteTree}
               />
               <Branches 
                 treeName={"test"}
                 sections={sections}
                 toggleSection={toggleSection}
-                activeTree={activeTree}
                 activeBranch={activeBranch}
                 // changeActiveBranch={changeActiveBranch}
               />

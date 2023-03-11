@@ -2,12 +2,17 @@ import { add } from "ionicons/icons";
 import store from "../store/configureStore";
 import { addSubscription } from "../store/sliceSubscriptions";
 import socketIOClient from "socket.io-client";
-
+import { addTrees } from "../store/sliceTrees";
 
 const sockets = {};
 
 const handleSocketEvents = (socket, resource) => {
   socket.on('msg', info => console.log('serverMsg: ',info));
+  socket.on('addTrees', info => eventAddTrees(socket, info));
+}
+
+function eventAddTrees (socket, {resource, trees}) {
+    store.dispatch(addTrees({trees}));
 }
 
 export const subscribe = (resource, token) => {
@@ -30,9 +35,5 @@ export const subscribe = (resource, token) => {
 
             break;
     }
-
-
-    // const test = curState.sockets.find(socket => socket.connection === 'yoyo');
-    // if (!test) store.dispatch(addConnection({connection: 'yoyo'}));
-    // else console.log('already connected');
 }
+
