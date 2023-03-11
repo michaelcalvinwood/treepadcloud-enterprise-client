@@ -19,8 +19,14 @@ const DesktopApp = () => {
   const debug = true;
   const dispatch = useDispatch();
 
-  const [token, setToken] = useState(localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null);
   const tokens = useSelector(state => state.tokens);
+  if (!tokens.length) {
+    const userToken =  JSON.parse(localStorage.getItem('userToken'));
+    if (userToken) {
+      const { resource, token } = userToken;
+      dispatch(addToken({resource, token}))
+    }
+  }
 
   const [sections, setSections] = useState({
     controls: false,
@@ -51,14 +57,8 @@ const DesktopApp = () => {
   }
 
   if (debug) console.log('DesktopApp activeModule', activeModule, activeBranch);
-  
-  if (debug) console.log('DesktopApp token', token);
   if (debug) console.log('DesktopApp activeTree, activeBranch, activeModule', activeTree, activeBranch, activeModule);
   
-  if (token && token.info && token.info.userName) {
-    if (debug) console.log('DesktopApp window.socket', window.socket);
-   //window.socket.connectToForrest();
-  }
 
   const toggleSection = section => {
     let modified = sections;
@@ -67,8 +67,7 @@ const DesktopApp = () => {
     }
 
   const updateToken = (resource, token) => {
-     localStorage.setItem('token', JSON.stringify(token));
-     //setToken(token);
+     localStorage.setItem('userToken', JSON.stringify({resource, token}));
      dispatch(addToken({
        resource,
        token
@@ -83,12 +82,14 @@ const DesktopApp = () => {
     setSettings(false);
   }
 
-  const clearToken = () => {
-    console.log('clear token');
-    setToken(null);
-  }
+  useEffect(() => {
+    if (tokens.length) {
+      if (debug) console.log('DesktopApp time to subscribe!');
+      for (let i = 0; i < tokens.length; ++i) socketUtil.subscribe(tokens[i].resource, tokens[i].token);
+    }  
+  })
 
-  if (!token) {
+  if (!tokens.length) {
     return (
       <div id="desktopApp">
         <div className="desktop">
@@ -100,13 +101,15 @@ const DesktopApp = () => {
     )  
   }
   
+
+
   return (
     <div id="desktopApp">
       <div className='desktop'>
               <Title 
                 sections={sections}
                 toggleSection={toggleSection}
-                clearToken={clearToken}
+                //clearToken={clearToken}
                 openSettings={openSettings}
               />
               <Controls 
@@ -116,7 +119,7 @@ const DesktopApp = () => {
               <Trees 
                 treesState={sections.trees}
                 toggleSection={toggleSection}
-                token={token}
+                //token={token}
                 activeTree={activeTree}
                 setActiveTree={setActiveTree}
                 // changeActiveBranch={changeActiveBranch}
@@ -138,7 +141,9 @@ const DesktopApp = () => {
                 setActiveModule={setActiveModule}
                 
               />
-              { settings && <Settings closeSettings={closeSettings} clearToken={clearToken}/> }
+              { settings && <Settings closeSettings={closeSettings} 
+                  //clearToken={clearToken}
+                /> }
           
               <IonToast 
                 color="secondary"

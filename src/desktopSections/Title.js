@@ -7,8 +7,12 @@ import treeIcon from '../assets/icons/tree.svg';
 import branchIcon from '../assets/icons/branch.svg';
 import controlsIcon from '../assets/icons/controls.svg';
 import logoutIcon from '../assets/icons/logout.svg';
+import { useDispatch } from 'react-redux';
+import { clearTokens } from '../store/sliceTokens';
 
-const Title = ({sections, toggleSection, openSettings, clearToken}) => {
+const Title = ({sections, toggleSection, openSettings}) => {
+    const dispatch = useDispatch();
+
     const { trees: treesState, controls: controlsState, branches: branchesState } = sections;
     const titleClassName = () => {
         let cname = 'title';
@@ -18,8 +22,8 @@ const Title = ({sections, toggleSection, openSettings, clearToken}) => {
         return cname;
     }
     const logout = () => {
-        localStorage.removeItem('token');
-        clearToken();
+        localStorage.removeItem('userToken');
+        dispatch(clearTokens({}));
         window.location.reload();
     }
     return (

@@ -5,7 +5,8 @@ const sliceSockets = createSlice({
     initialState: [],
     reducers: {
         addConnection: (state, action) => {
-            state.push({connection: 'yoyo'});
+            const { resource, host, connection } = action.payload;
+            state.push({resource, host, connection});
         }
     }
 });

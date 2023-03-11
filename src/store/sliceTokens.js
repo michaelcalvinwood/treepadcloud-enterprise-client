@@ -7,10 +7,11 @@ const sliceTokens = createSlice({
         addToken: (state, action) => {
             const { resource, token } = action.payload;
             state.push({resource, token});
-        }
+        },
+        clearTokens: (state, action) => []
     }
 });
 
-export const { addToken} = sliceTokens.actions;
+export const { addToken, clearTokens} = sliceTokens.actions;
 
 export default sliceTokens.reducer;
