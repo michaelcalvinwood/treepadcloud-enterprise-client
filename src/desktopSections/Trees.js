@@ -133,7 +133,6 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
                 modalInfo={modalInfo}
                 subscriptionResource={getUserResource()}
                 ownerName={getUserName()}
-                            
             /> 
         }
        
