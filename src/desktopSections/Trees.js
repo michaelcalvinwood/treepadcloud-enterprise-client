@@ -32,6 +32,15 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
         return false;
     }
 
+    const getUserName = () => {
+        for (let i = 0; i < tokens.length; ++i) {
+            const token = tokens[i].token;
+            if (token.info && token.info.userName) return token.info.userName;
+        }
+
+        return false;
+    }
+
     console.log('Trees isUser', isUser());
 
     const subscribeToTree = id => {
@@ -88,7 +97,7 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
                         <TreeCard 
                             key={tree._id}
                             tree={tree}
-                            ownerName={tokens[0].token.info.userName}
+                            ownerName={getUserName()}
                             setModalInfo={setModalInfo}
                             toggleAddModal={toggleAddModal}
                             deleteTree={deleteTree}

@@ -18,7 +18,7 @@ function eventAddTrees (socket, {resource, trees}) {
 export const subscribe = (resource, token) => {
     console.log('subscribe', resource, token);
     if (sockets[resource]) return ('already subscribed!');
-    const resourceParts = resource.split('_');
+    const resourceParts = resource.split('--');
 
     switch(resourceParts[0]) {
         case 'u':
@@ -40,4 +40,6 @@ export const subscribe = (resource, token) => {
 export const getBranchName = data => {
     
 }
+
+export const createTree = data => sockets[`u--${data.ownerName}`].emit('createTree', data);
 

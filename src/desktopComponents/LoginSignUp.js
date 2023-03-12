@@ -7,6 +7,7 @@ import axios from 'axios'
 import * as EmailValidator from 'email-validator';
 import zxcvbn from 'zxcvbn';
 import treepadIcon from '../assets/icons/treepadcloud-icon.svg';
+import * as socketUtils from '../utils/socket-utils';
 
 //import * as socketIo from '../utils/resourceServerEmit';
 
@@ -98,7 +99,7 @@ const LoginSignUp = ({updateToken}) => {
         }
         axios(request)
         .then(res => {
-            updateToken(`u_${userName}`, res.data);
+            socketUtils.subscribe(`u--${userName}`, res.data);
         })
         .catch(err => {
             console.log(err.response.data);

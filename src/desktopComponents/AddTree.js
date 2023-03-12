@@ -1,10 +1,8 @@
 import './AddTree.scss';
-import React, {useContext, useEffect, useState} from 'react';
-//import AppContext from '../data/AppContext';
+import React, {useEffect, useState} from 'react';
 import { IonButton, IonInput, IonItem, IonLabel, IonSearchbar, IonTextarea, IonToast } from '@ionic/react';
 import IconPicker from './IconPicker';
-//import IconPicker from '../components/IconPicker';
-//import { createTree, editTree } from '../utils/api-axios';
+import * as socketUtils from '../utils/socket-utils';
 
 const AddTree = ({toggleAddModal, modalInfo}) => {
     const [icon, setIcon] = useState('svg/tree.svg');
@@ -17,10 +15,6 @@ const AddTree = ({toggleAddModal, modalInfo}) => {
 
     if (debug) console.log('AddTree', modalInfo);
 
-    //const appCtx = useContext(AppContext);
-
-    //const {server, token} = appCtx.userInfo;
-
     const setIconName = (name) => {
         setIcon(name);
     }
@@ -28,7 +22,6 @@ const AddTree = ({toggleAddModal, modalInfo}) => {
     const createTheTree = () => {
         if (!treeName) return setMessage('Please enter a tree name');
 
-        window.socket.forrestEmit ('createTree', { icon, treeName, treeDesc });
         toggleAddModal();
     }
 
