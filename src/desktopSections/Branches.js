@@ -7,17 +7,25 @@ import { IonPage, IonContent, IonSearchbar, IonFab, IonFabButton, IonIcon } from
 import Branch from '../desktopComponents/Branch';
 import { addOutline } from 'ionicons/icons';
 import _ from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNamesFetched } from '../store/sliceActiveTree';
+import * as socketUtils from '../utils/socket-utils';
 
 let controlToggle = false;
 
-const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, changeActiveBranch}) => {
+const Branches = ({sections, toggleSection, activeBranch, changeActiveBranch}) => {
     const debug = true;
+    const dispatch = useDispatch();
+
     const { branches: branchesState, trees: treesState, controls: controlsState} = sections; 
-    const [branches, setBranches] = useState([]);
-    const [curTree, setCurTree] = useState(null);
     const [search, setSearch] = useState('');
 
-    if (debug) console.log('Branches', branches, activeTree);
+    const activeTree = useSelector(state => state.activeTree);
+    let branches = [];
+
+    if (activeTree) branches = activeTree.branches;
+
+    console.log('Branches branches', branches)
     
     const branchesClassName = () => {
         let cname = 'branches';
@@ -143,7 +151,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         if (!branch) return;
         if (branch.name !== branchName) {
             branch.name = branchName;
-            setBranches(branchesCopy);
+            //setBranches(branchesCopy);
         }
     }
 
@@ -163,7 +171,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                 else break;
             }
             if (debug) console.log('Branches toggleBranch targetLevel', targetLevel, index,  branchesCopy);
-            setBranches(branchesCopy);
+            //setBranches(branchesCopy);
         } else {
             branchesCopy[index].isOpen = false;
             const currentLevel = branchesCopy[index].level;
@@ -173,7 +181,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
                 else break;
             }
             if (debug) console.log('Branches toggleBranch currentLevel', currentLevel, index,  branchesCopy);
-            setBranches(branchesCopy);
+            //setBranches(branchesCopy);
         }
 
     }
@@ -225,7 +233,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         if (index > -1) {
             const branchesCopy = _.cloneDeep(branches);
             branchesCopy.splice(index, 1);
-            setBranches(branchesCopy);
+            //setBranches(branchesCopy);
         }
     }
 
@@ -244,7 +252,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
             let branchesCopy = _.cloneDeep(branches);
             const branch = branchesCopy.splice(index, 1)[0];
             branchesCopy.splice(index-1, 0, branch);
-            setBranches(branchesCopy);
+            //setBranches(branchesCopy);
         }
     }
 
@@ -263,7 +271,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
             let branchesCopy = _.cloneDeep(branches);
             const branch = branchesCopy.splice(index, 1)[0];
             branchesCopy.splice(index+1, 0, branch);
-            setBranches(branchesCopy);
+            //setBranches(branchesCopy);
         }
     }
 
@@ -285,7 +293,7 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
         for (let i = 0; i < num + 1; ++i) ++branchesCopy[index+i].level;
         
         ++branchesCopy[index].level;
-        setBranches(branchesCopy);
+        //setBranches(branchesCopy);
     }
 
     const moveBranchLeft = ({ treeId, branchId }) => {
@@ -315,21 +323,8 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
             }
         }
 
-        setBranches(branchesCopy);
+        //setBranches(branchesCopy);
     }
-
-    const myAsyncFunction = async () => {
-        await window.socket.forrestSetEventHandler('setBranchName', setBranchName);
-        await window.socket.forrestSetEventHandler('deleteBranch', deleteBranchEvent);
-        await window.socket.forrestSetEventHandler('moveBranchUp', moveBranchUpEvent);
-        await window.socket.forrestSetEventHandler('moveBranchDown', moveBranchDownEvent);
-        await window.socket.forrestSetEventHandler('moveBranchRight', moveBranchRight);
-        await window.socket.forrestSetEventHandler('moveBranchLeft', moveBranchLeft);
-        
-        
-    }
-
-    myAsyncFunction();
 
     const handleSearch = e => {
         changeActiveBranch(null); 
@@ -337,33 +332,15 @@ const Branches = ({sections, treeName, toggleSection, activeTree, activeBranch, 
     }
 
     useEffect(() => {
-        if (debug) console.log("Branches useEffect", curTree, activeTree);
-        if (activeTree && curTree !== activeTree) {
-            if (curTree !== activeTree) {
-                setCurTree(activeTree);
-                let branches = activeTree.branches;
-                for (let i = 0; i < branches.length; ++i) {
-                    branches[i].name=null;
-                    branches[i].isOpen=false;
-                    
-                    // set isParent
-                    if (i === branches.length - 1) branches[i].isParent = false;
-                    else if (branches[i].level < branches[i+1].level) branches[i].isParent = true;
-                    else branches[i].isParent = false;
+        if (activeTree && !activeTree.namesFetched) {
+            dispatch(setNamesFetched({namesFetched: true}));
+            for (let i = 0; i < activeTree.branches.length; ++i) {
 
-                    // set isShown
-                    branches[i].isShown = branches[i].level === 0 ? true : false;
-                    window.socket.forrestEmit('getBranchName', {id: branches[i].branchId})
-                }
-
-                setBranches(branches);
             }
         }
-        if (debug) console.log('Branches useEffect')
+        
         document.addEventListener('keyup', handleKeys);
-
         return () => {
-            if (debug) console.log('Branches useEffect return');
             document.removeEventListener('keyup', handleKeys);
         }
     })

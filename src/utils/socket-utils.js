@@ -37,3 +37,7 @@ export const subscribe = (resource, token) => {
     }
 }
 
+export const getBranchName = data => {
+    
+}
+

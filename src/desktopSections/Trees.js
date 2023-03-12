@@ -23,6 +23,17 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
 
     if (debug) console.log('Trees', trees, activeTree);
 
+    const isUser = () => {
+        for (let i = 0; i < tokens.length; ++i) {
+            const token = tokens[i].token;
+            if (token.info && token.info.userName) return true;
+        }
+
+        return false;
+    }
+
+    console.log('Trees isUser', isUser());
+
     const subscribeToTree = id => {
         const debug = true;
         if (debug) console.log('Trees subscribeToTree', id);
@@ -86,7 +97,7 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
                     )
                 })
                 }
-                { window.socket.isUser() && <IonFab horizontal="end" vertical="bottom" slot="fixed">
+                { isUser() && <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton onClick={() => {
                         setModalInfo({action: 'add'});
                         toggleAddModal();

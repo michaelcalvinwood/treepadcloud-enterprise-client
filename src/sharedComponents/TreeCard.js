@@ -17,7 +17,10 @@ const TreeCard = ({deleteTree, tree, ownerName, toggleAddModal, setModalInfo}) =
     return (
         <div className={activeTree && activeTree._id === tree._id ? 'tree-card tree-card--active' : 'tree-card'}>
             <div 
-                onClick={() => dispatch(setActiveTree({activeTree: tree}))}
+                onClick={() => {
+                    dispatch(setActiveTree({activeTree: tree}))
+                    //dispatch(setActiveBranches({activeBranches: tree.branches}));
+                }}
                 className='tree-card__click-area'>
                 <img 
                     className='tree-card__image'
