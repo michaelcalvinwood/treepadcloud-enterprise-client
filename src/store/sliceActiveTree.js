@@ -13,7 +13,7 @@ const sliceActiveTree = createSlice({
                 let obj = {};
                 obj._id = branches[i].branchId;
                 obj.level = branches[i].level;
-                obj.name=null;
+                obj.name='';
                 obj.isOpen=false;
                 
                 // set isParent

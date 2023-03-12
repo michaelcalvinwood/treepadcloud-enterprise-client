@@ -381,7 +381,7 @@ const Branches = ({sections, toggleSection, activeBranch, changeActiveBranch}) =
                     activeTree && branches.map(branch => {
                         return (
                             <Branch 
-                                key={branch.branchId} 
+                                key={branch._id} 
                                 branch={branch}
                                 activeBranch={activeBranch}
                                 changeActiveBranch={changeActiveBranch}
