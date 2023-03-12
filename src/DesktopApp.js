@@ -13,20 +13,15 @@ import * as socketUtil from './utils/socket-utils';
 
 import _ from 'lodash';
 import { useDispatch, useSelector } from "react-redux";
-import { addToken } from "./store/sliceTokens";
+import { addToken } from "./store/archive--sliceTokens";
 
 const DesktopApp = () => {
   const debug = true;
   const dispatch = useDispatch();
 
-  const tokens = useSelector(state => state.tokens);
-  if (!tokens.length) {
-    const userToken =  JSON.parse(localStorage.getItem('userToken'));
-    if (userToken) {
-      const { resource, token } = userToken;
-      dispatch(addToken({resource, token}))
-    }
-  }
+  const subscriptions = useSelector(state => state.subscriptions);
+ 
+  if (subscriptions.length) localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
 
   const [sections, setSections] = useState({
     controls: false,
@@ -36,8 +31,6 @@ const DesktopApp = () => {
   })
   const [settings, setSettings] = useState(false);
   const [toast, setToast] = useState('');
-
-
 
   // activeModule & setActiveModule with useRef for event handlers
   const [activeModule, _setActiveModule] = useState(null);
@@ -64,14 +57,6 @@ const DesktopApp = () => {
     setSections({...modified});
     }
 
-  const updateToken = (resource, token) => {
-     localStorage.setItem('userToken', JSON.stringify({resource, token}));
-     dispatch(addToken({
-       resource,
-       token
-     }))
-  }
-
   const openSettings = () => {
     setSettings(true);
   }
@@ -80,19 +65,12 @@ const DesktopApp = () => {
     setSettings(false);
   }
 
-  useEffect(() => {
-    if (tokens.length) {
-      if (debug) console.log('DesktopApp time to subscribe!');
-      for (let i = 0; i < tokens.length; ++i) socketUtil.subscribe(tokens[i].resource, tokens[i].token);
-    }  
-  })
-
-  if (!tokens.length) {
+  if (!subscriptions.length) {
     return (
       <div id="desktopApp">
         <div className="desktop">
           <LoginSignUp 
-            updateToken={updateToken}
+            
           />
         </div>
       </div>

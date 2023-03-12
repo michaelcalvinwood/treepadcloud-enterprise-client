@@ -19,13 +19,13 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
     const [searchVal, setSearchVal] = useState('');
 
     const trees = useSelector(state => state.trees);
-    const tokens = useSelector(state => state.tokens);
+    const subscriptions = useSelector(state => state.subscriptions);
 
     if (debug) console.log('Trees', trees, activeTree);
 
     const isUser = () => {
-        for (let i = 0; i < tokens.length; ++i) {
-            const token = tokens[i].token;
+        for (let i = 0; i < subscriptions.length; ++i) {
+            const { token } = subscriptions[i];
             if (token.info && token.info.userName) return true;
         }
 
@@ -33,9 +33,20 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
     }
 
     const getUserName = () => {
-        for (let i = 0; i < tokens.length; ++i) {
-            const token = tokens[i].token;
+        for (let i = 0; i < subscriptions.length; ++i) {
+            const { token } = subscriptions[i];
             if (token.info && token.info.userName) return token.info.userName;
+        }
+
+        return false;
+    }
+
+    const getUserResource = () => {
+        console.log('getUserResource subscriptions', subscriptions)
+        for (let i = 0; i < subscriptions.length; ++i) {
+            const { resource, token } = subscriptions[i];
+            console.log('getUserResource', resource, token);
+            if (token.info && token.info.userName) return resource;
         }
 
         return false;
@@ -65,7 +76,6 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
     const searchValLower = searchVal.toLowerCase();
     const treesInfo = trees.filter(tree => !searchVal || tree.name.toLowerCase().indexOf(searchValLower) !== -1);
 
-    console.log('Trees tokens', tokens);
     console.log('TreesInfo', searchVal, treesInfo)
 
     return (
@@ -121,6 +131,9 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
             <AddTree 
                 toggleAddModal={toggleAddModal}
                 modalInfo={modalInfo}
+                subscriptionResource={getUserResource()}
+                ownerName={getUserName()}
+                            
             /> 
         }
        

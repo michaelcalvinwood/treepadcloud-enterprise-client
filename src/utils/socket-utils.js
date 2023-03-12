@@ -41,5 +41,5 @@ export const getBranchName = data => {
     
 }
 
-export const createTree = data => sockets[`u--${data.ownerName}`].emit('createTree', data);
+export const createTree = data => sockets[data.resource].emit('createTree', data);
 

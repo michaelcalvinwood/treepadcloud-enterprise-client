@@ -4,7 +4,7 @@ import { IonButton, IonInput, IonItem, IonLabel, IonSearchbar, IonTextarea, IonT
 import IconPicker from './IconPicker';
 import * as socketUtils from '../utils/socket-utils';
 
-const AddTree = ({toggleAddModal, modalInfo}) => {
+const AddTree = ({toggleAddModal, modalInfo, ownerName, subscriptionResource}) => {
     const [icon, setIcon] = useState('svg/tree.svg');
     const [showIconPicker, setShowIconPicker] = useState(false);
     const [treeName, setTreeName] = useState('');
@@ -19,9 +19,10 @@ const AddTree = ({toggleAddModal, modalInfo}) => {
         setIcon(name);
     }
 
-    const createTheTree = () => {
+    const createTree = () => {
         if (!treeName) return setMessage('Please enter a tree name');
-
+        console.log({resource: subscriptionResource, userName: ownerName, icon, treeName, treeDesc});
+        socketUtils.createTree({resource: subscriptionResource, userName: ownerName, icon, treeName, treeDesc});
         toggleAddModal();
     }
 
@@ -63,7 +64,7 @@ const AddTree = ({toggleAddModal, modalInfo}) => {
                         onIonChange={e => setTreeDesc(e.detail.value || '')}/>
                 </IonItem>
                 <IonButton 
-                    onClick={modalInfo.action === 'add' ? createTheTree : updateTheTree}
+                    onClick={modalInfo.action === 'add' ? createTree : updateTheTree}
                     className='add-tree__button-create'>
                     {modalInfo.action === 'add' ? 'Create' : 'Update'}
                 </IonButton>

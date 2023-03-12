@@ -8,7 +8,7 @@ import branchIcon from '../assets/icons/branch.svg';
 import controlsIcon from '../assets/icons/controls.svg';
 import logoutIcon from '../assets/icons/logout.svg';
 import { useDispatch } from 'react-redux';
-import { clearTokens } from '../store/sliceTokens';
+import { clearTokens } from '../store/archive--sliceTokens';
 
 const Title = ({sections, toggleSection, openSettings}) => {
     const dispatch = useDispatch();
