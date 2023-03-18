@@ -62,6 +62,11 @@ export const createTree = data => sockets[data.userName].emit('createTree', data
 
 export const emitDeleteTree = treeId => {
     const resource = getSocketResource(treeId);
-    console.log('emitDeleteTree resource', resource);
     sockets[resource].emit('deleteTree', treeId);
+}
+
+export const emitAddBranch = data => {
+    const { treeId, siblingBranchId } = data;
+    const resource = getSocketResource(treeId);
+    sockets[resource].emit('addBranch', data);
 }

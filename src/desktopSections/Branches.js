@@ -394,9 +394,9 @@ const Branches = ({sections, toggleSection, activeBranch, changeActiveBranch}) =
                 }
                 
             </div>
-            { activeTree && window.socket.isUser() && <IonFab horizontal="end" vertical="bottom" slot="fixed">
+            { activeTree && activeBranch && <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton 
-                        onClick={addBranch}
+                        onClick={socketUtils.emitAddBranch({treeId: activeTree._id, siblingId: activeBranch._id})}
                     >
                     <IonIcon icon={addOutline} />
                     </IonFabButton>

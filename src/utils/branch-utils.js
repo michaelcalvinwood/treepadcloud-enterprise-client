@@ -17,6 +17,6 @@ export const insertBranch = (newBranch, siblingBranchId, branches) => {
     const siblingBranchIndex = branches.findIndex(branch => branch._id === siblingBranchId);
     if (siblingBranchIndex === -1) return;
     const numChildren = getNumChildren(branches, siblingBranchIndex);
-    newBranch.level = curLevel;
+    newBranch.level = branches[siblingBranchIndex].level;
     branches.splice(siblingBranchIndex + 1 + numChildren, 0, newBranch);
 }
