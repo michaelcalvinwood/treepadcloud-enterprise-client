@@ -5,10 +5,13 @@ const sliceTrees = createSlice({
     initialState: [],
     reducers: {
         addTrees: (state, action) => {
-            const { trees } = action.payload;
+            const { resource, trees } = action.payload;
             for (let i = 0; i < trees.length; ++i) {
                 let test = state.find(tree => tree._id === trees[i]._id);
-                if (!test) state.push(trees[i]);
+                if (!test) {
+                    trees[i].resource = resource;
+                    state.push(trees[i]);
+                }
             }
         },
         clearTrees: (state, action) => []

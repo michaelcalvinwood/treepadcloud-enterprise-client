@@ -12,7 +12,7 @@ const handleSocketEvents = (socket, resource) => {
 }
 
 function eventAddTrees (socket, {resource, trees}) {
-    store.dispatch(addTrees({trees}));
+    store.dispatch(addTrees({resource, trees}));
 }
 
 export const subscribe = (resource, token) => {
