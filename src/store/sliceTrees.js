@@ -23,13 +23,11 @@ const sliceTrees = createSlice({
             });
             return state;
         },
-        addBranch: (state, action) => {
-            const { treeId, siblingBranchId, newBranch } = action.payload;
-            const tree = state.trees.find(tree => tree._id === treeId);
+        setBranches: (state, action) => {
+            const { treeId, branches } = action.payload;
+            const tree = state.find(tree => tree._id === treeId);
             if (!tree) return state;
-
-            branchUtils.insertBranch(newBranch, siblingBranchId, tree.branches);
-
+            tree.branches = branches;
             return state;
         },
     }
