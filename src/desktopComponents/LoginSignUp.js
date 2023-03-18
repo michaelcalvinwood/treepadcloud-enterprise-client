@@ -2,7 +2,7 @@ import './LoginSignUp.scss';
 
 
 import { IonButton, IonInput, IonItem, IonLabel, IonToast } from '@ionic/react';
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import axios from 'axios'
 import * as EmailValidator from 'email-validator';
 import zxcvbn from 'zxcvbn';
@@ -100,6 +100,10 @@ const LoginSignUp = ({updateToken}) => {
         axios(request)
         .then(res => {
             socketUtils.subscribe(`u--${userName}`, res.data);
+            const login = {};
+            login.userName = userName;
+            login.token = res.data;
+            localStorage.setItem('login', JSON.stringify(login));
         })
         .catch(err => {
             console.log(err.response.data);
@@ -110,6 +114,13 @@ const LoginSignUp = ({updateToken}) => {
 
         return;
        
+    }
+
+    const login = localStorage.getItem('login');
+    if (login) {
+        const info = JSON.parse(login);
+        socketUtils.subscribe(`u--${info.userName}`, info.token);
+        return <div></div>
     }
 
 
