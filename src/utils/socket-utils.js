@@ -6,12 +6,22 @@ import { addTrees } from "../store/sliceTrees";
 
 const sockets = {};
 
-const handleSocketEvents = (socket, resource) => {
-  socket.on('msg', info => console.log('serverMsg: ',info));
-  socket.on('addTrees', info => eventAddTrees(socket, info));
+const getSocketResource = resourceId => {
+    console.log('getSocketResource', resourceId);
+    const parts = resourceId.split('--');
+    switch (parts[0]) {
+        case 'T':
+            return parts[1];
+    }
+
 }
 
-function eventAddTrees (socket, {resource, trees}) {
+const handleSocketEvents = (socket, resource) => {
+  socket.on('msg', info => console.log('serverMsg: ',info));
+  socket.on('addTrees', info => addTreesEvent(socket, info));
+}
+
+function addTreesEvent (socket, {resource, trees}) {
     store.dispatch(addTrees({resource, trees}));
 }
 
@@ -23,8 +33,8 @@ export const subscribe = (resource, token) => {
     switch(resourceParts[0]) {
         case 'u':
             const host = `https://${resourceParts[1]}.treepadcloud.com:6102`;
-            sockets[resource] = socketIOClient(host);
-            const socket = sockets[resource];
+            sockets[resourceParts[1]] = socketIOClient(host);
+            const socket = sockets[resourceParts[1]];
             
             socket.on('hello', () => socket.emit('subscribe', {resource, token}));
             socket.on('subscribe', status => {
@@ -43,3 +53,7 @@ export const getBranchName = data => {
 
 export const createTree = data => sockets[data.resource].emit('createTree', data);
 
+export const deleteTree = treeId => {
+    const resource = getSocketResource(treeId);
+    sockets[resource].emit('deleteTree', treeId);
+}

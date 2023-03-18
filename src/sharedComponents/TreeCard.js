@@ -8,7 +8,9 @@ import upIcon from '../assets/icons/up.svg';
 import socketUtils from '../utils/socket-utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveTree } from '../store/sliceActiveTree';
-const TreeCard = ({deleteTree, tree, ownerName, toggleAddModal, setModalInfo, subscriptionResource}) => {
+import { deleteTree } from '../utils/socket-utils';
+
+const TreeCard = ({tree, ownerName, toggleAddModal, setModalInfo, subscriptionResource}) => {
     const debug = false;
     const dispatch = useDispatch();
 
