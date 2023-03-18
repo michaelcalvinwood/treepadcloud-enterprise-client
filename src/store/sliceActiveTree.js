@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import * as branchUtils from '../utils/branch-utils';
 
 const sliceActiveTree = createSlice({
     name: 'activeTree',
@@ -11,7 +12,7 @@ const sliceActiveTree = createSlice({
 
             for (let i = 0; i < branches.length; ++i) {
                 let obj = {};
-                obj._id = branches[i].branchId;
+                obj._id = branches[i]._id;
                 obj.level = branches[i].level;
                 obj.name='';
                 obj.isOpen=false;
@@ -36,6 +37,13 @@ const sliceActiveTree = createSlice({
                 branches: result
             }
         },
+        addBranchToActiveTree: (state, action) => {
+            const { treeId, siblingBranchId, newBranch } = action.payload;
+            
+            if (state._id === treeId) branchUtils.insertBranch(newBranch, siblingBranchId, state.branches);
+
+            return state;
+        },
         setNamesFetched: (state, action) => {
             if (!state) return state;
             const {namesFetched} = action.payload;
@@ -50,6 +58,6 @@ const sliceActiveTree = createSlice({
     }
 });
 
-export const { setActiveTree, setNamesFetched, clearActiveTree } = sliceActiveTree.actions;
+export const { setActiveTree, setNamesFetched, clearActiveTree, addBranchToActiveTree } = sliceActiveTree.actions;
 
 export default sliceActiveTree.reducer;

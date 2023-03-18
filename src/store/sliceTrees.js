@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import * as branchUtils from '../utils/branch-utils';
 
 const sliceTrees = createSlice({
     name: 'trees',
@@ -21,7 +22,16 @@ const sliceTrees = createSlice({
                 return tree._id !== treeId
             });
             return state;
-        }
+        },
+        addBranch: (state, action) => {
+            const { treeId, siblingBranchId, newBranch } = action.payload;
+            const tree = state.trees.find(tree => tree._id === treeId);
+            if (!tree) return state;
+
+            branchUtils.insertBranch(newBranch, siblingBranchId, tree.branches);
+
+            return state;
+        },
     }
 });
 
