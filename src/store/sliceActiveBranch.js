@@ -11,6 +11,6 @@ const sliceActiveBranch = createSlice({
     }
 });
 
-export const { addSubscription } = sliceActiveBranch.actions;
+export const { setActiveBranch } = sliceActiveBranch.actions;
 
 export default sliceActiveBranch.reducer;

@@ -10,10 +10,11 @@ import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNamesFetched } from '../store/sliceActiveTree';
 import * as socketUtils from '../utils/socket-utils';
+import { setActiveBranch } from '../store/sliceActiveBranch';
 
 let controlToggle = false;
 
-const Branches = ({sections, toggleSection, activeBranch, changeActiveBranch}) => {
+const Branches = ({sections, toggleSection}) => {
     const debug = true;
     const dispatch = useDispatch();
 
@@ -21,6 +22,7 @@ const Branches = ({sections, toggleSection, activeBranch, changeActiveBranch}) =
     const [search, setSearch] = useState('');
 
     const activeTree = useSelector(state => state.activeTree);
+    const activeBranch = useSelector(state => state.activeBranch);
     let branches = [];
 
     if (activeTree) branches = activeTree.branches;
@@ -70,7 +72,7 @@ const Branches = ({sections, toggleSection, activeBranch, changeActiveBranch}) =
 
         if (index === 0) return false;
 
-        changeActiveBranch(branches[index-1]);
+        dispatch(setActiveBranch({branch: branches[index-1]}));
         return true;
     }
 
@@ -84,7 +86,8 @@ const Branches = ({sections, toggleSection, activeBranch, changeActiveBranch}) =
 
         if (index >= branches.length - 1) return false;
 
-        changeActiveBranch(branches[index+1]);
+        dispatch(setActiveBranch({branch: branches[index+1]}));
+        
         return true;
     }
     
@@ -327,7 +330,8 @@ const Branches = ({sections, toggleSection, activeBranch, changeActiveBranch}) =
     }
 
     const handleSearch = e => {
-        changeActiveBranch(null); 
+        dispatch(setActiveBranch({branch: null}));
+        
         setSearch((e.detail && e.detail.value) || '')
     }
 
@@ -383,8 +387,6 @@ const Branches = ({sections, toggleSection, activeBranch, changeActiveBranch}) =
                             <Branch 
                                 key={branch._id} 
                                 branch={branch}
-                                activeBranch={activeBranch}
-                                changeActiveBranch={changeActiveBranch}
                                 setBranchName={setBranchName}
                                 toggleBranch={toggleBranch}
                                 search={search}
