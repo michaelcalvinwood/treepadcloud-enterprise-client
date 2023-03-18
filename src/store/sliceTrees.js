@@ -17,7 +17,10 @@ const sliceTrees = createSlice({
         clearTrees: (state, action) => [],
         deleteTree: (state, action) => {
             const { treeId } = action.payload;
-            const test = state.filter(tree => tree._id !== treeId);
+            state = state.filter(tree => {
+                return tree._id !== treeId
+            });
+            return state;
         }
     }
 });

@@ -2,7 +2,8 @@ import { add } from "ionicons/icons";
 import store from "../store/configureStore";
 import { addSubscription } from "../store/sliceSubscriptions";
 import socketIOClient from "socket.io-client";
-import { addTrees } from "../store/sliceTrees";
+import { addTrees, deleteTree } from "../store/sliceTrees";
+import { clearActiveTree } from "../store/sliceActiveTree";
 
 const sockets = {};
 
@@ -19,6 +20,12 @@ const getSocketResource = resourceId => {
 const handleSocketEvents = (socket, resource) => {
   socket.on('msg', info => console.log('serverMsg: ',info));
   socket.on('addTrees', info => addTreesEvent(socket, info));
+
+  socket.on('deleteTree', treeId => {
+    console.log('socket-utils on deleteTree', treeId);
+    store.dispatch(deleteTree({treeId}))
+    store.dispatch(clearActiveTree({treeId}))
+  });
 }
 
 function addTreesEvent (socket, {resource, trees}) {
@@ -51,9 +58,10 @@ export const getBranchName = data => {
     
 }
 
-export const createTree = data => sockets[data.resource].emit('createTree', data);
+export const createTree = data => sockets[data.userName].emit('createTree', data);
 
-export const deleteTree = treeId => {
+export const emitDeleteTree = treeId => {
     const resource = getSocketResource(treeId);
+    console.log('emitDeleteTree resource', resource);
     sockets[resource].emit('deleteTree', treeId);
 }

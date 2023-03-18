@@ -8,7 +8,7 @@ import upIcon from '../assets/icons/up.svg';
 import socketUtils from '../utils/socket-utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveTree } from '../store/sliceActiveTree';
-import { deleteTree } from '../utils/socket-utils';
+import { emitDeleteTree } from '../utils/socket-utils';
 
 const TreeCard = ({tree, ownerName, toggleAddModal, setModalInfo, subscriptionResource}) => {
     const debug = false;
@@ -47,7 +47,7 @@ const TreeCard = ({tree, ownerName, toggleAddModal, setModalInfo, subscriptionRe
                         className='tree-card__edit'
                         src={editIcon} />
                     <img 
-                        onClick={() => deleteTree(tree._id)}
+                        onClick={() => emitDeleteTree(tree._id)}
                         className='tree-card__delete' 
                         src={deleteIcon} />
                     {/* <img className='tree-card__up' src={upIcon} />

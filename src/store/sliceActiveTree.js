@@ -40,10 +40,16 @@ const sliceActiveTree = createSlice({
             if (!state) return state;
             const {namesFetched} = action.payload;
             state.namesFetched = namesFetched;            
+        },
+        clearActiveTree: (state, action) => {
+            const { treeId } = action.payload;
+            if (!treeId) state = null;
+            else if (treeId === state._id) state = null;
+            return state;
         }
     }
 });
 
-export const { setActiveTree, setNamesFetched } = sliceActiveTree.actions;
+export const { setActiveTree, setNamesFetched, clearActiveTree } = sliceActiveTree.actions;
 
 export default sliceActiveTree.reducer;
