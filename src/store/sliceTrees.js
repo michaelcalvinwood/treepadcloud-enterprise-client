@@ -33,6 +33,6 @@ const sliceTrees = createSlice({
     }
 });
 
-export const { addTrees, clearTrees, deleteTree } = sliceTrees.actions;
+export const { addTrees, clearTrees, deleteTree, setBranches } = sliceTrees.actions;
 
 export default sliceTrees.reducer;

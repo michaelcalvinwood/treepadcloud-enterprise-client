@@ -37,11 +37,10 @@ const sliceActiveTree = createSlice({
                 branches: result
             }
         },
-        addBranchToActiveTree: (state, action) => {
-            const { treeId, siblingBranchId, newBranch } = action.payload;
-            
-            if (state._id === treeId) branchUtils.insertBranch(newBranch, siblingBranchId, state.branches);
-
+        setActiveTreeBranches: (state, action) => {
+            const { treeId, branches } = action.payload;
+            if (state._id !== treeId) return state;
+            state.branches = branches;
             return state;
         },
         setNamesFetched: (state, action) => {
@@ -58,6 +57,6 @@ const sliceActiveTree = createSlice({
     }
 });
 
-export const { setActiveTree, setNamesFetched, clearActiveTree, addBranchToActiveTree } = sliceActiveTree.actions;
+export const { setActiveTree, setNamesFetched, clearActiveTree, setActiveTreeBranches } = sliceActiveTree.actions;
 
 export default sliceActiveTree.reducer;
