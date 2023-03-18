@@ -14,6 +14,8 @@ const TreeCard = ({deleteTree, tree, ownerName, toggleAddModal, setModalInfo, su
 
     const activeTree = useSelector(state => state.activeTree);
 
+    console.log('TreeCard', activeTree._id, tree.id);
+
     return (
         <div className={activeTree && activeTree._id === tree._id ? 'tree-card tree-card--active' : 'tree-card'}>
             <div 
@@ -29,7 +31,7 @@ const TreeCard = ({deleteTree, tree, ownerName, toggleAddModal, setModalInfo, su
                 <h2 className='tree-card__title'>{tree.name}</h2>
                 <p className='tree-card__subtitle'>{ownerName}</p>
             </div>
-            { activeTree && activeTree._id === tree.id &&
+            { activeTree && activeTree._id === tree._id &&
                 <div className='tree-card__actions'>
                      <img
                         onClick={() => {
