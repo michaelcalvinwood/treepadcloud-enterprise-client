@@ -14,10 +14,14 @@ const sliceTrees = createSlice({
                 }
             }
         },
-        clearTrees: (state, action) => []
+        clearTrees: (state, action) => [],
+        deleteTree: (state, action) => {
+            const { treeId } = action.payload;
+            const test = state.filter(tree => tree._id !== treeId);
+        }
     }
 });
 
-export const { addTrees, clearTreeds} = sliceTrees.actions;
+export const { addTrees, clearTrees, deleteTree } = sliceTrees.actions;
 
 export default sliceTrees.reducer;
