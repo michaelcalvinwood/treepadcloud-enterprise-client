@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState, useRef } from 'react';
 import branchOpenIcon from '../assets/icons/branch-open.svg';
 import branchClosedIcon from '../assets/icons/branch-closed.svg';
 import { useSelector, useDispatch } from 'react-redux';
-import { setActiveBranch } from '../store/sliceActiveBranch';
+import { setActiveBranch, blur } from '../store/sliceActiveBranch';
 
 const Branch = ({search, branch, setBranchName, toggleBranch}) => {
     const debug = true;
@@ -41,7 +41,7 @@ const Branch = ({search, branch, setBranchName, toggleBranch}) => {
     }
 
     const handleBlur = () => {
-        if (activeBranch === branch) dispatch(setActiveBranch({branch: null}));;
+        dispatch(blur({curBranchId: branch._id}));;
     }
 
     const handleKeyUp = e => {
