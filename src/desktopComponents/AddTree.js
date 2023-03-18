@@ -21,7 +21,6 @@ const AddTree = ({toggleAddModal, modalInfo, ownerName, subscriptionResource}) =
 
     const createTree = () => {
         if (!treeName) return setMessage('Please enter a tree name');
-        console.log({resource: subscriptionResource, userName: ownerName, icon, treeName, treeDesc});
         socketUtils.createTree({resource: subscriptionResource, userName: ownerName, icon, treeName, treeDesc});
         toggleAddModal();
     }
