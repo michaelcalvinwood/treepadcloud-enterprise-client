@@ -4,9 +4,10 @@ import branchOpenIcon from '../assets/icons/branch-open.svg';
 import branchClosedIcon from '../assets/icons/branch-closed.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { setActiveBranch, blur } from '../store/sliceActiveBranch';
+import { setBranchName } from '../store/sliceBranchNames';
 import * as socketUtils from '../utils/socket-utils';
 
-const Branch = ({search, branch, setBranchName, toggleBranch, branchName}) => {
+const Branch = ({search, branch, toggleBranch, branchName}) => {
     const debug = true;
     const inputRef = useRef();
     const dispatch = useDispatch();
@@ -25,12 +26,24 @@ const Branch = ({search, branch, setBranchName, toggleBranch, branchName}) => {
     }
     let focused = false;
     
+    const handleNameChange = (branch, e) => {
+        const branchId = branch._id;
+        const branchName = e.target.value;
+        dispatch(setBranchName({branchId, branchName}));
+    }
+
+    const handleBlur = e => {
+        const branchId = branch._id;
+        const branchName = e.target.value;
+
+        dispatch(blur({curBranchId: branchId}))
+        socketUtils.emitUpdateBranchName({branchId, branchName});
+    }
 
     const handleKeyUp = e => {
         if (debug) console.log('Branch handleKeyUp', e);
 
     }
-
 
     useEffect(() => {
         if (active) inputRef.current.focus();
@@ -54,9 +67,9 @@ const Branch = ({search, branch, setBranchName, toggleBranch, branchName}) => {
             </div>
             <input
                 ref={inputRef}
-                onChange={(e) => socketUtils.emitUpdateBranchName({branchId: branch._id, branchName: e.target.value})}
+                onChange={(e) => handleNameChange(branch, e)}
                 onFocus={() => dispatch(setActiveBranch({branch}))}
-                onBlur={() => dispatch(blur({curBranchId: branch._id}))}
+                onBlur={handleBlur}
                 //onKeyUp={handleKeyUp}
                 placeholder='New Branch'
                 className={inputClassName()}

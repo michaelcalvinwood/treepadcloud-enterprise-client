@@ -375,7 +375,7 @@ const Branches = ({sections, toggleSection}) => {
                             <Branch 
                                 key={branch._id} 
                                 branch={branch}
-                                branchName={branchNames[branch._id] ? branchNames[branch._id] : null}
+                                branchName={branchNames[branch._id] ? branchNames[branch._id] : ''}
                                 toggleBranch={toggleBranch}
                                 search={search}
                             />
