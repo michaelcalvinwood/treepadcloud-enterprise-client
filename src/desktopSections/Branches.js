@@ -25,6 +25,8 @@ const Branches = ({sections, toggleSection}) => {
     const activeBranch = useSelector(state => state.activeBranch);
     const branchNames = useSelector(state => state.branchNames)
     
+    if (activeBranch) localStorage.setItem('lastActiveBranch', JSON.stringify(activeBranch));
+
     let branches = activeTree ? activeTree.branches : [];
 
 
@@ -384,9 +386,12 @@ const Branches = ({sections, toggleSection}) => {
                 }
                 
             </div>
-            { activeTree && activeBranch && <IonFab horizontal="end" vertical="bottom" slot="fixed">
+            { activeTree  && <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton 
-                        onClick={() => socketUtils.emitAddBranch({treeId: activeTree._id, siblingId: activeBranch._id})}
+                        onClick={() => {
+                            console.log('click');
+                            socketUtils.emitAddBranch({treeId: activeTree._id, siblingId: activeBranch ? activeBranch._id : JSON.parse(localStorage.getItem('lastActiveBranch'))._id})
+                        }}
                     >
                     <IonIcon icon={addOutline} />
                     </IonFabButton>
