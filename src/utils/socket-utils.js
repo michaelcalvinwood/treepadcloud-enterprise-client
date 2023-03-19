@@ -13,6 +13,8 @@ const getSocketResource = resourceId => {
     switch (parts[0]) {
         case 'T':
             return parts[1];
+        case 'B':
+            return parts[3];
     }
 
 }
@@ -26,6 +28,8 @@ const handleSocketEvents = (socket, resource) => {
     store.dispatch(deleteTree({treeId}))
     store.dispatch(clearActiveTree({treeId}))
   });
+
+  
 }
 
 function addTreesEvent (socket, {resource, trees}) {
@@ -69,4 +73,9 @@ export const emitAddBranch = data => {
     const { treeId, siblingBranchId } = data;
     const resource = getSocketResource(treeId);
     sockets[resource].emit('addBranch', data);
+}
+
+export const emitUpdateBranchName = data => {
+    const { branchId, branchName } = data;
+    const resource = getSocketResource(branchId);
 }

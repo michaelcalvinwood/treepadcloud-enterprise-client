@@ -4,6 +4,7 @@ import branchOpenIcon from '../assets/icons/branch-open.svg';
 import branchClosedIcon from '../assets/icons/branch-closed.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { setActiveBranch, blur } from '../store/sliceActiveBranch';
+import * as socketUtils from '../utils/socket-utils';
 
 const Branch = ({search, branch, setBranchName, toggleBranch}) => {
     const debug = true;
@@ -26,15 +27,7 @@ const Branch = ({search, branch, setBranchName, toggleBranch}) => {
         return className;
     }
     let focused = false;
-
-    const handleBranchNameChange = e => {
-        const branchName = e.target.value;
-        if (debug) console.log("Branch handleBranchNameChange", branchName);
-        // update database and all subscribers
-        window.socket.forrestEmit('setBranchName', {id, name: branchName})
-        setBranchName({branchId: branch.branchId, branchName})
-    }
-
+    
     const handleFocus = () => {
         if (debug) console.log('Branch handleFocus', branch);
         dispatch(setActiveBranch({branch}));
@@ -72,7 +65,7 @@ const Branch = ({search, branch, setBranchName, toggleBranch}) => {
             </div>
             <input
                 ref={inputRef}
-                onChange={handleBranchNameChange}
+                onChange={(e) => socketUtils.emitUpdateBranchName({branchId: branch._id, branchName: e.target.value})}
                 onFocus={() => handleFocus()}
                 onBlur={() => handleBlur()}
                 //onKeyUp={handleKeyUp}

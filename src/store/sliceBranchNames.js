@@ -5,14 +5,14 @@ const sliceBranchNames = createSlice({
     initialState: {},
     reducers: {
         setBranchName: (state, action) => {
-            const { treeId, branchId, branchName } = action.payload;
-            if (state[treeId] === 'undefined') state[treeId] = {};
-            state[treeId][branchId] = branchName;
+            const { branchId, branchName } = action.payload;
+            state[branchId] = branchName;
             return state;
-        }
+        },
+        clearBranchNames: (state, action) => ({})
     }
 });
 
-export const { setBranchName } = sliceBranchNames.actions;
+export const { setBranchName, clearBranchNames } = sliceBranchNames.actions;
 
 export default sliceBranchNames.reducer;

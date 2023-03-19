@@ -23,12 +23,11 @@ const Branches = ({sections, toggleSection}) => {
 
     const activeTree = useSelector(state => state.activeTree);
     const activeBranch = useSelector(state => state.activeBranch);
-    let branches = [];
-
-    if (activeTree) branches = activeTree.branches;
-
-    console.log('Branches branches', branches)
+    const branchNames = useSelector(state => state.branchNames)
     
+    let branches = activeTree ? activeTree.branches : [];
+
+
     const branchesClassName = () => {
         let cname = 'branches';
 
@@ -146,16 +145,6 @@ const Branches = ({sections, toggleSection}) => {
            }
         }
         return index;
-    }
-
-    const setBranchName = ({branchId, branchName}) => {
-        const branchesCopy = _.cloneDeep(branches);
-        const branch = branchesCopy.find(branch => branch.branchId === branchId);
-        if (!branch) return;
-        if (branch.name !== branchName) {
-            branch.name = branchName;
-            //setBranches(branchesCopy);
-        }
     }
 
     const toggleBranch = branchId => {
@@ -387,7 +376,7 @@ const Branches = ({sections, toggleSection}) => {
                             <Branch 
                                 key={branch._id} 
                                 branch={branch}
-                                setBranchName={setBranchName}
+                                branchName={branchNames[branch._id] ? branchNames[branch._id] : null}
                                 toggleBranch={toggleBranch}
                                 search={search}
                             />
