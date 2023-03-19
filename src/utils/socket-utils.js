@@ -4,8 +4,10 @@ import { addSubscription } from "../store/sliceSubscriptions";
 import socketIOClient from "socket.io-client";
 import { addTrees, deleteTree } from "../store/sliceTrees";
 import { clearActiveTree } from "../store/sliceActiveTree";
+import { setBranchName } from "../store/sliceBranchNames";
 
 const sockets = {};
+const dispatch = store.dispatch;
 
 const getSocketResource = resourceId => {
     const parts = resourceId.split('--');
@@ -22,6 +24,7 @@ const getSocketResource = resourceId => {
 
 const handleSocketEvents = (socket, resource) => {
   socket.on('msg', info => console.log('serverMsg: ',info));
+  
   socket.on('addTrees', info => addTreesEvent(socket, info));
 
   socket.on('deleteTree', treeId => {
@@ -29,6 +32,8 @@ const handleSocketEvents = (socket, resource) => {
     store.dispatch(deleteTree({treeId}))
     store.dispatch(clearActiveTree({treeId}))
   });
+
+  socket.on('updateBranchName', ({branchId, branchName}) => dispatch(setBranchName({branchId, branchName})))
 }
 
 function addTreesEvent (socket, {resource, trees}) {
@@ -78,7 +83,7 @@ export const emitAddBranch = data => {
     sockets[resource].emit('addBranch', data);
 }
 
-export const emitUpdateBranchName = (branchId, branchName) => {
+export const emitUpdateBranchName = ({branchId, branchName}) => {
     const resource = getSocketResource(branchId);
     sockets[resource].emit('updateBranchName', {branchId, branchName});
 }

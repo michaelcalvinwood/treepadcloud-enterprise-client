@@ -13,8 +13,6 @@ const AddTree = ({toggleAddModal, modalInfo, ownerName, subscriptionResource}) =
 
     const debug = true;
 
-    if (debug) console.log('AddTree', modalInfo);
-
     const setIconName = (name) => {
         setIcon(name);
     }

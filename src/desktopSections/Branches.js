@@ -107,10 +107,9 @@ const Branches = ({sections, toggleSection}) => {
     }
 
     const handleKeys = e => {
-        const { key, keyCode, ctrlKey, shiftKey } = e;
-        if (debug) console.log('Branches handleKeys', key, shiftKey);
         if (!activeTree || !activeBranch) return;
-
+        const { key, keyCode, ctrlKey, shiftKey } = e;
+        
         switch(key) {
             case 'Enter':
                 addBranch();
@@ -387,7 +386,7 @@ const Branches = ({sections, toggleSection}) => {
             </div>
             { activeTree && activeBranch && <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton 
-                        onClick={socketUtils.emitAddBranch({treeId: activeTree._id, siblingId: activeBranch._id})}
+                        onClick={() => socketUtils.emitAddBranch({treeId: activeTree._id, siblingId: activeBranch._id})}
                     >
                     <IonIcon icon={addOutline} />
                     </IonFabButton>

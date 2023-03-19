@@ -40,10 +40,8 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
     }
 
     const getUserResource = () => {
-        console.log('getUserResource subscriptions', subscriptions)
         for (let i = 0; i < subscriptions.length; ++i) {
             const { resource, token } = subscriptions[i];
-            console.log('getUserResource', resource, token);
             if (token.info && token.info.userName) return resource;
         }
 

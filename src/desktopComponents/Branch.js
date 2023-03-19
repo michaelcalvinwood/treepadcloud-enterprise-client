@@ -25,14 +25,6 @@ const Branch = ({search, branch, setBranchName, toggleBranch, branchName}) => {
     }
     let focused = false;
     
-    const handleFocus = () => {
-        if (debug) console.log('Branch handleFocus', branch);
-        dispatch(setActiveBranch({branch}));
-    }
-
-    const handleBlur = () => {
-        dispatch(blur({curBranchId: branch._id}));;
-    }
 
     const handleKeyUp = e => {
         if (debug) console.log('Branch handleKeyUp', e);
@@ -63,13 +55,13 @@ const Branch = ({search, branch, setBranchName, toggleBranch, branchName}) => {
             <input
                 ref={inputRef}
                 onChange={(e) => socketUtils.emitUpdateBranchName({branchId: branch._id, branchName: e.target.value})}
-                onFocus={() => handleFocus()}
-                onBlur={() => handleBlur()}
+                onFocus={() => dispatch(setActiveBranch({branch}))}
+                onBlur={() => dispatch(blur({curBranchId: branch._id}))}
                 //onKeyUp={handleKeyUp}
                 placeholder='New Branch'
                 className={inputClassName()}
                 type='text' 
-                value={branch.name}
+                value={branchName}
                 
             />
         </div> 

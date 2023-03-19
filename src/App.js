@@ -39,8 +39,8 @@ const App = () => {
 
   return (
       <div id="app">
-        {windowWidth >= 1280 && <DesktopApp />}
-        {windowWidth < 1280 && <MobileApp />}
+        {windowWidth >= 900 && <DesktopApp />}
+        {windowWidth < 900 && <MobileApp />}
       </div>
   )
 };
