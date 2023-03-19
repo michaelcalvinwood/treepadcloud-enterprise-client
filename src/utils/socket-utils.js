@@ -6,6 +6,8 @@ import { addTrees, deleteTree } from "../store/sliceTrees";
 import { clearActiveTree } from "../store/sliceActiveTree";
 import { setBranchName } from "../store/sliceBranchNames";
 
+const debug = true;
+
 const sockets = {};
 const dispatch = store.dispatch;
 
@@ -72,18 +74,28 @@ export const getBranchName = data => {
 
 export const createTree = data => sockets[data.userName].emit('createTree', data);
 
+
 export const emitDeleteTree = treeId => {
+    if (debug) console.log('emitDeleteTree', treeId);
     const resource = getSocketResource(treeId);
     sockets[resource].emit('deleteTree', treeId);
 }
 
 export const emitAddBranch = data => {
+    if (debug) console.log('emitAddBranch', data);
     const { treeId, siblingBranchId } = data;
     const resource = getSocketResource(treeId);
     sockets[resource].emit('addBranch', data);
 }
 
 export const emitUpdateBranchName = ({branchId, branchName}) => {
+    if (debug) console.log('emitUpdateBranch', branchId, branchName)
     const resource = getSocketResource(branchId);
     sockets[resource].emit('updateBranchName', {branchId, branchName});
+}
+
+export const emitGetBranchName = (branchId) => {
+    if (debug) console.log('emitGetBranchName', branchId);
+    const resource = getSocketResource(branchId);
+    sockets[resource].emit('getBranchName', branchId);
 }

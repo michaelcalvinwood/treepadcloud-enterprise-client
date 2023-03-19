@@ -38,18 +38,16 @@ const Branch = ({search, branch, toggleBranch, branchName}) => {
         const branchName = e.target.value;
         dispatch(setBranchName({branchId, branchName}));
         lastChanged = timestamp();
-
-        console.log('lastChanged', lastChanged);
     }
 
     const handleBlur = e => {
         const branchId = branch._id;
-        const branchName = e.target.value;
+        const newName = e.target.value;
 
         dispatch(blur({curBranchId: branchId}))
         if (branchName.lastChanged) {
             dispatch(clearLastChanged({branchId: branch._id}));
-            socketUtils.emitUpdateBranchName({branchId, branchName});
+            socketUtils.emitUpdateBranchName({branchId, branchName: newName});
         }
     }
 
@@ -61,8 +59,9 @@ const Branch = ({search, branch, toggleBranch, branchName}) => {
     useEffect(() => {
         if (active) inputRef.current.focus();
 
-        if (!branchName) socketUtils.emitGetBranchName(branch._id);
-
+        if (!branchName) {
+            socketUtils.emitGetBranchName(branch._id);
+        }
         let intervalId = setInterval(() => {       
             if (branchName.lastChanged) {
                 const curTime = timestamp();
@@ -100,7 +99,7 @@ const Branch = ({search, branch, toggleBranch, branchName}) => {
                 onFocus={() => dispatch(setActiveBranch({branch}))}
                 onBlur={handleBlur}
                 //onKeyUp={handleKeyUp}
-                placeholder='New Branch'
+                placeholder=''
                 className={inputClassName()}
                 type='text' 
                 value={branchName && branchName.name ? branchName.name : ''}
