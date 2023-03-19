@@ -10,7 +10,7 @@ const sockets = {};
 const getSocketResource = resourceId => {
     console.log('getSocketResource', resourceId);
     const parts = resourceId.split('--');
-    switch (parts[0]) {
+    switch (parts[0].toUpperCase()) {
         case 'U':
         case 'T':
             return parts[1];
@@ -41,20 +41,29 @@ function addTreesEvent (socket, {resource, trees}) {
 export const subscribe = (resource, token) => {
     console.log('subscribe', resource, token);
     if (sockets[resource]) return ('already subscribed!');
+    const socketResource = getSocketResource(resource);
+    const host = `https://${socketResource}.treepadcloud.com:6102`;
+    sockets[socketResource] = socketIOClient(host);
+    const socket = sockets[socketResource];
+      
+    socket.onAny((eventName, ...args) => {
+        console.log(`Event: ${eventName} [${socketResource}]`);
+        for (let i = 0; i < args.length; ++i) {
+            console.log(`\t${JSON.stringify(args[i], null, 4)}`);
+        }
+    })
+    socket.on('hello', () => socket.emit('subscribe', {resource, token}));
+    socket.on('subscribe', status => {
+        store.dispatch(addSubscription({resource, host, token, status}))
+        if (status === 'success') handleSocketEvents(socket, resource);
+        else socket.disconnect();
+    })
+   
     const resourceParts = resource.split('--');
 
     switch(resourceParts[0]) {
         case 'u':
-            const host = `https://${resourceParts[1]}.treepadcloud.com:6102`;
-            sockets[resourceParts[1]] = socketIOClient(host);
-            const socket = sockets[resourceParts[1]];
-            
-            socket.on('hello', () => socket.emit('subscribe', {resource, token}));
-            socket.on('subscribe', status => {
-                store.dispatch(addSubscription({resource, host, token, status}))
-                if (status === 'success') handleSocketEvents(socket, resource);
-                else socket.disconnect();
-            })
+           
 
             break;
     }
