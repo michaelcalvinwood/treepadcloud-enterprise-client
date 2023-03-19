@@ -11,6 +11,7 @@ const getSocketResource = resourceId => {
     console.log('getSocketResource', resourceId);
     const parts = resourceId.split('--');
     switch (parts[0]) {
+        case 'U':
         case 'T':
             return parts[1];
         case 'L':
@@ -76,8 +77,7 @@ export const emitAddBranch = data => {
     sockets[resource].emit('addBranch', data);
 }
 
-export const emitUpdateBranchName = data => {
-    const { branchId, branchName } = data;
+export const emitUpdateBranchName = (branchId, branchName) => {
     const resource = getSocketResource(branchId);
-    sockets[resource].emit('updateBranchName', data);
+    sockets[resource].emit('updateBranchName', {branchId, branchName});
 }
