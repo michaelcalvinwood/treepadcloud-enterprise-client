@@ -4,10 +4,11 @@ import branchOpenIcon from '../assets/icons/branch-open.svg';
 import branchClosedIcon from '../assets/icons/branch-closed.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { setActiveBranch, blur } from '../store/sliceActiveBranch';
-import { setBranchName } from '../store/sliceBranchNames';
+import { setBranchName, clearLastChanged } from '../store/sliceBranchNames';
 import * as socketUtils from '../utils/socket-utils';
 
 const Branch = ({search, branch, toggleBranch, branchName}) => {
+    console.log('Branch', search, branch, toggleBranch, branchName);
     const debug = true;
     const inputRef = useRef();
     const dispatch = useDispatch();
@@ -17,6 +18,13 @@ const Branch = ({search, branch, toggleBranch, branchName}) => {
     const active = activeBranch && branch._id === activeBranch._id ? true : false;
 
     const id = branch._id;
+
+    let lastChanged = null;
+
+    const timestamp = () => {
+        const currentDate = new Date(); 
+        return currentDate. getTime();
+    }
   
     const inputClassName = () => {
         let className = 'branch__input';
@@ -30,6 +38,9 @@ const Branch = ({search, branch, toggleBranch, branchName}) => {
         const branchId = branch._id;
         const branchName = e.target.value;
         dispatch(setBranchName({branchId, branchName}));
+        lastChanged = timestamp();
+
+        console.log('lastChanged', lastChanged);
     }
 
     const handleBlur = e => {
@@ -37,7 +48,10 @@ const Branch = ({search, branch, toggleBranch, branchName}) => {
         const branchName = e.target.value;
 
         dispatch(blur({curBranchId: branchId}))
-        socketUtils.emitUpdateBranchName({branchId, branchName});
+        if (branchName.lastChanged) {
+            dispatch(clearLastChanged({branchId: branch._id}));
+            socketUtils.emitUpdateBranchName({branchId, branchName});
+        }
     }
 
     const handleKeyUp = e => {
@@ -47,6 +61,25 @@ const Branch = ({search, branch, toggleBranch, branchName}) => {
 
     useEffect(() => {
         if (active) inputRef.current.focus();
+
+        let intervalId = setInterval(() => {
+           
+            if (branchName.lastChanged) {
+                const curTime = timestamp();
+                if (curTime - branchName.lastChanged >= 2500) {
+                    dispatch(clearLastChanged({branchId: branch._id}));
+                    socketUtils.emitUpdateBranchName({branchId: branch._id, branchName: branchName.name});
+                }
+            }
+        }, 500);
+
+        // let secondInterval = setInterval(() => {
+        //     console.log('here');
+        // }, 2000)
+
+        return (
+            () => clearInterval(intervalId)
+        );
     })
 
     if (search && branch.name.toLowerCase().indexOf(search.toLowerCase()) === -1) return;
@@ -74,7 +107,7 @@ const Branch = ({search, branch, toggleBranch, branchName}) => {
                 placeholder='New Branch'
                 className={inputClassName()}
                 type='text' 
-                value={branchName}
+                value={branchName.name ? branchName.name : ''}
                 
             />
         </div> 
