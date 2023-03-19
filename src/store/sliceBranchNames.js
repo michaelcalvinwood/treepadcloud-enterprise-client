@@ -13,7 +13,7 @@ const sliceBranchNames = createSlice({
             const { branchId, branchName } = action.payload;
             if (!state[branchId]) {
                 state[branchId] = {
-                    name: branchName ? branchName : '',
+                    name: branchName ? branchName : null,
                     lastChanged: timestamp()
                 }
                 return state;

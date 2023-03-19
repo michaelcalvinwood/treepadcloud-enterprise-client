@@ -8,7 +8,6 @@ import { setBranchName, clearLastChanged } from '../store/sliceBranchNames';
 import * as socketUtils from '../utils/socket-utils';
 
 const Branch = ({search, branch, toggleBranch, branchName}) => {
-    console.log('Branch', search, branch, toggleBranch, branchName);
     const debug = true;
     const inputRef = useRef();
     const dispatch = useDispatch();
@@ -62,8 +61,9 @@ const Branch = ({search, branch, toggleBranch, branchName}) => {
     useEffect(() => {
         if (active) inputRef.current.focus();
 
-        let intervalId = setInterval(() => {
-           
+        if (!branchName) socketUtils.emitGetBranchName(branch._id);
+
+        let intervalId = setInterval(() => {       
             if (branchName.lastChanged) {
                 const curTime = timestamp();
                 if (curTime - branchName.lastChanged >= 2500) {
@@ -73,17 +73,13 @@ const Branch = ({search, branch, toggleBranch, branchName}) => {
             }
         }, 500);
 
-        // let secondInterval = setInterval(() => {
-        //     console.log('here');
-        // }, 2000)
-
+    
         return (
             () => clearInterval(intervalId)
         );
     })
 
     if (search && branch.name.toLowerCase().indexOf(search.toLowerCase()) === -1) return;
-
 
     if (!branch.isShown) return <div></div>;
 
@@ -107,8 +103,7 @@ const Branch = ({search, branch, toggleBranch, branchName}) => {
                 placeholder='New Branch'
                 className={inputClassName()}
                 type='text' 
-                value={branchName.name ? branchName.name : ''}
-                
+                value={branchName && branchName.name ? branchName.name : ''}
             />
         </div> 
     )
