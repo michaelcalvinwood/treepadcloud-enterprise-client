@@ -6,9 +6,10 @@ $indentMargin: .75rem;
     width: 100%;
     display: flex;
     padding-left: .25rem;
+    background-color: $app-tertiary-color;;
 
     &--focused {
-        background-color: $app-tertiary-color;
+        background-color: $app-secondary-color;
     }
 
     &--image-container {
@@ -33,7 +34,7 @@ $indentMargin: .75rem;
         border:none;
         padding: .25rem;
         outline: none;
-        background-color: $app-tertiary-color;;
+        background-color: transparent;;
         box-sizing: border-box;
         height: 1.5rem;
 

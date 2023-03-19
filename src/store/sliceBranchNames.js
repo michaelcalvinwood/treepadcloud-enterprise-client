@@ -14,7 +14,8 @@ const sliceBranchNames = createSlice({
             if (!state[branchId]) {
                 state[branchId] = {
                     name: branchName ? branchName : null,
-                    lastChanged: timestamp()
+                    lastChanged: timestamp(),
+                    fetched: false
                 }
                 return state;
             }
@@ -30,10 +31,14 @@ const sliceBranchNames = createSlice({
         clearLastChanged: (state, action) => {
             const { branchId } = action.payload;
             state[branchId].lastChanged = null;
+        },
+        setFetchedTrue: (state, action) => {
+            const { branchId } = action.payload;
+            if (state[branchId]) state[branchId].fetched = true;
         }
     }
 });
 
-export const { setBranchName, clearBranchNames, clearLastChanged } = sliceBranchNames.actions;
+export const { setBranchName, clearBranchNames, clearLastChanged, setFetchedTrue } = sliceBranchNames.actions;
 
 export default sliceBranchNames.reducer;
