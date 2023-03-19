@@ -8,6 +8,7 @@ import upIcon from '../assets/icons/up.svg';
 import socketUtils from '../utils/socket-utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveTree } from '../store/sliceActiveTree';
+import { setActiveBranch } from '../store/sliceActiveBranch';
 import { emitDeleteTree } from '../utils/socket-utils';
 
 const TreeCard = ({tree, ownerName, toggleAddModal, setModalInfo, subscriptionResource}) => {
@@ -21,7 +22,7 @@ const TreeCard = ({tree, ownerName, toggleAddModal, setModalInfo, subscriptionRe
             <div 
                 onClick={() => {
                     dispatch(setActiveTree({activeTree: tree}))
-                    //dispatch(setActiveBranches({activeBranches: tree.branches}));
+                    dispatch(setActiveBranch({branch: tree.branches[0]}))
                 }}
                 className='tree-card__click-area'>
                 <img 

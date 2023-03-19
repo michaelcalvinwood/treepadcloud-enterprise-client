@@ -6,19 +6,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setActiveBranch, blur } from '../store/sliceActiveBranch';
 import * as socketUtils from '../utils/socket-utils';
 
-const Branch = ({search, branch, setBranchName, toggleBranch}) => {
+const Branch = ({search, branch, setBranchName, toggleBranch, branchName}) => {
     const debug = true;
     const inputRef = useRef();
     const dispatch = useDispatch();
 
-
     const activeBranch = useSelector(state => state.activeBranch);
 
-    const active = activeBranch && branch.branchId === activeBranch.branchId ? true : false;
+    const active = activeBranch && branch._id === activeBranch._id ? true : false;
 
-    if (debug) console.log('Branch active', branch.branchId, active);
-
-    const id = branch.branchId;
+    const id = branch._id;
   
     const inputClassName = () => {
         let className = 'branch__input';

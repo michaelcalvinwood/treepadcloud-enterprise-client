@@ -99,7 +99,7 @@ const LoginSignUp = ({updateToken}) => {
         }
         axios(request)
         .then(res => {
-            socketUtils.subscribe(`u--${userName}`, res.data);
+            socketUtils.subscribe(`U--${userName}`, res.data);
             const login = {};
             login.userName = userName;
             login.token = res.data;
@@ -119,7 +119,7 @@ const LoginSignUp = ({updateToken}) => {
     const login = localStorage.getItem('login');
     if (login) {
         const info = JSON.parse(login);
-        socketUtils.subscribe(`u--${info.userName}`, info.token);
+        socketUtils.subscribe(`U--${info.userName}`, info.token);
         return <div></div>
     }
 

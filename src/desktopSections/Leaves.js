@@ -11,7 +11,7 @@ import CloudModal from '../desktopComponents/CloudModal';
 
 const Leaves = ({sections, activeBranch, activeModule, setActiveModule}) => {
     const debug = true;
-    if (debug) console.log('Leaves', activeBranch, activeModule)
+
     const leaves = [
         {
             id: 'etherpad',

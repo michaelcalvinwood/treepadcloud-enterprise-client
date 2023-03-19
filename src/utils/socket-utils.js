@@ -8,9 +8,8 @@ import { clearActiveTree } from "../store/sliceActiveTree";
 const sockets = {};
 
 const getSocketResource = resourceId => {
-    console.log('getSocketResource', resourceId);
     const parts = resourceId.split('--');
-    switch (parts[0].toUpperCase()) {
+    switch (parts[0]) {
         case 'U':
         case 'T':
             return parts[1];
@@ -30,8 +29,6 @@ const handleSocketEvents = (socket, resource) => {
     store.dispatch(deleteTree({treeId}))
     store.dispatch(clearActiveTree({treeId}))
   });
-
-  
 }
 
 function addTreesEvent (socket, {resource, trees}) {
@@ -39,7 +36,6 @@ function addTreesEvent (socket, {resource, trees}) {
 }
 
 export const subscribe = (resource, token) => {
-    console.log('subscribe', resource, token);
     if (sockets[resource]) return ('already subscribed!');
     const socketResource = getSocketResource(resource);
     const host = `https://${socketResource}.treepadcloud.com:6102`;
@@ -52,21 +48,17 @@ export const subscribe = (resource, token) => {
             console.log(`\t${JSON.stringify(args[i], null, 4)}`);
         }
     })
+
+    /*
+     * Initial Handshake
+     */
     socket.on('hello', () => socket.emit('subscribe', {resource, token}));
-    socket.on('subscribe', status => {
+    socket.on('subscribe', ({status, resource}) => {
         store.dispatch(addSubscription({resource, host, token, status}))
         if (status === 'success') handleSocketEvents(socket, resource);
         else socket.disconnect();
     })
-   
-    const resourceParts = resource.split('--');
 
-    switch(resourceParts[0]) {
-        case 'u':
-           
-
-            break;
-    }
 }
 
 export const getBranchName = data => {

@@ -21,8 +21,6 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
     const trees = useSelector(state => state.trees);
     const subscriptions = useSelector(state => state.subscriptions);
 
-    if (debug) console.log('Trees', trees, activeTree);
-
     const isUser = () => {
         for (let i = 0; i < subscriptions.length; ++i) {
             const { token } = subscriptions[i];
@@ -52,11 +50,8 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
         return false;
     }
 
-    console.log('Trees isUser', isUser());
-
     const subscribeToTree = id => {
         const debug = true;
-        if (debug) console.log('Trees subscribeToTree', id);
 
         const tree = trees.find(tree => tree._id === id);
         setActiveTree(tree);
@@ -75,8 +70,6 @@ const Trees = ({ deleteTree, treesState, toggleSection, activeTree, setActiveTre
 
     const searchValLower = searchVal.toLowerCase();
     const treesInfo = trees.filter(tree => !searchVal || tree.name.toLowerCase().indexOf(searchValLower) !== -1);
-
-    console.log('TreesInfo', searchVal, treesInfo)
 
     return (
         <>

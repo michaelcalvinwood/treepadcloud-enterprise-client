@@ -49,8 +49,6 @@ const DesktopApp = () => {
     _setActiveBranch(data);
   }
 
-  if (debug) console.log('DesktopApp activeModule', activeModule, activeBranch);
-
   const toggleSection = section => {
     let modified = sections;
     sections[section] = !sections[section];
